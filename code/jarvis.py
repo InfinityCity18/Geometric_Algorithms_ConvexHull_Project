@@ -9,6 +9,7 @@ def det(a, b, c):
      return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
 
 def jarvis(points):
+    points = points.copy()
     n = len(points)
     lowest_point = points[0]
     for p in points:
