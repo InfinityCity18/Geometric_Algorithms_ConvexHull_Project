@@ -10,5 +10,9 @@ def generate_circle_points(O, R, n=100):
         points.append((O[0] + R * np.sin(angle), O[1] + R * np.cos(angle)))
     return points
 
-print(generate_uniform_points(-10,10,10))
+testset = generate_uniform_points(-10,10,10)
+import jarvis as j
+import graham as g
 
+print("convex hull points jarvis: ", len(j.jarvis(testset)))
+print("convex hull points graham: ", len(g.graham(testset)))
