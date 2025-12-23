@@ -1,4 +1,5 @@
 import numpy as np
+from drawing import draw_points, draw_hull
 
 def generate_uniform_points(left=-100, right=100, n=100):
     return [(np.random.uniform(left, right), np.random.uniform(left, right)) for _ in range(n)]
@@ -10,11 +11,14 @@ def generate_circle_points(O, R, n=100):
         points.append((O[0] + R * np.sin(angle), O[1] + R * np.cos(angle)))
     return points
 
-testset = generate_uniform_points(-10,10,10000)
-import jarvis as j
-import graham as g
-from incremental import incremental
+testset = generate_uniform_points(-10,10,10)
+from graham import *
+from jarvis import *
+from monochain import *
+print("convex hull points jarvis: ", len(jarvis(testset)))
+print("convex hull points graham: ", len(graham(testset)))
+print("convex hull points monochain: ", len(monochain(testset)))
 
-print("convex hull points jarvis: ", len(j.jarvis(testset)))
-print("convex hull points graham: ", len(g.graham(testset)))
-print("convex hull points incremental: ", len(incremental(testset)))
+
+
+
