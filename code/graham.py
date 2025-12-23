@@ -9,6 +9,7 @@ def det(a, b, c):
      return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
 
 def graham(points):
+    points = points.copy()
     lowest_point = points[0]
     for p in points:
         if p[1] == lowest_point[1] and p[0] < lowest_point[0]: lowest_point = p
