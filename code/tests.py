@@ -16,10 +16,12 @@ from graham import *
 from jarvis import *
 from monochain import *
 from quickhull import *
+from divide_and_conquer import *
 print("convex hull points jarvis: ", len(jarvis(testset)))
 print("convex hull points graham: ", len(graham(testset)))
 print("convex hull points monochain: ", len(monochain(testset)))
 print("convex hull points quickhull: ", len(quickhull(testset)))
+print("convex hull points divide and conquer: ", len(divide_and_conquer(testset)))
 
 
 
