@@ -11,13 +11,15 @@ def generate_circle_points(O, R, n=100):
         points.append((O[0] + R * np.sin(angle), O[1] + R * np.cos(angle)))
     return points
 
-testset = generate_uniform_points(-10,10,10)
+testset = generate_uniform_points(-10,10,100)
 from graham import *
 from jarvis import *
 from monochain import *
+from quickhull import *
 print("convex hull points jarvis: ", len(jarvis(testset)))
 print("convex hull points graham: ", len(graham(testset)))
 print("convex hull points monochain: ", len(monochain(testset)))
+print("convex hull points quickhull: ", len(quickhull(testset)))
 
 
 
