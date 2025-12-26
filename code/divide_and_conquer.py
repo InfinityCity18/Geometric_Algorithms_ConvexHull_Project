@@ -1,0 +1,86 @@
+from graham import *
+eps = 1e-12
+
+def det(a, b, c):
+    return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
+
+def get_rightmost_index(h):
+    return max(range(len(h)), key=lambda i: h[i][0])
+
+def get_leftmost_index(h):
+    return min(range(len(h)), key=lambda i: h[i][0])
+
+def merge_hulls(h1, h2, i1, i2):
+    n1, n2 = len(h1), len(h2)
+
+    up1, up2 = i1, i2
+    while True:
+        moved = False
+        while det(h1[up1], h2[up2], h2[(up2-1)%n2]) >= eps:
+            up2 = (up2-1) % n2
+            moved = True
+        while det(h2[up2], h1[up1], h1[(up1+1)%n1]) <= -eps:
+            up1 = (up1+1) % n1
+            moved = True
+        if not moved:
+            break
+
+    down1, down2 = i1, i2
+    while True:
+        moved = False
+        while det(h1[down1], h2[down2], h2[(down2+1)%n2]) <= -eps:
+            down2 = (down2+1) % n2
+            moved = True
+        while det(h2[down2], h1[down1], h1[(down1-1)%n1]) >= eps:
+            down1 = (down1-1) % n1
+            moved = True
+        if not moved:
+            break
+
+    res = []
+    i = up1
+    res.append(h1[i])
+    while i != down1:
+        i = (i+1) % n1
+        res.append(h1[i])
+
+    i = down2
+    res.append(h2[i])
+    while i != up2:
+        i = (i+1) % n2
+        res.append(h2[i])
+
+    return res
+
+def divide_and_conquer(points, k=3):
+    points = sorted(points)
+    blocks = []
+    stack = [points]
+
+    while stack:
+        P = stack.pop()
+        if len(P) <= k:
+            blocks.append(P)
+        else:
+            m = len(P)//2
+            stack.append(P[:m])
+            stack.append(P[m:])
+
+    blocks.sort(key=lambda P: P[0][0])
+    hulls = [graham(P) for P in blocks]
+
+    while len(hulls) > 1:
+        nxt = []
+        for i in range(0, len(hulls)-1, 2):
+            h1, h2 = hulls[i], hulls[i+1]
+            i1 = get_rightmost_index(h1)
+            i2 = get_leftmost_index(h2)
+            nxt.append(merge_hulls(h1, h2, i1, i2))
+        if len(hulls) % 2:
+            nxt.append(hulls[-1])
+        hulls = nxt.copy()
+    return hulls[0]
+
+
+
+
