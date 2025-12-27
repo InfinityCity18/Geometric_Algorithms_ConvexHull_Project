@@ -6,17 +6,26 @@ from itertools import batched
 def det(a, b, c):       
      return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
 
+def tangential_binsearch(hull, p0):
+    left, right = 0, len(hull)
+    while left < right:
+        mid = (left + right) // 2
+        if det(p0, hull[mid], hull[(mid + 1) % len(hull)]) < 0:
+            right = mid
+        else:
+            left = mid + 1
+    return hull[left % len(hull)]
+
 def step_chan(points, m):
     n = len(points)
     hulls = list(map(graham, batched(points, n=m))) #dzielimy na n / m otoczek, aplikujemy grahama na kazda
     # zakladam ze otoczka grahama dziala poprawnie na 1,2,3 punkty 
 
-    p1 = max(points, key=lambda p: p[0]) #najbardziej na prawo
+    p1 = max(points, key=lambda p: (p[0], p[1])) #najbardziej na prawo
     p0 = (p1[0] + 1.0, p1[1]) 
     #ogolnie to jest aby wybrac punkt w nieskonczonosci, ale tu jest + 1.0 w prawo, idk jak poprawic bo to moze sie popsuc przez precyzje floatow
     #nie chcialo mi sie myslec nad tym az tyle xd wiec do poprawy
-    final_hull = []
-    final_hull.append(p1)
+    final_hull = [p1]
 
     for j in range(m):
         best = points[0] if points[0] != p1 else points[1] #chyba pasi aby pierwszy lepszy punkt xd
