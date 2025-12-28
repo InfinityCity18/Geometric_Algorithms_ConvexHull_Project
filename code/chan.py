@@ -2,13 +2,24 @@ eps = 10**-12
 
 from graham import graham
 from itertools import batched
+from drawing import draw_hull
+import matplotlib.pyplot as plt
 
 def det(a, b, c):       
      return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
+    
+def dist(p1,p2):
+    return (p1[0] - p2[0])**2 + (p1[1]-p2[1])**2
+
+# def turn(p, q, r):
+#     """Returns -1, 0, 1 if p,q,r forms a right, straight, or left turn."""
+#     return det(p,q,r) > eps - det(p,q,r) < -eps
 
 def turn(p, q, r):
+    def cmp(a, b):
+        return (a > b) - (a < b)
     """Returns -1, 0, 1 if p,q,r forms a right, straight, or left turn."""
-    return det(p,q,r) > eps - det(p,q,r) < -eps
+    return cmp((q[0] - p[0])*(r[1] - p[1]) - (r[0] - p[0])*(q[1] - p[1]), 0)
 
 
 def rtangent(hull, p):
@@ -21,7 +32,7 @@ def rtangent(hull, p):
     l_prev = turn(p, hull[0], hull[-1])
     l_next = turn(p, hull[0], hull[(l + 1) % r])
     while l < r:
-        c = (l + r) / 2
+        c = (l + r) // 2
         c_prev = turn(p, hull[c], hull[(c - 1) % len(hull)])
         c_next = turn(p, hull[c], hull[(c + 1) % len(hull)])
         c_side = turn(p, hull[l], hull[c])
@@ -49,22 +60,42 @@ def rtangent(hull, p):
 
 def step_chan(points, m):
     n = len(points)
-    hulls = list(map(graham, batched(points, n=m))) #dzielimy na n / m otoczek, aplikujemy grahama na kazda
+    hulls = list(map(graham, map(list, batched(points, n=m)))) #dzielimy na n / m otoczek, aplikujemy grahama na kazda
     # zakladam ze otoczka grahama dziala poprawnie na 1,2,3 punkty 
+    for hull in hulls:
+        xh, yh = zip(*(hull + [hull[0]]))
+        plt.scatter(xh, yh,color ="red",s=50)
+        plt.plot(xh,yh,color="red")
 
     p1 = max(points, key=lambda p: (p[0], p[1])) #najbardziej na prawo
-    p0 = (p1[0] + 1.0, p1[1]) 
-    #ogolnie to jest aby wybrac punkt w nieskonczonosci, ale tu jest + 1.0 w prawo, idk jak poprawic bo to moze sie popsuc przez precyzje floatow
-    #nie chcialo mi sie myslec nad tym az tyle xd wiec do poprawy
-    final_hull = [p1]
+    last = p1
+    L = [last]
 
     for j in range(m):
-        best = points[0] if points[0] != p1 else points[1] #chyba pasi aby pierwszy lepszy punkt xd
+        best = points[0] if points[0] != last else points[1] #chyba pasi aby pierwszy lepszy punkt xd
         for i in range(len(hulls)):
-            pass
-            #q = maximized_angle #u trzeba znalezc w hull[i] najlepszy punkt dla hulla ale nie wiem jak to zrobic w log czasie, binsearch? nie widze na razie tego i ide spac xd
-            #d = det(p0,)
+            q = hulls[i][rtangent(hulls[i], last)] #u trzeba znalezc w hull[i] najlepszy punkt dla hulla ale nie wiem jak to zrobic w log czasie, binsearch? nie widze na razie tego i ide spac xd
+            d = det(last,best,q)
+            if d < -eps or (d < eps and dist(last,best) < dist(last,q)):
+                best = q
+        L.append(best)
+        last = best
+        plt.plot(last[0], last[1], 'bo')
+        plt.show()
+        if best == p1:
+            return L
+        
+    return None
 
+def chan(points):
+    t = 0
+    n = len(points)
+    while True:
+        m = min(n, 2**(2**t))
+        result = step_chan(points, m)
+        if result != None:
+            return result
+        t += 1
 
 
 
