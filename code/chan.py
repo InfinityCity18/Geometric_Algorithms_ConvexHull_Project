@@ -23,6 +23,9 @@ def turn(p, q, r):
 
 
 def rtangent(hull, p):
+    if p in hull: #jesli jest w otoczce to funkcja zwroci wlasnie ten punkt, czego nie chcemy
+        hull = hull.copy() #kopiujemy bo nie chcemy modyfikowac oryginalnej otoczki
+        hull.remove(p)
     TURN_LEFT, TURN_RIGHT = (1, -1)
     """Return the index of the point in hull that the right tangent line from p
     to hull touches.
@@ -37,7 +40,7 @@ def rtangent(hull, p):
         c_next = turn(p, hull[c], hull[(c + 1) % len(hull)])
         c_side = turn(p, hull[l], hull[c])
         if c_prev != TURN_RIGHT and c_next != TURN_RIGHT:
-            return c
+            return hull[c]
         elif c_side == TURN_LEFT and (l_next == TURN_RIGHT or
                                       l_prev == l_next) or \
                 c_side == TURN_RIGHT and c_prev == TURN_RIGHT:
@@ -46,7 +49,7 @@ def rtangent(hull, p):
             l = c + 1           # Tangent touches right chain
             l_prev = -c_next    # Switch sides
             l_next = turn(p, hull[l], hull[(l + 1) % len(hull)])
-    return l
+    return hull[l]
 
 # def tangential_binsearch(hull, p0):
 #     left, right = 0, len(hull)
@@ -74,17 +77,19 @@ def step_chan(points, m):
     for j in range(m):
         best = points[0] if points[0] != last else points[1] #chyba pasi aby pierwszy lepszy punkt xd
         for i in range(len(hulls)):
-            q = hulls[i][rtangent(hulls[i], last)] #u trzeba znalezc w hull[i] najlepszy punkt dla hulla ale nie wiem jak to zrobic w log czasie, binsearch? nie widze na razie tego i ide spac xd
+            q = rtangent(hulls[i], last) 
             d = det(last,best,q)
             if d < -eps or (d < eps and dist(last,best) < dist(last,q)):
                 best = q
         L.append(best)
         last = best
         plt.plot(last[0], last[1], 'bo')
-        plt.show()
         if best == p1:
+            plt.show()
+            L.pop()  # usuwamy powtorzony punkt startowy
             return L
         
+    plt.show()
     return None
 
 def chan(points):
