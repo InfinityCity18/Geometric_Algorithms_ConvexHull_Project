@@ -1,5 +1,94 @@
 import matplotlib.pyplot as plt
 from matplotlib.backend_bases import MouseButton
+import matplotlib.animation as animation
+from matplotlib.patches import Polygon
+import numpy as np
+class Visualizer:
+    def __init__(self, title, limx = (-10,10), limy = (-10,10), width=6, height=6):
+        self.frames = []          
+        self.fig, self.ax = plt.subplots(figsize=(width, height))
+        self.ax.set_aspect('equal')
+        self.limx = limx
+        self.limy = limy
+        self.width = width
+        self.height = height
+        self.title = title
+    
+    def auto_set_lim_by_points(self, points):
+        xmin = min(points, key = lambda p: p[0])[0]
+        xmax = max(points, key = lambda p: p[0])[0]
+        ymin = min(points, key = lambda p: p[1])[1]
+        ymax = max(points, key = lambda p: p[1])[1]
+        xlen = xmax - xmin
+        ylen = ymax - ymin
+        self.limx = (xmin - xlen*0.1, xmax + xlen*0.1)
+        self.limy = (ymin - ylen*0.1, ymax + ylen*0.1)
+
+    def add_frame(self, frame_data):
+        """
+        a single frame_data should follow the format:
+        (figure type, color, coordinates)
+        examples:
+        ("points", "black", [(0,0), (1,1)]),
+        ("polygon", "red", [(0,0), (0,1), (1,0)]),
+        ("lines", "blue", [((0,0), (5,5))])
+        """
+        self.frames.append(frame_data)
+    
+    def _draw_frame(self, frame_idx):
+        self.ax.clear()
+        self.ax.set_xlim(self.limx) 
+        self.ax.set_ylim(self.limy) 
+        self.ax.set_title(self.title)
+        self.ax.grid(True, linestyle='--', alpha=0.6)
+
+        current_frame = self.frames[frame_idx]
+
+        for shape_type, color, data in current_frame:
+            if shape_type == "points":
+                self._draw_points(data, color)
+            elif shape_type == "polygon":
+                self._draw_polygon(data, color)
+            elif shape_type == "lines":
+                self._draw_lines(data, color)
+            else:
+                print(f"Unknown shape type '{shape_type}'")
+
+    def _draw_points(self, points, color):
+        if not points: return
+        X, Y = zip(*points)
+        self.ax.scatter(X, Y, c=color, s=25, zorder=3)
+
+    def _draw_polygon(self, vertices, color):
+        if not vertices: return
+        poly = Polygon(vertices, linewidth=2, fill=False, edgecolor=color, zorder=2) 
+        self.ax.add_patch(poly)
+
+    def _draw_lines(self, lines, color):
+        for start, end in lines:
+            X = [start[0], end[0]]
+            Y = [start[1], end[1]]
+            self.ax.plot(X, Y, c=color, linewidth=2, zorder=1)
+
+    def draw_animation(self, ms_per_frame=500, save_path=None):
+        if not self.frames:
+            print("No frames to animate.")
+            return
+
+        ani = animation.FuncAnimation(
+            self.fig, 
+            self._draw_frame, 
+            frames=len(self.frames), 
+            interval=ms_per_frame, 
+            repeat=True
+        )
+
+        if save_path:
+            ani.save(save_path, writer='pillow')
+            print(f"Animation saved to {save_path}")
+        else:
+            plt.show()
+
 def draw_points(points):
     x, y = zip(*points)
     plt.figure(figsize=(6,6))
@@ -64,3 +153,28 @@ def user_input_points(): #wprowadzanie punktóœ
     
     return input_points
 
+def draw_example():
+    viz = Visualizer("Example animation")
+
+    frame_1 = [
+        ("points", "black", [(0, 0), (2, 2), (-2, -2)]),
+        ("polygon", "red", [(-4, 4), (-2, 4), (-3, 6)]),
+        ("lines", "blue", [((-5, -5), (5, -5))])
+    ]
+    viz.add_frame(frame_1)
+
+    frame_2 = [
+        ("points", "black", [(1, 0), (3, 2), (-1, -2)]),
+        ("polygon", "green", [(-3, 3), (-1, 3), (-2, 5)]),
+        ("lines", "blue", [((-5, -4), (5, -4))])
+    ]
+    viz.add_frame(frame_2)
+    
+    frame_3 = [
+         ("points", "black", [(2, 0), (4, 2), (0, -2)]),
+         ("polygon", "purple", [(-2, 2), (0, 2), (-1, 4)]),
+         ("lines", "orange", [((-5, -3), (5, -3))])
+    ]
+    viz.add_frame(frame_3)
+
+    viz.draw_animation(1000, "meow.gif")
