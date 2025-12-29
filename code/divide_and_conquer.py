@@ -81,6 +81,51 @@ def divide_and_conquer(points, k=3):
         hulls = nxt.copy()
     return hulls[0]
 
+def divide_and_conquer_vis(points, k=3, title="Divide and Conquer", path=None):
+    from drawing import Visualizer
+    viz = Visualizer(f"{title} n = {len(points)}")
+    viz.auto_set_bounds(points)
+    viz.add_permament([("points","gray",points)])
+    num_frames = 0
 
 
+    points = sorted(points)
+    blocks = []
+    stack = [points]
+
+    while stack:
+        P = stack.pop()
+        if len(P) <= k:
+            blocks.append(P)
+        else:
+            m = len(P)//2
+            stack.append(P[:m])
+            stack.append(P[m:])
+
+    blocks.sort(key=lambda P: P[0][0])
+    hulls = [graham(P) for P in blocks]
+
+    def snap(c_hulls):
+        nonlocal num_frames
+        num_frames += 1
+        frame = []
+        for H in c_hulls:
+            frame.append(("polygon", "red", H))
+        viz.add_frame(frame)
+
+    snap(hulls)
+    while len(hulls) > 1:
+        nxt = []
+        for i in range(0, len(hulls)-1, 2):
+            h1, h2 = hulls[i], hulls[i+1]
+            i1 = get_rightmost_index(h1)
+            i2 = get_leftmost_index(h2)
+            nxt.append(merge_hulls(h1, h2, i1, i2))
+            snap(nxt + hulls[i+2:])
+        if len(hulls) % 2:
+            nxt.append(hulls[-1])
+        hulls = nxt.copy()
+        snap(hulls)
+
+    viz.draw_animation((int)(10000/num_frames), path)
 
