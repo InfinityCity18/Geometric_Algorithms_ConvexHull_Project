@@ -85,7 +85,7 @@ def graham_vis(points,title ="Graham",path=None):
         nonlocal num_frames
         num_frames+=1
         frame = []
-        frame.append(("polygon", "red", hull.copy()))
+        frame.append(("polygon_open", "red", hull.copy()))
         if(current): frame[0][2].append(current)
         viz.add_frame(frame)
     snap(None)
@@ -95,4 +95,6 @@ def graham_vis(points,title ="Graham",path=None):
             snap(p)
         hull.append(p)
         snap(None)
-    viz.draw_animation((int)(10000/num_frames), path)    
+
+    viz.add_frame([("polygon", "red", hull.copy())])
+    viz.draw_animation(10000/num_frames, path)    

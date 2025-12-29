@@ -127,5 +127,5 @@ def divide_and_conquer_vis(points, k=3, title="Divide and Conquer", path=None):
         hulls = nxt.copy()
         snap(hulls)
 
-    viz.draw_animation((int)(10000/num_frames), path)
+    viz.draw_animation(10000/num_frames, path)
 

@@ -34,7 +34,7 @@ def jarvis(points):
 
     return convex_hull
 
-def jarvis_vis(points, title="Jarvis"):
+def jarvis_vis(points, title="Jarvis",path=None):
     from drawing import Visualizer
     viz = Visualizer(f"{title} n = {len(points)}")
     viz.auto_set_bounds(points)
@@ -54,7 +54,7 @@ def jarvis_vis(points, title="Jarvis"):
         nonlocal num_frames
         num_frames += 1 
         frame = []
-        frame.append(("polygon", "red", convex_hull.copy() + [best]))
+        frame.append(("polygon_open", "red", convex_hull.copy() + [best]))
         frame.append(("lines", "blue", [(convex_hull[-1], current)]))
         viz.add_frame(frame)
 
@@ -72,7 +72,9 @@ def jarvis_vis(points, title="Jarvis"):
         last = best
         if last == lowest_point:
             break
-        
-    viz.draw_animation((int)(10000/num_frames))
+    
+    viz.add_frame([("polygon", "red", convex_hull.copy())]) 
+    num_frames+=1
+    viz.draw_animation(10000/num_frames,path)
 
 

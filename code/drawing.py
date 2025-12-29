@@ -4,6 +4,8 @@ import matplotlib.animation as animation
 from matplotlib.patches import Polygon
 import numpy as np
 class Visualizer:
+    _COLOR_POOL = ["blue", "cornflowerblue", "violet", "plum", "turquoise", "aquamarine"]
+
     def __init__(self, title, limx = (-10,10), limy = (-10,10), width=6, height=6):
         self.frames = []          
         self.fig, self.ax = plt.subplots(figsize=(width, height))
@@ -14,6 +16,8 @@ class Visualizer:
         self.height = height
         self.title = title
         self.permament = []
+        self.color_it = -1
+    
     def auto_set_bounds(self, points):
         xmin = min(points, key = lambda p: p[0])[0]
         xmax = max(points, key = lambda p: p[0])[0]
@@ -23,6 +27,10 @@ class Visualizer:
         ylen = ymax - ymin
         self.limx = (xmin - xlen*0.1, xmax + xlen*0.1)
         self.limy = (ymin - ylen*0.1, ymax + ylen*0.1)
+
+    def next_color(self):
+        self.color_it += 1
+        return self._COLOR_POOL[self.color_it%len(self._COLOR_POOL)]
 
     def add_frame(self, frame_data):
         """
@@ -48,14 +56,18 @@ class Visualizer:
         self.ax.set_ylim(self.limy) 
         self.ax.set_title(self.title)
         self.ax.grid(True, linestyle='--', alpha=0.6)
-
+        
+        frame_idx = min(len(self.frames)-1, frame_idx)
+        
         current_frame = self.frames[frame_idx]
 
         for shape_type, color, data in current_frame + self.permament:
             if shape_type == "points":
                 self._draw_points(data, color)
             elif shape_type == "polygon":
-                self._draw_polygon(data, color)
+                self._draw_polygon(data, color,True)
+            elif shape_type == "polygon_open":
+                self._draw_polygon(data, color,False)
             elif shape_type == "lines":
                 self._draw_lines(data, color)
             else:
@@ -66,9 +78,9 @@ class Visualizer:
         X, Y = zip(*points)
         self.ax.scatter(X, Y, c=color, s=25, zorder=3)
 
-    def _draw_polygon(self, vertices, color):
+    def _draw_polygon(self, vertices, color, closed):
         if not vertices: return
-        poly = Polygon(vertices, linewidth=2, fill=False, edgecolor=color, zorder=2) 
+        poly = Polygon(vertices, linewidth=2, closed=closed, fill=False, edgecolor=color, zorder=2) 
         self.ax.add_patch(poly)
 
     def _draw_lines(self, lines, color):
@@ -82,10 +94,12 @@ class Visualizer:
             print("No frames to animate.")
             return
 
+        end_frames = int(2000/ms_per_frame)
+
         ani = animation.FuncAnimation(
             self.fig, 
             self._draw_frame, 
-            frames=len(self.frames), 
+            frames=len(self.frames)+end_frames, 
             interval=ms_per_frame, 
             repeat=True
         )
