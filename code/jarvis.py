@@ -34,3 +34,45 @@ def jarvis(points):
 
     return convex_hull
 
+def jarvis_vis(points, title="Jarvis"):
+    from drawing import Visualizer
+    viz = Visualizer(f"{title} n = {len(points)}")
+    viz.auto_set_bounds(points)
+    viz.add_permament([("points", "darkgray", points.copy())])
+    num_frames = 0
+
+    points = points.copy()
+    n = len(points)
+    lowest_point = points[0]
+    for p in points:
+        if p[1] == lowest_point[1] and p[0] < lowest_point[0]: lowest_point = p
+        elif p[1] < lowest_point[1]: lowest_point = p
+
+    convex_hull = []
+    last = lowest_point
+    def snap(best, current):
+        nonlocal num_frames
+        num_frames += 1 
+        frame = []
+        frame.append(("polygon", "red", convex_hull.copy() + [best]))
+        frame.append(("lines", "blue", [(convex_hull[-1], current)]))
+        viz.add_frame(frame)
+
+    while True:
+        convex_hull.append(last)
+        best = points[0] if points[0] != last else points[1]
+        for p in points:
+            if p == last:
+                continue
+            d = det(last,best,p)
+            if d < -eps or (d < eps and dist(last,best) < dist(last,p)):
+                best = p
+            snap(best,p) 
+
+        last = best
+        if last == lowest_point:
+            break
+        
+    viz.draw_animation((int)(10000/num_frames))
+
+

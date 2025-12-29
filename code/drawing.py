@@ -13,8 +13,8 @@ class Visualizer:
         self.width = width
         self.height = height
         self.title = title
-    
-    def auto_set_lim_by_points(self, points):
+        self.permament = []
+    def auto_set_bounds(self, points):
         xmin = min(points, key = lambda p: p[0])[0]
         xmax = max(points, key = lambda p: p[0])[0]
         ymin = min(points, key = lambda p: p[1])[1]
@@ -34,7 +34,14 @@ class Visualizer:
         ("lines", "blue", [((0,0), (5,5))])
         """
         self.frames.append(frame_data)
-    
+ 
+    def add_permament(self, frame_data):
+        """
+        same format as add_frame. Draws the provided geometry every frame. 
+        """
+        for f in frame_data:
+            self.permament.append(f)
+
     def _draw_frame(self, frame_idx):
         self.ax.clear()
         self.ax.set_xlim(self.limx) 
@@ -44,7 +51,7 @@ class Visualizer:
 
         current_frame = self.frames[frame_idx]
 
-        for shape_type, color, data in current_frame:
+        for shape_type, color, data in current_frame + self.permament:
             if shape_type == "points":
                 self._draw_points(data, color)
             elif shape_type == "polygon":
