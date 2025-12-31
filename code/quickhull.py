@@ -26,7 +26,14 @@ def quickhull(points):
             return []
         farthest = max(new_points, key = lambda p: dist_to_line(l1,l2,p))
         return rec_hull(l1,farthest,new_points) + [farthest] + rec_hull(farthest,l2,new_points) 
+    res = [left] 
+    res += rec_hull(left,bottom, new_points) 
+    if bottom != left: res += [bottom]
+    res += rec_hull(bottom,right,new_points)
+    if right != bottom: res += [right]
+    res += rec_hull(right,top,new_points)
+    if top != right and top != left: res += [top] 
+    res += rec_hull(top,left,new_points)
 
-    return [left] + rec_hull(left,bottom, new_points) + [bottom] + rec_hull(bottom,right,new_points) + [right] + rec_hull(right,top,new_points) + [top] + rec_hull(top,left,new_points)
-
+    return res
 
