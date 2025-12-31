@@ -35,8 +35,8 @@ def generate_zigzag_points(width, height, n, amplitude, period):
         points.append((x, y))
     return points
 
-testset = generate_uniform_points(-10,10,100)
-#testset = generate_zigzag_points(100,100,0,10,10)
+#testset = generate_uniform_points(-10,10,100)
+testset = generate_zigzag_points(100,100,0,10,10)
 from graham import *
 from jarvis import *
 from monochain import *
