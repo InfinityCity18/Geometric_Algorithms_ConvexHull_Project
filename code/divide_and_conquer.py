@@ -1,5 +1,16 @@
 from graham import *
+from itertools import *
 eps = 1e-12
+
+def x_sort(points):
+    points.sort()
+    res = []
+    for x, pts in groupby(points, key=lambda p: p[0]):
+        pts = list(pts)
+        res.append(pts[0])
+        if len(pts) > 1 and pts[-1] != pts[0]:
+            res.append(pts[-1])
+    return res
 
 def det(a, b, c):
     return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
@@ -16,10 +27,10 @@ def merge_hulls(h1, h2, i1, i2):
     up1, up2 = i1, i2
     while True:
         moved = False
-        while det(h1[up1], h2[up2], h2[(up2-1)%n2]) >= eps:
+        while det(h1[up1], h2[up2], h2[(up2-1)%n2]) >= -eps:
             up2 = (up2-1) % n2
             moved = True
-        while det(h2[up2], h1[up1], h1[(up1+1)%n1]) <= -eps:
+        while det(h2[up2], h1[up1], h1[(up1+1)%n1]) <= eps:
             up1 = (up1+1) % n1
             moved = True
         if not moved:
@@ -28,10 +39,10 @@ def merge_hulls(h1, h2, i1, i2):
     down1, down2 = i1, i2
     while True:
         moved = False
-        while det(h1[down1], h2[down2], h2[(down2+1)%n2]) <= -eps:
+        while det(h1[down1], h2[down2], h2[(down2+1)%n2]) <= eps:
             down2 = (down2+1) % n2
             moved = True
-        while det(h2[down2], h1[down1], h1[(down1-1)%n1]) >= eps:
+        while det(h2[down2], h1[down1], h1[(down1-1)%n1]) >= -eps:
             down1 = (down1-1) % n1
             moved = True
         if not moved:
@@ -53,7 +64,7 @@ def merge_hulls(h1, h2, i1, i2):
     return res
 
 def divide_and_conquer(points, k=3):
-    points = sorted(points)
+    points = x_sort(points)
     blocks = []
     stack = [points]
 
@@ -89,7 +100,7 @@ def divide_and_conquer_vis(points, k=3, title="Divide and Conquer", path=None):
     num_frames = 0
 
 
-    points = sorted(points)
+    points = x_sort(points)
     blocks = []
     stack = [points]
 
