@@ -35,8 +35,8 @@ def generate_zigzag_points(width=10, height=10, n=100, amplitude=5, period=5):
         points.append((x, y))
     return points
 
-#testset = generate_uniform_points(-10,10,100)
-testset = generate_zigzag_points(100,100,0,10,10)
+testset = generate_uniform_points(-10,10,100)
+#testset = generate_zigzag_points(100,100,0,10,10)
 from graham import *
 from jarvis import *
 from monochain import *
@@ -50,9 +50,11 @@ print("convex hull points incremental: ", len(incremental(testset)))
 print("convex hull points monochain: ", len(monochain(testset)))
 print("convex hull points quickhull: ", len(quickhull(testset)))
 print("convex hull points divide and conquer: ", len(divide_and_conquer(testset)))
-print("convex hull points chan:", len(chan(list(set(testset)))))
+
+quickhull_vis(testset)
 graham_vis(testset)
 jarvis_vis(testset)
 monochain_vis(testset)
 divide_and_conquer_vis(testset)
 incremental_vis(testset)
+
