@@ -1,6 +1,5 @@
 from graham import graham
 from itertools import batched
-import matplotlib.pyplot as plt
 
 eps = 10**-12
 
@@ -48,7 +47,7 @@ def rtangent(hull, p):
 
     if l_next == 0:
         i = 0
-        while turn(p, hull[i], hull[(i + 1) % n]) == 0:
+        while turn(p, hull[i], hull[(i + 1) % n]) == 0 and dist(p, hull[(i+1) % n]) > dist(p, hull[i]): 
             i = (i + 1) % n
         return hull[i]
 
@@ -87,8 +86,6 @@ def step_chan(points, m):
 
     for hull in hulls:
         xh, yh = zip(*(hull + [hull[0]]))
-        plt.scatter(xh, yh,color ="red",s=50)
-        plt.plot(xh,yh,color="red")
 
     for j in range(m):
         best = points[0] if points[0] != last else points[1] 
@@ -99,7 +96,6 @@ def step_chan(points, m):
                 best = q
         L.append(best)
         last = best
-        plt.plot(last[0], last[1], 'bo')
         if best == p1:
             L.pop()  # usuwamy powtorzony punkt startowy
             return L
@@ -115,6 +111,12 @@ def chan(points):
         if result != None:
             return result
         t += 1
+
+def chan_vis(points, title='Chan', path=None):
+    pass
+
+def step_chan_vis(points, m):
+    pass
 
 
 
