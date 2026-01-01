@@ -1,21 +1,32 @@
+from itertools import groupby
 eps = 10**-12
 
 def det(a, b, c):       
      return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
 
+def x_sort(points):
+    points.sort()
+    res = []
+    for x, pts in groupby(points, key=lambda p: p[0]):
+        pts = list(pts)
+        res.append(pts[0])
+        if len(pts) > 1 and pts[-1] != pts[0]:
+            res.append(pts[-1])
+    return res
+
 def monochain(points):
-    s_points = sorted(points, key = lambda p: (p[0], p[1]))
+    s_points = x_sort(points)
     upper_hull = [s_points[0], s_points[1]]
     for i in range(2, len(s_points)):
         p = s_points[i]
-        while len(upper_hull) > 1 and det(upper_hull[-2], upper_hull[-1], p) < -eps:
+        while len(upper_hull) > 1 and det(upper_hull[-2], upper_hull[-1], p) <= eps:
             upper_hull.pop()
         upper_hull.append(p)
     
     lower_hull = [s_points[0], s_points[1]]
     for i in range(2, len(s_points)):
         p = s_points[i]
-        while len(lower_hull) > 1 and det(lower_hull[-2], lower_hull[-1], p) > eps:
+        while len(lower_hull) > 1 and det(lower_hull[-2], lower_hull[-1], p) >= -eps:
             lower_hull.pop()
         lower_hull.append(p)
 
@@ -32,7 +43,7 @@ def monochain_vis(points,title="Monochain",path=None):
     num_frames = 0
 
     
-    s_points = sorted(points, key = lambda p: (p[0], p[1]))
+    s_points = x_sort(points)
     upper_hull = [s_points[0], s_points[1]]
     lower_hull = [s_points[0], s_points[1]]
     

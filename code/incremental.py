@@ -1,10 +1,22 @@
+from itertools import groupby
 eps = 10**-12
 
 def det(a, b, c):       
      return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
 
+
+def x_sort(points):
+    points.sort()
+    res = []
+    for x, pts in groupby(points, key=lambda p: p[0]):
+        pts = list(pts)
+        res.append(pts[0])
+        if len(pts) > 1 and pts[-1] != pts[0]:
+            res.append(pts[-1])
+    return res
+
 def incremental(points):
-    s_points = sorted(points, key = lambda p: (p[0], p[1]))
+    s_points = x_sort(points)
     hull = [s_points[0], s_points[1]]
     
     for i in range(2, len(s_points)):
@@ -13,9 +25,9 @@ def incremental(points):
         
         upper_i = n-1
         lower_i = n-1
-        while det(p, hull[upper_i%n], hull[(upper_i+1)%n]) <= -eps:
+        while det(p, hull[upper_i%n], hull[(upper_i+1)%n]) <= eps:
             upper_i +=1
-        while det(p, hull[lower_i%n], hull[(lower_i-1)%n]) >= eps:
+        while det(p, hull[lower_i%n], hull[(lower_i-1)%n]) >= -eps:
             lower_i -=1
         
         new_hull = []
@@ -37,7 +49,7 @@ def incremental_vis(points, title="Incremental", path=None):
     num_frames = 0
 
 
-    s_points = sorted(points, key = lambda p: (p[0], p[1]))
+    s_points = x_sort(points)
     hull = [s_points[0], s_points[1]]
     
     def snap(new_part=None):
@@ -55,9 +67,9 @@ def incremental_vis(points, title="Incremental", path=None):
         
         upper_i = n-1
         lower_i = n-1
-        while det(p, hull[upper_i%n], hull[(upper_i+1)%n]) <= -eps:
+        while det(p, hull[upper_i%n], hull[(upper_i+1)%n]) <= eps:
             upper_i +=1
-        while det(p, hull[lower_i%n], hull[(lower_i-1)%n]) >= eps:
+        while det(p, hull[lower_i%n], hull[(lower_i-1)%n]) >= -eps:
             lower_i -=1
         
         new_hull = []
