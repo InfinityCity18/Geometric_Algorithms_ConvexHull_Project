@@ -37,3 +37,53 @@ def quickhull(points):
 
     return res
 
+
+def quickhull_vis(points, title="Quickhull", path=None):
+    from drawing import Visualizer
+    from collections import defaultdict
+    viz = Visualizer(f"{title} n = {len(points)}")
+    viz.auto_set_bounds(points)
+    viz.add_permament([("points", "darkgray", points.copy())])
+
+    points = points.copy()
+    left = min(points, key=lambda p: p[0])
+    right = max(points, key=lambda p: p[0])
+    bottom = min(points, key=lambda p: p[1])
+    top = max(points, key=lambda p: p[1])
+
+    new_points = []
+    for p in points:
+        if p in (top, bottom, left, right): continue
+        if det(left, top, p) > eps or det(top, right, p) > eps or det(right, bottom, p) > eps or det(bottom, left, p) > eps:
+            new_points.append(p)
+
+
+    line_frames = defaultdict(list)
+    lines_done = defaultdict(list)
+    def rec_hull(l1, l2, P, depth=0):
+        nonlocal line_frames
+        line_frames[depth].append((l1,l2))
+        new_points = [p for p in P if det(l1,l2,p) < -eps]
+        if not new_points:
+            lines_done[depth].append((l1,l2))
+            return []
+        farthest = max(new_points, key = lambda p: dist_to_line(l1,l2,p))
+        return rec_hull(l1,farthest,new_points,depth+1) + [farthest] + rec_hull(farthest,l2,new_points,depth+1) 
+
+    res = [left] 
+    res += rec_hull(left,bottom, new_points) 
+    if bottom != left: res += [bottom]
+    res += rec_hull(bottom,right,new_points)
+    if right != bottom: res += [right]
+    res += rec_hull(right,top,new_points)
+    if top != right and top != left: res += [top] 
+    res += rec_hull(top,left,new_points)
+
+    hull_data = []
+    for num_frames, line_data in line_frames.items():
+        viz.add_frame([("lines", "blue", line_data), ("lines", "red", hull_data.copy())])
+        hull_data += lines_done[num_frames]
+
+    viz.add_frame([("lines", "red", hull_data)])
+    num_frames += 2
+    viz.draw_animation(10000/num_frames, path)
