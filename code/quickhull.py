@@ -60,30 +60,32 @@ def quickhull_vis(points, title="Quickhull", path=None):
 
     line_frames = defaultdict(list)
     lines_done = defaultdict(list)
-    def rec_hull(l1, l2, P, depth=0):
+    def rec_hull(l1, l2, P, side, depth=0):
         nonlocal line_frames
-        line_frames[depth].append((l1,l2))
+        line_frames[(side,depth)].append((l1,l2))
         new_points = [p for p in P if det(l1,l2,p) < -eps]
         if not new_points:
-            lines_done[depth].append((l1,l2))
+            lines_done[(side,depth)].append((l1,l2))
             return []
         farthest = max(new_points, key = lambda p: dist_to_line(l1,l2,p))
-        return rec_hull(l1,farthest,new_points,depth+1) + [farthest] + rec_hull(farthest,l2,new_points,depth+1) 
+        return rec_hull(l1,farthest,new_points,side,depth+1) + [farthest] + rec_hull(farthest,l2,new_points,side,depth+1) 
 
     res = [left] 
-    res += rec_hull(left,bottom, new_points) 
+    res += rec_hull(left,bottom, new_points,0) 
     if bottom != left: res += [bottom]
-    res += rec_hull(bottom,right,new_points)
+    res += rec_hull(bottom,right,new_points,1)
     if right != bottom: res += [right]
-    res += rec_hull(right,top,new_points)
+    res += rec_hull(right,top,new_points,2)
     if top != right and top != left: res += [top] 
-    res += rec_hull(top,left,new_points)
+    res += rec_hull(top,left,new_points,3)
 
     hull_data = []
-    for num_frames, line_data in line_frames.items():
-        viz.add_frame([("lines", "blue", line_data), ("lines", "red", hull_data.copy())])
-        hull_data += lines_done[num_frames]
-
+    num_frames = 2
+    lines_sides = [[(left,bottom)],[(bottom,right)],[(right,top)],[(top,left)]]
+    for (side, depth), line_data in sorted(line_frames.items(), key = lambda x: x[0]):
+        lines_sides[side] = line_data
+        viz.add_frame([("lines", "blue", sum(lines_sides,[])), ("lines", "red", hull_data.copy())])
+        hull_data += lines_done[(side,depth)]
+        num_frames += 1
     viz.add_frame([("lines", "red", hull_data)])
-    num_frames += 2
     viz.draw_animation(10000/num_frames, path)
