@@ -1,5 +1,6 @@
 from graham import graham
 from itertools import batched
+from drawing import Visualizer
 
 eps = 10**-12
 
@@ -17,9 +18,6 @@ def turn(p, q, r):
         return 1
     else:
         return -1
-    # def cmp(a, b):
-    #     return (a > b) - (a < b)
-    # return cmp((q[0] - p[0])*(r[1] - p[1]) - (r[0] - p[0])*(q[1] - p[1]), eps)
 
 def rtangent(hull, p):
     '''
@@ -29,7 +27,6 @@ def rtangent(hull, p):
     :param p: Punkt spoza otoczki
     '''
 
-    #shamelessly ukradzione https://gist.github.com/tixxit/252229
     if len(hull) == 1:
         return hull[0]
     elif p in hull: #jesli p jest w otoczce to funkcja zwroci wlasnie ten punkt, czego nie chcemy
@@ -84,9 +81,6 @@ def step_chan(points, m):
     last = p1
     L = [last]
 
-    for hull in hulls:
-        xh, yh = zip(*(hull + [hull[0]]))
-
     for j in range(m):
         best = points[0] if points[0] != last else points[1] 
         for i in range(len(hulls)):
@@ -113,10 +107,61 @@ def chan(points):
         t += 1
 
 def chan_vis(points, title='Chan', path=None):
-    pass
+    from drawing import Visualizer
+    viz = Visualizer(f"{title} n = {len(points)}")
+    viz.auto_set_bounds(points)
+    viz.add_permament([("points", "gray", points)])
+    num_frames = 0
 
-def step_chan_vis(points, m):
-    pass
+    t = 0
+    n = len(points)
+    while True:
+        m = min(n, 2**(2**t))
+        result, frame_count_ret = step_chan_vis(points, m, viz)
+        num_frames += frame_count_ret
+        if result != None:
+            break
+        t += 1
+    viz.add_frame([("polygon", "red", result.copy())]) 
+    num_frames+=1
+    viz.draw_animation(10000/num_frames, save_path=path)
+
+def step_chan_vis(points, m, viz: Visualizer):
+    frame_count = 0
+    n = len(points)
+    hulls = list(map(graham, map(list, batched(points, n=m)))) #dzielimy na n / m otoczek, aplikujemy grahama na kazda
+
+    p1 = max(points, key=lambda p: (p[0], p[1])) #najbardziej na prawo
+    last = p1
+    L = [last]
+
+    hulls_frame = []
+    for hull in hulls:
+        hulls_frame.append(("polygon", "blue", hull.copy()))
+
+    def snap(best, current):
+        nonlocal frame_count
+        frame_count += 1
+        frame = hulls_frame.copy()
+        frame.append(("polygon_open", "red", L.copy() + [best]))
+        frame.append(("lines", "blue", [(L[-1], current)]))
+        viz.add_frame(frame)
+
+    for j in range(m):
+        best = points[0] if points[0] != last else points[1] 
+        for i in range(len(hulls)):
+            q = rtangent(hulls[i], last) 
+            d = det(last,best,q)
+            if d < -eps or (d < eps and dist(last,best) < dist(last,q)):
+                best = q
+            snap(best, q)
+        L.append(best)
+        last = best
+        if best == p1:
+            L.pop()  # usuwamy powtorzony punkt startowy
+            return (L, frame_count)
+        
+    return (None, frame_count)
 
 
 
