@@ -96,5 +96,5 @@ def graham_vis(points,title ="Graham",path=None):
         hull.append(p)
         snap(None)
 
-    viz.add_frame([("polygon", "red", hull.copy())])
+    viz.add_frame([("polygon", "red", hull.copy()), ("points", "red", hull.copy(), 4)])
     viz.draw_animation(10000/num_frames, path)    

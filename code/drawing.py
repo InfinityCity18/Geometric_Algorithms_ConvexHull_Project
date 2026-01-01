@@ -41,13 +41,20 @@ class Visualizer:
         ("polygon", "red", [(0,0), (0,1), (1,0)]),
         ("lines", "blue", [((0,0), (5,5))])
         """
-        self.frames.append(frame_data)
+        tmp = []
+        for f in frame_data:
+            if len(f) == 3:
+                f = (f[0], f[1], f[2], None)
+            tmp.append(f)
+        self.frames.append(tmp)
  
     def add_permament(self, frame_data):
         """
         same format as add_frame. Draws the provided geometry every frame. 
         """
         for f in frame_data:
+            if len(f) == 3:
+                f = (f[0], f[1], f[2], None)
             self.permament.append(f)
 
     def _draw_frame(self, frame_idx):
@@ -61,33 +68,36 @@ class Visualizer:
         
         current_frame = self.frames[frame_idx]
 
-        for shape_type, color, data in current_frame + self.permament:
+        for shape_type, color, data, zorder in current_frame + self.permament:
             if shape_type == "points":
-                self._draw_points(data, color)
+                self._draw_points(data, color, zorder)
             elif shape_type == "polygon":
-                self._draw_polygon(data, color,True)
+                self._draw_polygon(data, color,True, zorder)
             elif shape_type == "polygon_open":
-                self._draw_polygon(data, color,False)
+                self._draw_polygon(data, color,False, zorder)
             elif shape_type == "lines":
-                self._draw_lines(data, color)
+                self._draw_lines(data, color, zorder)
             else:
                 print(f"Unknown shape type '{shape_type}'")
 
-    def _draw_points(self, points, color):
+    def _draw_points(self, points, color, zorder):
+        if not zorder: zorder = 1
         if not points: return
         X, Y = zip(*points)
-        self.ax.scatter(X, Y, c=color, s=25, zorder=3)
+        self.ax.scatter(X, Y, c=color, s=25, zorder=zorder)
 
-    def _draw_polygon(self, vertices, color, closed):
+    def _draw_polygon(self, vertices, color, closed,zorder):
+        if not zorder: zorder = 2
         if not vertices: return
-        poly = Polygon(vertices, linewidth=2, closed=closed, fill=False, edgecolor=color, zorder=2) 
+        poly = Polygon(vertices, linewidth=2, closed=closed, fill=False, edgecolor=color, zorder=zorder) 
         self.ax.add_patch(poly)
 
-    def _draw_lines(self, lines, color):
+    def _draw_lines(self, lines, color,zorder):
+        if not zorder: zorder = 3
         for start, end in lines:
             X = [start[0], end[0]]
             Y = [start[1], end[1]]
-            self.ax.plot(X, Y, c=color, linewidth=2, zorder=1)
+            self.ax.plot(X, Y, c=color, linewidth=2, zorder=zorder)
 
     def draw_animation(self, ms_per_frame=500, save_path=None):
         if not self.frames:
