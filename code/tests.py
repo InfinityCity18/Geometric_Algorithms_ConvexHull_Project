@@ -57,4 +57,3 @@ jarvis_vis(testset)
 monochain_vis(testset)
 divide_and_conquer_vis(testset)
 incremental_vis(testset)
-
