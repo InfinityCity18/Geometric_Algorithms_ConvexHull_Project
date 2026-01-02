@@ -62,7 +62,7 @@ def graham_vis(points,title ="Graham",path=None):
     
     points.sort(key=lambda p: (atan2(p[1] - lowest_point[1], p[0] - lowest_point[0]),
                                dist(p,lowest_point))) 
-
+    temp_points = []
     n = len(points)
     i = 0
     while i < n:
