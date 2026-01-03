@@ -30,14 +30,14 @@ def incremental(points):
         while det(p, hull[lower_i%n], hull[(lower_i-1)%n]) >= -eps:
             lower_i -=1
         
-        new_hull = []
-        j = upper_i
-        while j%n != lower_i%n:
-            new_hull.append(hull[j%n])
-            j += 1
-        new_hull.append(hull[lower_i%n])
-        new_hull.append(p)
-        hull = new_hull.copy()
+        upper_i = upper_i%n
+        lower_i = lower_i%n
+        if upper_i < lower_i:
+            hull = hull[upper_i:lower_i] + [hull[lower_i]]
+            hull.append(p)
+        else:
+            hull = hull[upper_i:] + hull[:lower_i+1]
+            hull.append(p)
 
     return hull
 
@@ -72,16 +72,15 @@ def incremental_vis(points, title="Incremental", path=None):
         while det(p, hull[lower_i%n], hull[(lower_i-1)%n]) >= -eps:
             lower_i -=1
         
-        new_hull = []
-        j = upper_i
-        while j%n != lower_i%n:
-            new_hull.append(hull[j%n])
-            j += 1
-
-        new_hull.append(hull[lower_i%n])
-        new_hull.append(p)
         snap((hull[lower_i%n], p, hull[upper_i%n]))
-        hull = new_hull.copy()
+        upper_i = upper_i%n
+        lower_i = lower_i%n
+        if upper_i < lower_i:
+            hull = hull[upper_i:lower_i] + [hull[lower_i]]
+            hull.append(p)
+        else:
+            hull = hull[upper_i:] + hull[:lower_i+1]
+            hull.append(p)
         snap()
     viz.add_frame([("polygon", "red", hull.copy())])
     num_frames+=1
