@@ -99,31 +99,50 @@
 ]
 )
 
-== Poprawne obliczenie
+== Poprawność
 
 #slide(repeat: 2, self => [
 
   #let (uncover, only) = utils.methods(self)
 
-  Otoczkę uznajemy za poprawną jeżeli jej wierzchołki są zadane w kierunki przeciwnym lub zgodnym do ruchu wskazówek zegara. W dodatku, do otoczki *nie zaliczamy wewnętrznych punktów współliniowych*.
+  Otoczkę uznajemy za poprawną jeżeli jej wierzchołki są zadane w kierunku przeciwnym lub zgodnym do ruchu wskazówek zegara. W dodatku, do otoczki *nie zaliczamy wewnętrznych punktów współliniowych*.
 
-  #align(center + horizon)[#cetz-canvas(length: 6em,{
+  #only(1)[#align(center + horizon)[#cetz-canvas(length: 6em,{
     import cetz.draw: *
-    let self = utils.merge-dicts(
-      self,
-      config-methods(cover: utils.method-wrapper(hide.with(bounds: true))),
-    )
-    let (uncover,) = utils.methods(self)
 
-    let points = ((0,0), (0,1), (1,1), (1,0), (0, 0.51), (0.70, 1.0), (0.44,0), (1,0.5))
+    let points = ((0,0), (0, 0.51),(0,1), (0.70, 1.0),(1,1), (1,0.5),(1,0), (0.44,0))
 
     for point in points {
       circle(point, radius: 0.21em, fill: green)
     }
-  })]
+
+  })]]
+
+  #only(2)[#align(center + horizon)[#cetz-canvas(length: 6em,{
+    import cetz.draw: *
+
+    let points = ((0,0), (0, 0.51),(0,1), (0.70, 1.0),(1,1), (1,0.5),(1,0), (0.44,0))
+    let correct = ((2,0), (2,1), (3,1), (3,0))
+
+    line(..points, close: true, stroke: (paint: blue, thickness: 4pt))
+    for point in points {
+      circle(point, radius: 0.21em, fill: blue, stroke: blue)
+    }
+    line(..correct, close: true, stroke: (paint: blue, thickness: 4pt))
+    for point in correct {
+      circle(point, radius: 0.21em, fill: blue, stroke: blue)
+    }
+
+    line((0.1,-0.2), (0.9,1.2), stroke: (paint: red, thickness: 6pt))
+    line((0.9,-0.2), (0.1,1.2), stroke: (paint: red, thickness: 6pt))
+
+    set-style(mark: (end: ">"))
+    line((1.35,1.35), (0.8,0.6), stroke: (thickness: 7pt))
+    line((1.65,1.35), (2.2,0.6), stroke: (thickness: 7pt))
+
+  })]]
 
   ])
-
 
 = Algorytmy
 
