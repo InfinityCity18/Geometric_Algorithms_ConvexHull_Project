@@ -121,23 +121,40 @@ class Visualizer:
             plt.show()
 
 def draw_points(points):
+    fig, ax = plt.subplots(figsize=(6,6))
+    fig.canvas.manager.set_window_title('Zbiór punktów')
+    ax.set_title('Zbiór punktów testowych \n Enter: zakończ')
+    def on_key(event):
+        if event.key == 'enter':
+            plt.close(fig)
+     
+    fig.canvas.mpl_connect('key_press_event', on_key)
+
     x, y = zip(*points)
-    plt.figure(figsize=(6,6))
-    plt.xlabel("x")
-    plt.ylabel("y")
-    plt.scatter(x, y)
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.scatter(x, y)
     plt.show()
 
 def draw_hull(points,hull):
+    fig, ax = plt.subplots(figsize=(6,6))
+    fig.canvas.manager.set_window_title('Wynik działania algorytmu')
+    ax.set_title('Otoczka wypukła \n Enter: zakończ')
+    def on_key(event):
+        if event.key == 'enter':
+            plt.close(fig)
+     
+    fig.canvas.mpl_connect('key_press_event', on_key)
+
+
     x, y = zip(*points)
     hull.append(hull[0])
     xh, yh = zip(*hull)
-    plt.figure(figsize=(6,6))
-    plt.xlabel("x")
-    plt.ylabel("y")
-    plt.scatter(x, y)
-    plt.scatter(xh, yh,color ="red",s=50)
-    plt.plot(xh,yh,color="red")
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.scatter(x, y)
+    ax.scatter(xh, yh,color ="red",s=50)
+    ax.plot(xh,yh,color="red")
     plt.show()
 
 
@@ -150,11 +167,14 @@ def user_input_points(): #wprowadzanie punktóœ
     x, y = [], []
     scat= ax.scatter(x, y, color="black", s=5)
     
-    ax.set(xlim=(-1, 1), ylim=(-1, 1))
+    ax.set(xlim=(-1, 1), ylim=(-10, 10))
     input_points = []
     
     def update_plot():
-        scat.set_offsets(input_points)
+        if len(input_points) > 0:
+            scat.set_offsets(input_points)
+        else:
+            scat.set_offsets([(-100,-100)])
         fig.canvas.draw_idle()
 
     def on_click(event):
