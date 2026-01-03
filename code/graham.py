@@ -10,12 +10,15 @@ def det(a, b, c):
 
 def graham(points):
     points = points.copy()
+
+    #znajdowanie najniższego punktu
     lowest_point = points[0]
     for p in points:
         if p[1] == lowest_point[1] and p[0] < lowest_point[0]: lowest_point = p
         elif p[1] < lowest_point[1]: lowest_point = p
     points.remove(lowest_point)
     
+    #sortowanie punktów 
     points.sort(key=lambda p: (atan2(p[1] - lowest_point[1], p[0] - lowest_point[0]),
                                dist(p,lowest_point))) 
 
@@ -31,9 +34,6 @@ def graham(points):
         i = j + 1
 
     points = temp_points
-
-    hull = [lowest_point]
-
 
     #główna pętla
     hull = [lowest_point]
@@ -62,8 +62,6 @@ def graham_vis(points,title ="Graham",path=None):
     
     points.sort(key=lambda p: (atan2(p[1] - lowest_point[1], p[0] - lowest_point[0]),
                                dist(p,lowest_point))) 
-
-    #usuwanie punktów współliniowych
     temp_points = []
     n = len(points)
     i = 0
@@ -76,9 +74,6 @@ def graham_vis(points,title ="Graham",path=None):
 
     points = temp_points
 
-    hull = [lowest_point]
-
-    #główna pętla
     hull = [lowest_point]
     
     def snap(current):
