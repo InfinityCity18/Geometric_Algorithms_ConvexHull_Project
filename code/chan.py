@@ -122,7 +122,7 @@ def chan_vis(points, title='Chan', path=None):
         if result != None:
             break
         t += 1
-    viz.add_frame([("polygon", "red", result.copy())]) 
+    viz.add_frame([("polygon", "red", result.copy()),("points", "red", result.copy(), 10)]) 
     num_frames+=1
     viz.draw_animation(10000/num_frames, save_path=path)
 
