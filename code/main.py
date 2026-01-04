@@ -33,7 +33,7 @@ def load_points(filename):
     except:
         print(f"Nie udało się wczytać pliku o nazwie {inp}")
         print("Program kończy działanie")
-        exit
+        exit()
 
 def save_hull(hull):
     print("Podaj nazwę pliku")
@@ -50,6 +50,27 @@ def input_range(start, end):
         inp = int(input())
     return inp
 
+def select_generator():
+    gens = get_generators()
+    print("Dostępne generatory punktów:")
+    for i in range(len(gens)):
+        print(f"[{i+1}] - {gens[i][0].__name__} - {gens[i][1]}")
+    inp = input_range(1, i+1)
+    return gens[inp-1][0]
+
+print("Czy chcesz uruchomić konkretny algorytm na jednym zbiorze danych, czy przeprowadzić analizę czasu działania różnych algorytmów dla konkretnego generatora?")
+print("[1] - konkretny zbiór danych")
+print("[2] - analiza dla generatora")
+inp = input_range(1,2)
+if inp == 2:
+    g = select_generator()
+    ns = [10, 100, 500, 1000, 2500, 5000, 7500, 10000]
+    if g.__name__ == 'generate_circle_points': 
+        ns = [10, 50, 100, 250, 500, 750, 1000]
+
+    benchmark_convex_hull(ch_algorithms, g, ns)
+    print("Koniec programu")
+    exit()
 print("Program wyznaczy otoczkę wypukłą zbioru punktów na płaszczyźnie, z użyciem zadanego algorytmu, na zadanym zbiorze danych.")
 print("Jaki algorytm ma zostać zastosowany?")
 print("[1] - algorytm Grahama")
@@ -75,15 +96,9 @@ if inp == 2:
     testset = load_points()
     draw_points(testset)
 if inp == 3:
-    gens = get_generators()
-    print("Dostępne generatory punktów:")
-    for i in range(len(gens)):
-        print(f"[{i+1}] - {gens[i][0].__name__} - {gens[i][1]}")
-    inp = input_range(1, i+1)
-    g = gens[inp-1][0]
+    g = select_generator()
     print("Ile punktów ma być wygenerowanych?")
     n = input_range(5, 500)
-    print(g.__name__)
     testset = g(n=n)
     draw_points(testset)
 

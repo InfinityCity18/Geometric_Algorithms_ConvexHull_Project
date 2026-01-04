@@ -73,7 +73,7 @@ def jarvis_vis(points, title="Jarvis",path=None):
         if last == lowest_point:
             break
     
-    viz.add_frame([("polygon", "red", convex_hull.copy())]) 
+    viz.add_frame([("polygon", "red", convex_hull.copy()),("points", "red", convex_hull.copy(),4)]) 
     num_frames+=1
     viz.draw_animation(10000/num_frames,path)
 

@@ -139,7 +139,7 @@ def draw_points(points):
 def draw_hull(points,hull):
     fig, ax = plt.subplots(figsize=(6,6))
     fig.canvas.manager.set_window_title('Wynik działania algorytmu')
-    ax.set_title('Otoczka wypukła \n Enter: zakończ')
+    ax.set_title(f'Otoczka wypukła, liczba punktów: {len(hull)}/{len(points)} \n Enter: zakończ')
     def on_key(event):
         if event.key == 'enter':
             plt.close(fig)
