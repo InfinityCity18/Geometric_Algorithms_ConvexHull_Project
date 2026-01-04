@@ -82,6 +82,6 @@ def incremental_vis(points, title="Incremental", path=None):
             hull = hull[upper_i:] + hull[:lower_i+1]
             hull.append(p)
         snap()
-    viz.add_frame([("polygon", "red", hull.copy())])
+    viz.add_frame([("polygon", "red", hull.copy()),("points", "red", hull.copy(),4)])
     num_frames+=1
     viz.draw_animation(10000/num_frames) 

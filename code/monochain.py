@@ -52,7 +52,7 @@ def monochain_vis(points,title="Monochain",path=None):
         num_frames += 1
         frame = []
         frame.append(("polygon_open", "blue", lower_hull.copy()))
-        frame.append(("polygon_open", "pink", upper_hull.copy()))
+        frame.append(("polygon_open", "red", upper_hull.copy()))
         if p_lower: frame[0][2].append(p_lower)
         if p_upper: frame[1][2].append(p_upper)
         viz.add_frame(frame)
@@ -77,6 +77,6 @@ def monochain_vis(points,title="Monochain",path=None):
     result = lower_hull.copy()
     for i in range(len(upper_hull) - 2, 0, -1):
         result.append(upper_hull[i])
-    viz.add_frame([("polygon", "red", result)])
+    viz.add_frame([("polygon", "red", result),("points", "red", result, 4)])
     viz.draw_animation(10000/num_frames,path)
 

@@ -87,5 +87,10 @@ def quickhull_vis(points, title="Quickhull", path=None):
         viz.add_frame([("lines", "blue", sum(lines_sides,[])), ("lines", "red", hull_data.copy())])
         hull_data += lines_done[(side,depth)]
         num_frames += 1
-    viz.add_frame([("lines", "red", hull_data)])
+
+    pts = set()
+    for l in hull_data:
+        pts.add(l[0])
+        pts.add(l[1])
+    viz.add_frame([("lines", "red", hull_data), ("points", "red", pts, 4)])
     viz.draw_animation(10000/num_frames, path)
