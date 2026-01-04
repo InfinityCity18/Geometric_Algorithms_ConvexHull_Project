@@ -158,7 +158,7 @@ def draw_hull(points,hull):
     plt.show()
 
 
-def user_input_points(): #wprowadzanie punktóœ
+def user_input_points(): #wprowadzanie punktów
     fig, ax = plt.subplots(figsize=(6,6))
     
     fig.canvas.manager.set_window_title('Wprowadzanie punktów')
@@ -167,7 +167,7 @@ def user_input_points(): #wprowadzanie punktóœ
     x, y = [], []
     scat= ax.scatter(x, y, color="black", s=5)
     
-    ax.set(xlim=(-1, 1), ylim=(-10, 10))
+    ax.set(xlim=(-10, 10), ylim=(-10, 10))
     input_points = []
     
     def update_plot():
