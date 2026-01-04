@@ -146,6 +146,22 @@
 
 = Algorytmy
 
+== Przyrostowy
+
+meow
+
+== Górna i dolna otoczka
+
+== Grahama
+
+== Jarvisa
+
+== Quickhull
+
+== Dziel i rządź
+
+== Chana
+
 == Simple Animation
 
 We can use `#pause` to #pause display something later.
