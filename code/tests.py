@@ -62,9 +62,9 @@ def benchmark_convex_hull(convex_hull_algs, generator, ns, **kwargs,):
     for alg in convex_hull_algs:
         times = []
         for pts in pts_array:
-            start = time.perf_counter()
+            start = time.perf_counter_ns()
             alg(pts)
-            elapsed = (time.perf_counter() - start) * 1000.0
+            elapsed = (time.perf_counter_ns() - start) / 1e9
             times.append(elapsed)
             print("{:.2f}".format(elapsed), end='\t')
         print(f"czas {alg.__name__}", end='\t')
