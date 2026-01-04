@@ -82,12 +82,13 @@ class Visualizer:
 
     #funkcja eksportujaca klatki do CeTZ typst'a
     def _return_cetz_typst(self, filename="output.typ"):
-        output = """#import "@preview/touying:0.6.1": *\n#import "@preview/cetz:0.4.2"\n#let cetz-canvas = touying-reducer.with(reduce: cetz.canvas, cover: cetz.draw.hide.with(bounds: true))\n"""
+        output = """#import "@preview/touying:0.6.1": *\n#import "@preview/cetz:0.4.2"\n#import themes.university: *\n#let cetz-canvas = touying-reducer.with(reduce: cetz.canvas, cover: cetz.draw.hide.with(bounds: true))\n"""
+        output += f"#slide(repeat: {len(self.frames)}, self => [\n"
+        output += "#let (uncover, only) = utils.methods(self)\n"
+        output += "=== Przykład\n"
         queue = []
-        for frame in self.frames:
-            output += "---\n"
-            output += "=== Przykład\n"
-            output += "#align(center+horizon)[#cetz-canvas(length: 1.8em, {import cetz.draw: *\n"
+        for i, frame in enumerate(self.frames):
+            output += f"#only({i+1})[#align(center+horizon)[#cetz-canvas(length: 1.8em, {{import cetz.draw: *\n"
             for shape_type, color, data, zorder in frame + self.permament:
                 if shape_type == "points":
                     vertices = str(list(map(lambda x: (x[0].item(), x[1].item()), data))).replace("[", "(").replace("]", ")")
@@ -109,7 +110,8 @@ class Visualizer:
             while len(queue) > 0:
                 str_p = queue.pop()
             output += str_p
-            output += "})]\n"
+            output += "})]]\n"
+        output += "])\n"
         with open(filename, "w") as text_file:
             text_file.write(output)
             
