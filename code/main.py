@@ -22,11 +22,11 @@ def save_points(points):
     print(f"Zapisano zbiór do pliku ./data/{filename}")
     
 
-def load_points(filename):
+def load_points():
+    print("Wprowadź nazwę pliku. Plik powinien znajdować się w katalogu ./data/")
     inp = input()
-    print("Wprowadź nazwę pliku. Plik powinien znajdować się w katalogu ../data/")
     try:
-        arr = np.loadtxt(f"./data/{input}", delimiter=None)
+        arr = np.loadtxt(f"./data/{inp}", delimiter=None)
         points = [tuple(row) for row in arr]
         print(f"Wczytano plik {inp}")
         return points
