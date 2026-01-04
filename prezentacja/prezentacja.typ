@@ -8,6 +8,10 @@
 #show: show-theorion
 
 #set text(lang: "pl")
+#set par(justify: true)
+#let complexity_rect(body) = {
+  align(center)[#rect(stroke: none, fill: rgb("#e5e8eb"), height: 2em, inset: 1em, outset: 0.3em, radius: 0.5em)[#align(body, center + horizon)]]
+}
 
 // cetz and fletcher bindings for touying
 #let cetz-canvas = touying-reducer.with(reduce: cetz.canvas, cover: cetz.draw.hide.with(bounds: true))
@@ -52,7 +56,7 @@
 
 == Plan prezentacji <touying:hidden>
 
-#components.adaptive-columns(outline(title: none, indent: 1em))
+#components.adaptive-columns(outline(depth: 2, title: none, indent: 1em))
 
 = Otoczka wypukła
 
@@ -148,7 +152,13 @@
 
 == Przyrostowy
 
-meow
+=== Działanie algorytmu
+Algorytm najpierw sortuje punkty względem współrzędnej $x$, a następnie wybiera dwa pierwsze punkty, będące początkową otoczką.
+Następnie iteracyjnie dodaje kolejne punkty do otoczki, dokonane jest to poprzez znalezienie *stycznych do otoczki przechodzących przez kolejne punkty* i odpowiednie usuwanie punktów wewnątrz niej.
+
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
+#include "../output.typ"
 
 == Górna i dolna otoczka
 
