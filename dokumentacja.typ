@@ -26,7 +26,7 @@
 - *Grahama*,
 - *Jarvisa*,
 -  przyrostowy wyznaczania otoczki wypukłej (dalej *przyrostowy*)
--  górnej i dolnej otoczki, wyznaczający dwa monotoniczne łańcuchy będące połowami otoczki (dalej *monochain*),
+- *górnej i dolnej otoczki*,
 - *dziel i rządź*,
 - *quickhull*,
 - *Chana*.
@@ -44,8 +44,23 @@ Każdy z zaimplementowanych algorytmów ma w założeniu wyznaczyć otoczkę wyp
 - wielokąt ten jest otoczką wypukłą zbioru danych wejściowych.
 == Omówienie implementacji algorytmów
 === Elementy wspólne
-==== Wyznacznik
-Funkcja _det(a,b,c)_ została[...]
+==== Wyznacznik - _det_
+Funkcja _det(a,b,c)_ obliczająca wyznacznik macierzy:
+$ det(a,b,c) = mat(
+  x_a, y_a, 1;
+  x_b, y_b, 1;
+  x_c, y_c, 1;) $
+została wielokrotnie wykorzystana w zaimpementowanych algorytmach. 
+Poprzez badanie znaku tego wyznacznika można określić orientację trzech następujących po sobie punktów. \
+\
+Z racji na niedokładność obliczeń, za każdym razem, gdy badano znak wartości funkcji _det_, użyto wartości $epsilon = 10^(-12)$ jako tolerancji dla $0$.\
+==== Sortowanie z usuwaniem punktów współliniowych - _x_sort_
+Funkcja _x_sort_ została zaimplementowana na potrzebę sortowania punktów względem ich współrzędnej _*x*_, która to funkcjonalność znajduje zastosowanie  w algorytmach: _*przyrostowym*_, _*górnej i dolnej otoczki*_ oraz *_dziel i rządź_*. \
+\
+Funkcja poza sortowaniem punktów dodatkowo grupuje punkty o tej samej współrzędnej _*x*_.
+Jeżeli w danej grupie występują co najmniej 3 punkty funkcja dodatkowo usuwa ze zbioru wynikowego wszystkie punkty poza tymi o najmniejszej i największej współrzędnej *_y_*. Następnie łącząc grupy i zwracaja posortowaną listę.\
+\
+Złożoność takiego sortowania wynosi $O(n l o g(n))$, gdzie n to liczba punktów.
 === Algorytm Grahama
 Plik *graham.py*.
 ==== Przebieg algorytmu
@@ -70,7 +85,7 @@ Algorytm Jarvisa ma złożoność _O(nk)_, gdzie _n_ to liczba punktów na płas
 === Algorytm przyrostowy
 Plik *incremental.py*.
 ==== Przebieg algorytmu
-Algorytm najpierw sortuje punkty względem ich współrzędnej *_x_*. W przypadku gdy istnieje wiele punktów o tej samej współrzędnej *_x_* punkt o najmniejszej współrzędnej *_y_* jest umieszczany przed punktem o największej współrzędnej *_y_*, a wszystkie pozostałe punkty są usuwane. 
+Algorytm najpierw sortuje punkty z użyciem funkcji _x_sort_.\ \ 
 Algorytm tworzy pierwszą otoczkę na podstawie dwóch pierwszych punktów posortowanego zbioru. Następnie iteracyjnie dodaje każdy z pozostałych punktów do otoczki. Dołączanie punktu opiera się na znalezieniu stycznych do otoczki przechodzących przez ten punkt i usunięcie wszystkich punktów otoczki, które znajdowałyby się wewnątrz otoczki po dodaniu do niej rozważanego punktu.
 \
 \
@@ -81,8 +96,7 @@ Algorytm ma złożoność _O(nlog(n))_, gdzie _n_ to liczba punktów na płaszcz
 === Algorytm górnej i dolnej otoczki
 Plik *monochain.py*.
 ==== Przebieg algorytmu
-Podobnie jak algorytm przyrostowy, algorytm górnej i dolnej otoczki zaczyna od posortowania punktów względem współrzędnej *_x_* i usunięcia punktów współliniowych o tej samej współrzędnej *_x_*. 
-\
+Algorytm rozpoczyna pracę od posortowania zbioru punktów z użyciem funkcji _x_sort_.\
 \
 Następnie algorytm iteracyjnie konstuuje górną otoczkę punktów. Początkowa górna otoczka składa się z dwóch pierwszych punktów w posortowanym zbiorze. Każdy kolejny punkt jest dodawany do górnej otoczki, po uprzednim usunięciu z niej wszystkich punktów, których obecność naruszyła by warunek wypukłości, który sprawdzany jest z użyciem funkcji _det_. Dolna otoczka wyznaczana jest analogicznie.
 \
@@ -97,10 +111,10 @@ Plik *divide_and_conquer.py*.
 Algorytm opiera się na utworzeniu zbioru otoczek, które w sumie obejmują cały zbiór punktów wejściowych, oraz na późniejszym łączeniu ich w czasie stałym do momentu otrzymania jednej otoczki obejmującej cały zbiór.
 \
 \
-Pierwszym krokiem jest posortowanie punktów względem współrzędnej *_x_*. Następnie tak posortowana lista jest dzielona na części. Każda z tych części jest listą kolejnych *_k_* punktów należących do posortowanej listy wejściowej, gdzie *_k_* jest małą stałą będącą parametrem algorytmu. Następnie dla każdego z tych podzbiorów punktów wyznaczana jest otoczka wypukła z użyciem algorytmu Grahama.
+Pierwszym krokiem jest posortowanie punktów z użyciem funkcji _x_sort_. Następnie tak posortowana lista jest dzielona na części. Każda z tych części jest listą kolejnych *_k_* punktów należących do posortowanej listy wejściowej, gdzie *_k_* jest małą stałą będącą parametrem algorytmu. Następnie dla każdego z tych podzbiorów punktów wyznaczana jest otoczka wypukła z użyciem algorytmu Grahama.
 \
 \
-Tak powstałe sąsiednie otoczki są łączone poprzez znajdowanie stycznych z użyciem funkcji _det_. Łączenie to jest powtarzane do momentu otrzymania jednej otoczki będącej połączeniem wszystkich otoczek.
+Tak powstałe sąsiednie otoczki są łączone poprzez znajdowanie stycznych z użyciem funkcji _det_. Łączenie to jest powtarzane do momentu otrzymania jednej otoczki będącej sumą wszystkich otoczek.
 ==== Analiza złożoności obliczeniowej
 Samo sortowanie zbioru wejściowego wykonuje się w czasie _O(nlog(n))_. Wyznaczanie otoczek podzbiorów dla małej stałej *_k_* zajmuje stały czas O(k). Ponieważ ten krok powtarzany jest dla _n/k_ otoczek zajmuje on w sumie $O(k times n/k) = O(n)$ czasu procesora. Łączenie 2 otoczek zajmuje stały czas, a samych otoczek do połączenia jest $n/k$. Czas poświęcany na ten krok wynosi więc $O(n/k l o g(n/k)) = O(n l o g (n))$. Finalna złożoność algorytmu wynosi więc _O(nlogn_).
 === Algorytm Quickhull
