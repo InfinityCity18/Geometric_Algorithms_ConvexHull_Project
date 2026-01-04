@@ -55,7 +55,10 @@ def benchmark_convex_hull(convex_hull_algs, generator, ns, **kwargs,):
     fig, ax = plt.subplots(figsize=(7,5))
 
     pts_array = [generator(n=n, **kwargs) for n in ns]
-
+    
+    for n in ns:
+        print(n, end='\t')
+    print("n")
     for alg in convex_hull_algs:
         times = []
         for pts in pts_array:
@@ -63,10 +66,13 @@ def benchmark_convex_hull(convex_hull_algs, generator, ns, **kwargs,):
             alg(pts)
             elapsed = (time.perf_counter() - start) * 1000.0
             times.append(elapsed)
+            print("{:.2f}".format(elapsed), end='\t')
+        print(f"czas {alg.__name__}", end='\t')
+        print()
         ax.plot(ns, times, 'o-', label=alg.__name__)
         
     ax.set_xlabel('Liczba punktów n')
-    ax.set_ylabel('Czas wykonania [s]')
+    ax.set_ylabel('Czas wykonania [ms]')
     ax.set_title(f'Czasy wykonania dla generatora {generator.__name__}')
     ax.grid(True)
     ax.legend()
