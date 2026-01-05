@@ -25,8 +25,11 @@ class Visualizer:
         ymax = max(points, key = lambda p: p[1])[1]
         xlen = xmax - xmin
         ylen = ymax - ymin
-        self.limx = (xmin - xlen*0.1, xmax + xlen*0.1)
-        self.limy = (ymin - ylen*0.1, ymax + ylen*0.1)
+        center_x = xmin + 0.5*xlen
+        center_y = ymin + 0.5*ylen
+        offset = max(xlen,ylen) * 0.55
+        self.limx = (center_x-offset, center_y+offset)
+        self.limy = (center_y-offset, center_y+offset)
 
     def next_color(self):
         self.color_it += 1
@@ -165,9 +168,10 @@ def user_input_points(): #wprowadzanie punktóœ
     ax.set_title('Lewy przycisk: dodaj punkt | Prawy przycisk: cofnij | Enter: zakończ')
     
     x, y = [], []
-    scat= ax.scatter(x, y, color="black", s=5)
-    
-    ax.set(xlim=(-1, 1), ylim=(-10, 10))
+    scat= ax.scatter(x, y, color="black", s=5, zorder=10)
+   
+    ax.grid(True)
+    ax.set(xlim=(-10, 10), ylim=(-10, 10))
     input_points = []
     
     def update_plot():
