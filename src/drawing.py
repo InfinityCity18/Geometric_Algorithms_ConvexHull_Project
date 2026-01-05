@@ -93,7 +93,8 @@ class Visualizer:
         for i, frame in enumerate(self.frames):
             output += f"#only({i+1})[#align(center+horizon)[#cetz-canvas(length: 1.8em, {{import cetz.draw: *\n"
             for shape_type, color, data, zorder in frame + self.permament:
-                if type(data) is type(np.array(0)):
+                #jak data bedzie pusta to chyba oszaleje
+                if type(data[0][0]) is type(np.float64(0)):
                     f = lambda x: (x[0].item(), x[1].item())
                 else:
                     f = lambda x: x
@@ -106,9 +107,13 @@ class Visualizer:
                     else:
                         output += str_p
                 elif shape_type == "polygon":
+                    if len(data) == 1:
+                        continue
                     vertices = str(list(map(f, data))).replace("[", "(").replace("]", ")")
                     output += self._cetz_polygon(vertices, color,True, zorder)
                 elif shape_type == "polygon_open":
+                    if len(data) == 1:
+                        continue
                     vertices = str(list(map(f, data))).replace("[", "(").replace("]", ")")
                     output += self._cetz_polygon(vertices, color,False, zorder)
                 elif shape_type == "lines":
