@@ -170,6 +170,8 @@ Algorytm wyszukuje najniższy punkt względem $y$, sortuje punkty na podstawie k
 \
 #complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
 
+#include "anim/graham.typ"
+
 == Jarvisa
 
 === Działanie algorytmu
@@ -178,6 +180,8 @@ Algorytm rozpoczyna od znalezienia najniższego punktu, następnie iterując po 
 
 \
 #complexity_rect([Złożoność czasowa algorytmu to $O( n h )$])
+
+#include "anim/jarvis.typ"
 
 == Górna i dolna otoczka
 
@@ -190,6 +194,8 @@ Analogicznie tworzymy dolną otoczkę, ostatecznie łącząc je w jedną, wyniko
 \
 #complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
 
+#include "anim/monochain.typ"
+
 == Quickhull
 
 === Działanie algorytmu
@@ -199,9 +205,25 @@ Algorytm wyznacza 4 skrajne punkty zbioru, tworząc wielokąt. Usuwane są wszys
 \
 #complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
 
+#include "anim/quickhull.typ"
+
 == Dziel i rządź
 
+=== Działanie algorytmu
+Algorytm sortuje punkty względem współrzędnej $x$, następnie dzieli zbiór na grupy względem mediany, aż do momentu gdy liczebność każdej z nich będzie mniejsza lub równa parametrowi algorytmu $k$. Algorytm Grahama wyznacza otoczkę dla każdej z grup, dzięki czemu możemy połączyć wszystkie mniejsze otoczki w jedną, wynikową. Łączenie sąsiednich otoczek polega na znajdowaniu stycznych.
+
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
+
+#include "anim/divide_and_conquer.typ"
+
 == Chana
+
+=== Działanie algorytmu
+Algorytm łączy algorytmy Grahama i Jarvisa, zakładamy, że rozmiar otoczki będzie równy $m$, dzielimy zbiór na grupy o rozmiarze $m$ i wyznaczamy ich otoczki algorytmem Grahama. Następnie znajdujemy skrajny punkt będący początkiem otoczki i szukamy wsród tych otoczek taki punkt, który maksymalizuje kąt. Robimy tak maksymalnie $m$ razy. Ponieważ próba może się nie powieść, wywołujemy algorytm ustalając $m := min(2^(2^t), n)$, gdzie początkowo $t = 0$, do otrzymania prawidłowej otoczki.
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log h)$])
+
+#include "anim/chan.typ"
 
 == Simple Animation
 

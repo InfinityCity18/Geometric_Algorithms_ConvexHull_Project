@@ -94,6 +94,9 @@ class Visualizer:
             output += f"#only({i+1})[#align(center+horizon)[#cetz-canvas(length: 1.8em, {{import cetz.draw: *\n"
             for shape_type, color, data, zorder in frame + self.permament:
                 #jak data bedzie pusta to chyba oszaleje
+                #update: ...
+                if len(data) == 0:
+                    continue
                 if type(data[0][0]) is type(np.float64(0)):
                     f = lambda x: (x[0].item(), x[1].item())
                 else:

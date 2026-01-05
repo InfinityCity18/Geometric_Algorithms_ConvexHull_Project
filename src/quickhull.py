@@ -92,5 +92,5 @@ def quickhull_vis(points, title="Quickhull", path=None):
     for l in hull_data:
         pts.add(l[0])
         pts.add(l[1])
-    viz.add_frame([("lines", "red", hull_data), ("points", "red", pts, 4)])
+    viz.add_frame([("lines", "red", hull_data), ("points", "red", list(pts), 4)])
     viz.draw_animation(10000/num_frames, path)
