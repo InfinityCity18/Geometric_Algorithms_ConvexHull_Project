@@ -87,7 +87,7 @@ Dopóki warunek wypukłości nie jest naruszony algorytm dodaje punkty jeden po 
     image("images/graham2.gif", width: 100%),
     caption: [dodanie punktu]
   ),)
-Kiedy kąt wewnętrzny okazuje się być rozwarty po dodaniu punktu algorytm usuwa dodane punkty aż warunek wypukłości będzie spełniony.
+Kiedy kąt wewnętrzny okazuje się być rozwarty po dodaniu punktu algorytm usuwa dodane punkty aż warunek wypukłości będzie spełniony (rys. 3, rys. 4).
 #grid(
   columns: (1fr, 1fr),  // Two equal-width columns
   gutter: 1em,          // Space between the images
@@ -106,9 +106,35 @@ Cały algorytm ma złożoność obliczeniową _O(nlog(n))_, gdzie $n$ to liczba 
 === Algorytm Jarvisa
 Plik *jarvis.py*.
 ==== Przebieg algorytmu
-Algorytm jest inaczej nazywany algorytmem _owijania prezentu_ (ang. _gift wrapping_). Podobnie jak algorytm Grahama (3.3.2) rozpoczyna działanie od znalezienia punktu *_lowest_point_* o najmniejszej pierwszej współrzędnej, lub - w przypadku remisu - o najmniejszych obu współrzędnych. Następnie algorytm znajduje następny punkt należący do otoczki z pomocą funkcji _det_ - iteruje po wszystkich punktach znajdując taki punkt *_best_*, dla którego wszystkie inne punkty leżą po lewej stronie odcinka (*_last_*, *_best_*), gdzie *_last_* jest ostatnim znalezionym punktem należącym do otoczki. Algorytm krok ten powtarza aż znaleziony zostanie punkt startowy, co reprezentuje zamknięcie otoczki. 
+Algorytm jest inaczej nazywany algorytmem _owijania prezentu_ (ang. _gift wrapping_). Podobnie jak algorytm Grahama (3.3.2) rozpoczyna działanie od znalezienia punktu *_lowest_point_* o najmniejszej pierwszej współrzędnej, lub - w przypadku remisu - o najmniejszych obu współrzędnych. Następnie algorytm znajduje następny punkt należący do otoczki z pomocą funkcji _det_ - iteruje po wszystkich punktach znajdując taki punkt *_best_*, dla którego wszystkie inne punkty leżą po lewej stronie odcinka (*_last_*, *_best_*), gdzie *_last_* jest ostatnim znalezionym punktem należącym do otoczki - początkowo _*lowest_point*_. Po przetworzniu wszystkich puntów punkt _*best*_ staje się punktem _*last*_ i jest dodawany do otoczki. Algorytm kroki te powtarza, aż znaleziony zostanie punkt startowy, co reprezentuje zamknięcie otoczki. 
 ==== Analiza złożoności obliczeniowej
 Algorytm Jarvisa ma złożoność _O(nk)_, gdzie _n_ to liczba punktów na płaszczyźnie, oraz _k_ to liczba punktów należących do otoczki. Wynika ona z prostego faktu znajdowania jednego punktu należącego do otoczki w każdym kroku algorytmu, która objemuje iteracje po wszystkich punktach ze zbioru wejściowego. Faktyczny czas działania algorytmu może być nieprzewidywalny i jest bardzo wrażliwy na różne dane wejściowe - w oczywisty algorytm Jarvisa nie jest najlepszym wyborem do wyznaczania otoczek zbiorów punktów o potencjalnie wielu punktach należących do otoczki.
+==== Prezentacja działania
+Na rysunkach 5-8 zaprezentowano działanie algorytmu.
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/jarvis1.gif", width: 100%),
+    caption: [sprawdzanie punktów jeden po drugim]
+  ),
+  figure(
+    image("images/jarvis2.gif", width: 100%),
+    caption: [algorym pamięta najodleglejszy w sensie biegunowym punkt]
+  ),)
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/jarvis3.gif", width: 100%),
+    caption: [wszystkie punkty zostały przetworzone]
+  ),
+  figure(
+    image("images/jarvis4.gif", width: 100%),
+    caption: [powtarzanie kroków dla nowego punktu otoczki]
+  ),)
+  \
+W ten sposób algorytm buduje całą otoczkę.
 === Algorytm przyrostowy
 Plik *incremental.py*.
 ==== Przebieg algorytmu
