@@ -221,6 +221,31 @@ Pierwszym krokiem jest posortowanie punktów z użyciem funkcji _x_sort_. Nastę
 Tak powstałe sąsiednie otoczki są łączone poprzez znajdowanie stycznych z użyciem funkcji _det_. Łączenie to jest powtarzane do momentu otrzymania jednej otoczki będącej sumą wszystkich otoczek.
 ==== Analiza złożoności obliczeniowej
 Samo sortowanie zbioru wejściowego wykonuje się w czasie _O(nlog(n))_. Wyznaczanie otoczek podzbiorów dla małej stałej *_k_* zajmuje stały czas O(k). Ponieważ ten krok powtarzany jest dla _n/k_ otoczek zajmuje on w sumie $O(k times n/k) = O(n)$ czasu procesora. Łączenie 2 otoczek zajmuje stały czas, a samych otoczek do połączenia jest $n/k$. Czas poświęcany na ten krok wynosi więc $O(n/k l o g(n/k)) = O(n l o g (n))$. Finalna złożoność algorytmu wynosi więc _O(nlogn_).
+==== Prezentacja działania algorytmu
+Na rysunkach 17-20 zaprezentowano wybrane kroki algorytmu, na których widać, jak otoczki łączą się. Połączenie wszystkich otoczek jest otoczką wypukłą zbioru.
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/div1.gif", width: 100%),
+    caption: [początkowy stan dla k=2]
+  ),
+  figure(
+    image("images/div2.gif", width: 100%),
+    caption: [połączone otoczki]
+  ),)
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/div3.gif", width: 100%),
+    caption: [trzeci od końca krok algorytmu]
+  ),
+  figure(
+    image("images/div4.gif", width: 100%),
+    caption: [przedostatni krok algorytmu]
+  ),)
+  \
 === Algorytm Quickhull
 Plik *quickhull.py*
 ==== Przebieg algorytmu
@@ -235,4 +260,30 @@ Dla danego odcinka znajdowany jest punkt znajdujący się najdalej od niego i b�
 ==== Analiza złożoności obliczeniowej
 Każde rekurencyjne wywołanie fukcji *_rec_hull_* iteruje się po zbiorze punktów, którego rozmiar jest proporcjonalny do rozmiaru zbioru wejściowego. Ilość takich wywołań w pełni zależy od charakterystyki zbioru wejściowego. W pesymistycznym przypadku w każdym wywołaniu *_rec_hull_* jedyny usuwany punkt jest tym najbardziej odległym od rozpatrywanego odcinka, wtedy liczba wywołań wynosi _n_, a pesymistyczna złożoność obliczeniowa wynosi _O(n^2)_. Przypadek ten zachodzi gdy wszystkie punkty, lub ich większość należy do otoczki.
 Realistycznie jednak, zakładając względnie równomierne rozłożenie punktów, przy każdym "powiększaniu" otoczki przez funkcję *_rec_hull_* punkty należące do obszaru proporcjonalnego do długości odcinka są usuwane. Zamortyzowana złożoność obliczeniowa wynosi więc _O(nlog(n))_.
+==== Prezentacja działania algorytmu
+Na rysunkach 21-24 zaprezentowano wybranekroki algorytmu quickhull. Na czerwono zostały oznaczone odcinki, które na danym etapie algorytmu zostały przetworzone i na pewno należą do otoczki.
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/quickhull1.gif", width: 100%),
+    caption: [rozpoczęcie rekurencji]
+  ),
+  figure(
+    image("images/quickhull2.gif", width: 100%),
+    caption: [rozbicie odcinka]
+  ),)
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/quickhull3.gif", width: 100%),
+    caption: [jedna z gałęzi zakończyła rekurencję]
+  ),
+  figure(
+    image("images/quickhull4.gif", width: 100%),
+    caption: [stan otoczki na moment przetworzenia 3 z 4 odcinków startowych]
+  ),)
+  \
 
+Przetworzenie ostatniego odcinka (rys. 24 - niebieski odcinek) skutkuje wyznaczeniem otoczki wypukłej.

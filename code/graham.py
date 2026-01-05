@@ -85,7 +85,6 @@ def graham_vis(points,title ="Graham",path=None):
     snap(None)
     for p in points:
         while len(hull) >= 2 and det(hull[-2], hull[-1], p) <= eps:
-            snap(p)
             hull.pop()
             snap(p)
         hull.append(p)
