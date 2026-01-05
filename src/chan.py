@@ -107,7 +107,7 @@ def chan(points):
         t += 1
 
 def chan_vis(points, title='Chan', path=None):
-    from drawing import Visualizer
+    from src.drawing import Visualizer
     viz = Visualizer(f"{title} n = {len(points)}")
     viz.auto_set_bounds(points)
     viz.add_permament([("points", "gray", points)])
@@ -144,7 +144,7 @@ def step_chan_vis(points, m, viz: Visualizer):
         frame_count += 1
         frame = hulls_frame.copy()
         frame.append(("polygon_open", "red", L.copy() + [best]))
-        frame.append(("lines", "blue", [(L[-1], current)]))
+        frame.append(("lines", "green", [(L[-1], current)]))
         viz.add_frame(frame)
 
     for j in range(m):

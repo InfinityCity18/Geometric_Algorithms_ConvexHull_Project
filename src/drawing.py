@@ -93,18 +93,23 @@ class Visualizer:
         for i, frame in enumerate(self.frames):
             output += f"#only({i+1})[#align(center+horizon)[#cetz-canvas(length: 1.8em, {{import cetz.draw: *\n"
             for shape_type, color, data, zorder in frame + self.permament:
+                if type(data) is type(np.array(0)):
+                    f = lambda x: (x[0].item(), x[1].item())
+                else:
+                    f = lambda x: x
+
                 if shape_type == "points":
-                    vertices = str(list(map(lambda x: (x[0].item(), x[1].item()), data))).replace("[", "(").replace("]", ")")
+                    vertices = str(list(map(f, data))).replace("[", "(").replace("]", ")")
                     str_p = self._cetz_points(vertices, color, zorder)
                     if zorder and zorder >= 4:
                         queue.append(str_p)
                     else:
                         output += str_p
                 elif shape_type == "polygon":
-                    vertices = str(list(map(lambda x: (x[0].item(), x[1].item()), data))).replace("[", "(").replace("]", ")")
+                    vertices = str(list(map(f, data))).replace("[", "(").replace("]", ")")
                     output += self._cetz_polygon(vertices, color,True, zorder)
                 elif shape_type == "polygon_open":
-                    vertices = str(list(map(lambda x: (x[0].item(), x[1].item()), data))).replace("[", "(").replace("]", ")")
+                    vertices = str(list(map(f, data))).replace("[", "(").replace("]", ")")
                     output += self._cetz_polygon(vertices, color,False, zorder)
                 elif shape_type == "lines":
                     output += self._cetz_lines(data, color, zorder)
@@ -151,8 +156,12 @@ class Visualizer:
     def _cetz_lines(self, lines, color, zorder):
         ret = ""
         for start, end in lines:
-            p1 = (start[0].item(), start[1].item())
-            p2 = (end[0].item(), end[1].item())
+            if type(start[0]) is type(np.float64(0.0)):
+                p1 = (start[0].item(), start[1].item())
+                p2 = (end[0].item(), end[1].item())
+            else:
+                p1 = start
+                p2 = end
             ret += f"line({p1}, {p2}, stroke: (paint: {color}, thickness: 4pt))\n"
         return ret
 
