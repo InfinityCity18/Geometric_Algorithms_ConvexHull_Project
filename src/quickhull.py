@@ -39,7 +39,7 @@ def quickhull(points):
 
 
 def quickhull_vis(points, title="Quickhull", path=None):
-    from drawing import Visualizer
+    from src.drawing import Visualizer
     from collections import defaultdict
     viz = Visualizer(f"{title} n = {len(points)}")
     viz.auto_set_bounds(points)

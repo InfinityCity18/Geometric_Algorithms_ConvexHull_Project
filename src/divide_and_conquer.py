@@ -93,7 +93,7 @@ def divide_and_conquer(points, k=3):
     return hulls[0]
 
 def divide_and_conquer_vis(points, k=3, title="Divide and Conquer", path=None):
-    from drawing import Visualizer
+    from src.drawing import Visualizer
     viz = Visualizer(f"{title} n = {len(points)}")
     viz.auto_set_bounds(points)
     viz.add_permament([("points","gray",points)])

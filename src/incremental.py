@@ -42,7 +42,7 @@ def incremental(points):
     return hull
 
 def incremental_vis(points, title="Incremental", path=None):
-    from drawing import Visualizer
+    from src.drawing import Visualizer
     viz = Visualizer(f"{title} n = {len(points)}")
     viz.auto_set_bounds(points)
     viz.add_permament([("points", "gray", points)])

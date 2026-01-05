@@ -35,7 +35,7 @@ def jarvis(points):
     return convex_hull
 
 def jarvis_vis(points, title="Jarvis",path=None):
-    from drawing import Visualizer
+    from src.drawing import Visualizer
     viz = Visualizer(f"{title} n = {len(points)}")
     viz.auto_set_bounds(points)
     viz.add_permament([("points", "darkgray", points.copy())])
