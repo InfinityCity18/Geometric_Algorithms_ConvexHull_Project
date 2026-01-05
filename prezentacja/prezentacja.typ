@@ -158,15 +158,46 @@ Następnie iteracyjnie dodaje kolejne punkty do otoczki, dokonane jest to poprze
 
 \
 #complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
-#include "../output.typ"
 
-== Górna i dolna otoczka
+#include "anim/incremental.typ"
 
 == Grahama
 
+=== Działanie algorytmu
+
+Algorytm wyszukuje najniższy punkt względem $y$, sortuje punkty na podstawie kąta jaki tworzy odcinek przez najniższy punkt oraz kolejny punkt z osią $O X$. Usunięte są również punkty współliniowe. Tworzy stos, dla każdego punktu usuwa punkty ze stosu aż dwa ostatnie z wybranym punktem przestaną tworzyć skręt w prawo i dodaje ten punkt na stos.
+
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
+
 == Jarvisa
 
+=== Działanie algorytmu
+
+Algorytm rozpoczyna od znalezienia najniższego punktu, następnie iterując po wszystkich punktach, znajduje taki którego odcinek tworzony z ostatnim punktem otoczki spełnia warunek, że wszystkie punkty znajdują się po jego lewej stronie i dodaje go do otoczki. Algorytm kontynuuje do momentu spotkania początkowego punktu.
+
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n h )$])
+
+== Górna i dolna otoczka
+
+=== Działanie algorytmu
+
+Algorytm sortuje punkty względem współrzędnej $x$.
+Pierwsze dwa punkty są początkiem górnej otoczki, iteracyjnie dodajemy kolejne punkty do niej, zachowując warunek wypukłości, podobnie jak w algorytmie Grahama.
+Analogicznie tworzymy dolną otoczkę, ostatecznie łącząc je w jedną, wynikową otoczkę.
+
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
+
 == Quickhull
+
+=== Działanie algorytmu
+
+Algorytm wyznacza 4 skrajne punkty zbioru, tworząc wielokąt. Usuwane są wszystkie punkty wewnątrz tego wielokąta, a następnie na każdym z boków wywoływana jest rekurencyjna funkcja, która tworzy trójkąt tworzony przez dany bok jako podstawę oraz najbardziej oddalony od niej punkt znajdujący się po konkretnej stronie. Zwracamy ten najdalszy punkt oraz najdalsze punkty zwrócone poprzez rekurencyjne wywołanie na dwóch pozostałych bokach trójkąta.
+\
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
 
 == Dziel i rządź
 
