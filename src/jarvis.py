@@ -38,7 +38,7 @@ def jarvis_vis(points, title="Jarvis",path=None):
     from src.drawing import Visualizer
     viz = Visualizer(f"{title} n = {len(points)}")
     viz.auto_set_bounds(points)
-    viz.add_permament([("points", "darkgray", points.copy())])
+    viz.add_permament([("points", "gray", points.copy())])
     num_frames = 0
 
     points = points.copy()
