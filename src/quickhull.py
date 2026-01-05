@@ -43,7 +43,7 @@ def quickhull_vis(points, title="Quickhull", path=None):
     from collections import defaultdict
     viz = Visualizer(f"{title} n = {len(points)}")
     viz.auto_set_bounds(points)
-    viz.add_permament([("points", "darkgray", points.copy())])
+    viz.add_permament([("points", "gray", points.copy())])
 
     points = points.copy()
     left = min(points, key=lambda p: p[0])
