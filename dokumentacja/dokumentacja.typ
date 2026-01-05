@@ -145,8 +145,35 @@ Algorytm tworzy pierwszą otoczkę na podstawie dwóch pierwszych punktów posor
 Styczne znajdowane są z pomocą funkcji _det_.
 ==== Analiza złożoności algorytmu
 Algorytm ma złożoność _O(nlog(n))_, gdzie _n_ to liczba punktów na płaszczyźnie. Samo sortowanie punktów zajmuje _O(nlog(n))_ czasu procesora. Podczas iteracyjnego dołączania punktów do otoczki każdy punkt jest dodawany do otoczki raz i maksymalnie raz z niej usuwany, złożoność tego kroku wynosi więc _O(n)_, a finalna złożoność algorytmu przyrostowego to faktycznie _O(nlog(n))_.
+==== Prezentacja działania=
+Tak długo jak nie występują punkty wewnętrzne algorytm dodaje każdy punkt w kolejności sortowania (rys. 9, rys. 10).
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/incremental1.gif", width: 100%),
+    caption: [dodawanie punktu]
+  ),
+  figure(
+    image("images/incremental2.gif", width: 100%),
+    caption: [brak punktów wewnętrznych]
+  ),)
+W momencie wystąpienia punktów wewnętrznych algorytm usuwa wszystkie takie punkty (rys. 11, rys. 12).
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/incremental3.gif", width: 100%),
+    caption: [dodawanie punktu]
+  ),
+  figure(
+    image("images/incremental4.gif", width: 100%),
+    caption: [punkty wewnętrzne usunięte z otoczki]
+  ),)
+  \
+W ten sposób algorytm buduje całą otoczkę.
 
-=== Algorytm górnej i dolnej otoczki
+== Algorytm górnej i dolnej otoczki
 Plik *monochain.py*.
 ==== Przebieg algorytmu
 Algorytm rozpoczyna pracę od posortowania zbioru punktów z użyciem funkcji _x_sort_.\
@@ -157,7 +184,31 @@ Następnie algorytm iteracyjnie konstuuje górną otoczkę punktów. Początkowa
 Ostatnim krokiem algorytmu jest połączenie górnej i dolnej otoczki z uwagą na warunek prawoskrętności otoczki.
 ==== Analiza złożoności obliczeniowej
 Sortowanie punktów wykonywane jest w czasie _O(nlog(n))_, gdzie _n_ to liczba punktów na płaszczyźnie. Każdy punkt jest przetwarzany w iteracyjnej części algorytmu stałą liczbę razy. Finalna złożoność algorytmu górnej i dolnej otoczki to więc _O(nlog(n))_.
-
+==== Prezentacja działania algorytmu
+Na rysunkach 13, 14, 15 zaprezentowano kroki budowy dolnej otoczki. Górna otoczka jest budowana analogicznie i razem z dolną tworzy otoczkę wypukłą zbioru (rys. 16).
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/monochain1.gif", width: 100%),
+    caption: [budowanie dolnej otoczki]
+  ),
+  figure(
+    image("images/monochain2.gif", width: 100%),
+    caption: [naruszenie warunku wypukłości]
+  ),)
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/monochain3.gif", width: 100%),
+    caption: [usunięcie punktów wewnętrznych]
+  ),
+  figure(
+    image("images/monochain4.gif", width: 100%),
+    caption: [otoczka wypukła będąca sumą otoczki górnej i dolnej]
+  ),)
+  \
 === Algorytm dziel i rządź
 Plik *divide_and_conquer.py*.
 ==== Przebieg algorytmu
