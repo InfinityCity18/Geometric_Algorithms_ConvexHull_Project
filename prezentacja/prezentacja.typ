@@ -8,6 +8,10 @@
 #show: show-theorion
 
 #set text(lang: "pl")
+#set par(justify: true)
+#let complexity_rect(body) = {
+  align(center)[#rect(stroke: none, fill: rgb("#e5e8eb"), height: 2em, inset: 1em, outset: 0.3em, radius: 0.5em)[#align(body, center + horizon)]]
+}
 
 // cetz and fletcher bindings for touying
 #let cetz-canvas = touying-reducer.with(reduce: cetz.canvas, cover: cetz.draw.hide.with(bounds: true))
@@ -52,7 +56,7 @@
 
 == Plan prezentacji <touying:hidden>
 
-#components.adaptive-columns(outline(title: none, indent: 1em))
+#components.adaptive-columns(outline(depth: 2, title: none, indent: 1em))
 
 = Otoczka wypukła
 
@@ -148,15 +152,52 @@
 
 == Przyrostowy
 
-meow
+=== Działanie algorytmu
+Algorytm najpierw sortuje punkty względem współrzędnej $x$, a następnie wybiera dwa pierwsze punkty, będące początkową otoczką.
+Następnie iteracyjnie dodaje kolejne punkty do otoczki, dokonane jest to poprzez znalezienie *stycznych do otoczki przechodzących przez kolejne punkty* i odpowiednie usuwanie punktów wewnątrz niej.
 
-== Górna i dolna otoczka
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
+
+#include "anim/incremental.typ"
 
 == Grahama
 
+=== Działanie algorytmu
+
+Algorytm wyszukuje najniższy punkt względem $y$, sortuje punkty na podstawie kąta jaki tworzy odcinek przez najniższy punkt oraz kolejny punkt z osią $O X$. Usunięte są również punkty współliniowe. Tworzy stos, dla każdego punktu usuwa punkty ze stosu aż dwa ostatnie z wybranym punktem przestaną tworzyć skręt w prawo i dodaje ten punkt na stos.
+
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
+
 == Jarvisa
 
+=== Działanie algorytmu
+
+Algorytm rozpoczyna od znalezienia najniższego punktu, następnie iterując po wszystkich punktach, znajduje taki którego odcinek tworzony z ostatnim punktem otoczki spełnia warunek, że wszystkie punkty znajdują się po jego lewej stronie i dodaje go do otoczki. Algorytm kontynuuje do momentu spotkania początkowego punktu.
+
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n h )$])
+
+== Górna i dolna otoczka
+
+=== Działanie algorytmu
+
+Algorytm sortuje punkty względem współrzędnej $x$.
+Pierwsze dwa punkty są początkiem górnej otoczki, iteracyjnie dodajemy kolejne punkty do niej, zachowując warunek wypukłości, podobnie jak w algorytmie Grahama.
+Analogicznie tworzymy dolną otoczkę, ostatecznie łącząc je w jedną, wynikową otoczkę.
+
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
+
 == Quickhull
+
+=== Działanie algorytmu
+
+Algorytm wyznacza 4 skrajne punkty zbioru, tworząc wielokąt. Usuwane są wszystkie punkty wewnątrz tego wielokąta, a następnie na każdym z boków wywoływana jest rekurencyjna funkcja, która tworzy trójkąt tworzony przez dany bok jako podstawę oraz najbardziej oddalony od niej punkt znajdujący się po konkretnej stronie. Zwracamy ten najdalszy punkt oraz najdalsze punkty zwrócone poprzez rekurencyjne wywołanie na dwóch pozostałych bokach trójkąta.
+\
+\
+#complexity_rect([Złożoność czasowa algorytmu to $O( n log n)$])
 
 == Dziel i rządź
 

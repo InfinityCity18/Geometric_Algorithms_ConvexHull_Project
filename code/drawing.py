@@ -83,17 +83,63 @@ class Visualizer:
             else:
                 print(f"Unknown shape type '{shape_type}'")
 
+    #funkcja eksportujaca klatki do CeTZ typst'a
+    def _return_cetz_typst(self, filename="output.typ"):
+        output = """#import "@preview/touying:0.6.1": *\n#import "@preview/cetz:0.4.2"\n#import themes.university: *\n#let cetz-canvas = touying-reducer.with(reduce: cetz.canvas, cover: cetz.draw.hide.with(bounds: true))\n"""
+        output += f"#slide(repeat: {len(self.frames)}, self => [\n"
+        output += "#let (uncover, only) = utils.methods(self)\n"
+        output += "=== Przykład\n"
+        queue = []
+        for i, frame in enumerate(self.frames):
+            output += f"#only({i+1})[#align(center+horizon)[#cetz-canvas(length: 1.8em, {{import cetz.draw: *\n"
+            for shape_type, color, data, zorder in frame + self.permament:
+                if shape_type == "points":
+                    vertices = str(list(map(lambda x: (x[0].item(), x[1].item()), data))).replace("[", "(").replace("]", ")")
+                    str_p = self._cetz_points(vertices, color, zorder)
+                    if zorder and zorder >= 4:
+                        queue.append(str_p)
+                    else:
+                        output += str_p
+                elif shape_type == "polygon":
+                    vertices = str(list(map(lambda x: (x[0].item(), x[1].item()), data))).replace("[", "(").replace("]", ")")
+                    output += self._cetz_polygon(vertices, color,True, zorder)
+                elif shape_type == "polygon_open":
+                    vertices = str(list(map(lambda x: (x[0].item(), x[1].item()), data))).replace("[", "(").replace("]", ")")
+                    output += self._cetz_polygon(vertices, color,False, zorder)
+                elif shape_type == "lines":
+                    output += self._cetz_lines(data, color, zorder)
+                else:
+                    print(f"Unknown shape type '{shape_type}'")
+            while len(queue) > 0:
+                str_p = queue.pop()
+            output += str_p
+            output += "})]]\n"
+        output += "])\n"
+        with open(filename, "w") as text_file:
+            text_file.write(output)
+            
+
+
     def _draw_points(self, points, color, zorder):
         if not zorder: zorder = 1
         if not points: return
         X, Y = zip(*points)
         self.ax.scatter(X, Y, c=color, s=25, zorder=zorder)
 
+    def _cetz_points(self, points, color, zorder):
+        return f"""for point in {points} {{
+            circle(point, radius: 0.21em, fill: {color}, stroke: black)
+        }}
+        """
+
     def _draw_polygon(self, vertices, color, closed,zorder):
         if not zorder: zorder = 2
         if not vertices: return
         poly = Polygon(vertices, linewidth=2, closed=closed, fill=False, edgecolor=color, zorder=zorder) 
         self.ax.add_patch(poly)
+
+    def _cetz_polygon(self, vertices, color, closed, zorder):
+        return f"""line({vertices[1:-1]}, close: {str(closed).lower()}, stroke: (paint: {color}, thickness: 4pt))\n"""
 
     def _draw_lines(self, lines, color,zorder):
         if not zorder: zorder = 3
@@ -102,7 +148,16 @@ class Visualizer:
             Y = [start[1], end[1]]
             self.ax.plot(X, Y, c=color, linewidth=2, zorder=zorder)
 
+    def _cetz_lines(self, lines, color, zorder):
+        ret = ""
+        for start, end in lines:
+            p1 = (start[0].item(), start[1].item())
+            p2 = (end[0].item(), end[1].item())
+            ret += f"line({p1}, {p2}, stroke: (paint: {color}, thickness: 4pt))\n"
+        return ret
+
     def draw_animation(self, ms_per_frame=500, save_path=None):
+        self._return_cetz_typst()
         if not self.frames:
             print("No frames to animate.")
             return
@@ -161,7 +216,7 @@ def draw_hull(points,hull):
     plt.show()
 
 
-def user_input_points(): #wprowadzanie punktóœ
+def user_input_points(): #wprowadzanie punktów
     fig, ax = plt.subplots(figsize=(6,6))
     
     fig.canvas.manager.set_window_title('Wprowadzanie punktów')
@@ -171,6 +226,7 @@ def user_input_points(): #wprowadzanie punktóœ
     scat= ax.scatter(x, y, color="black", s=5, zorder=10)
    
     ax.grid(True)
+
     ax.set(xlim=(-10, 10), ylim=(-10, 10))
     input_points = []
     

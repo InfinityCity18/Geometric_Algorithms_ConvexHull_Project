@@ -17,16 +17,16 @@ def save_points(points):
     print("Podaj nazwę pliku")
     filename = input()
     points = np.array(points)
-    os.makedirs("../data", exist_ok = True)
-    np.savetxt(f"../data/{filename}", points, fmt = "%.6f", comments = '')
-    print(f"Zapisano zbiór do pliku ../data/{filename}")
+    os.makedirs("./data", exist_ok = True)
+    np.savetxt(f"./data/{filename}", points, fmt = "%.6f", comments = '')
+    print(f"Zapisano zbiór do pliku ./data/{filename}")
     
 
-def load_points(filename):
+def load_points():
+    print("Wprowadź nazwę pliku. Plik powinien znajdować się w katalogu ./data/")
     inp = input()
-    print("Wprowadź nazwę pliku. Plik powinien znajdować się w katalogu ../data/")
     try:
-        arr = np.loadtxt(f"../data/{input}", delimiter=None)
+        arr = np.loadtxt(f"./data/{inp}", delimiter=None)
         points = [tuple(row) for row in arr]
         print(f"Wczytano plik {inp}")
         return points
@@ -39,9 +39,9 @@ def save_hull(hull):
     print("Podaj nazwę pliku")
     filename = input()
     hull = np.array(hull)
-    os.makedirs("../hulls", exist_ok = True)
-    np.savetxt(f"../hulls/{filename}", hull, fmt = "%f", comments = '')
-    print(f"Zapisano otoczkę do pliku ../hulls/{filename}")
+    os.makedirs("./hulls", exist_ok = True)
+    np.savetxt(f"./hulls/{filename}", hull, fmt = "%f", comments = '')
+    print(f"Zapisano otoczkę do pliku ./hulls/{filename}")
 
 def input_range(start, end):
     print(f"Wprowadź liczbę od {start} do {end}")
@@ -130,10 +130,10 @@ if inp == 1:
 if inp == 2:
     print("Podaj nazwę pliku.")
     filename = input()
-    print(f"Plik zostanie zapisany w ../gifs/{filename}.gif")
-    os.makedirs("../gifs", exist_ok = True)
-    vis(testset, path=f"../gifs/{filename}.gif")
-    print(f"Zapisano animację do pliku ../gifs/{filename}.gif")
+    print(f"Plik zostanie zapisany w ./gifs/{filename}.gif")
+    os.makedirs("./gifs", exist_ok = True)
+    vis(testset, path=f"./gifs/{filename}.gif")
+    print(f"Zapisano animację do pliku ./gifs/{filename}.gif")
     
 print("Koniec działania programu")
 
