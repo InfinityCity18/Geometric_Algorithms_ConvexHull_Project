@@ -74,14 +74,67 @@ Następnie algorytm iteracyjnie wyznacza otoczkę wypukłą przygotowanego zbior
 \
 \
 Po przetworzeniu wszystkich punków na stosie pozostaje lista wynikowa będąca otoczką wypukłą zbioru punktów z danych wejściowych.
+==== Prezentacja działania
+Dopóki warunek wypukłości nie jest naruszony algorytm dodaje punkty jeden po drugim (rys. 1, rys. 2).
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/graham1.gif", width: 100%),
+    caption: [dodanie punktu]
+  ),
+  figure(
+    image("images/graham2.gif", width: 100%),
+    caption: [dodanie punktu]
+  ),)
+Kiedy kąt wewnętrzny okazuje się być rozwarty po dodaniu punktu algorytm usuwa dodane punkty aż warunek wypukłości będzie spełniony (rys. 3, rys. 4).
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/graham3.gif", width: 100%),
+    caption: [naruszenie warunku wypukłości]
+  ),
+  figure(
+    image("images/graham4.gif", width: 100%),
+    caption: [usunięcie punktu wewnętrznego]
+  ),)
+  \
+W ten sposób algorytm buduje całą otoczkę.
 ==== Analiza złożoności obliczeniowej
 Cały algorytm ma złożoność obliczeniową _O(nlog(n))_, gdzie $n$ to liczba punktów na płaszczyźnie. Najbardziej kosztownym etapem algorytmu jest sortowanie punktów - wykonuje się ono w czasie _O(nlog(n))_. Następny etap algorytmu jest iteracją po punktach i wymaga czasu $O(n)$. Algorytm Grahama jest bardzo uniwersalnym algorytmem o przewidywalnym czasie działania dla każdego zbioru danych.
 === Algorytm Jarvisa
 Plik *jarvis.py*.
 ==== Przebieg algorytmu
-Algorytm jest inaczej nazywany algorytmem _owijania prezentu_ (ang. _gift wrapping_). Podobnie jak algorytm Grahama (3.3.2) rozpoczyna działanie od znalezienia punktu *_lowest_point_* o najmniejszej pierwszej współrzędnej, lub - w przypadku remisu - o najmniejszych obu współrzędnych. Następnie algorytm znajduje następny punkt należący do otoczki z pomocą funkcji _det_ - iteruje po wszystkich punktach znajdując taki punkt *_best_*, dla którego wszystkie inne punkty leżą po lewej stronie odcinka (*_last_*, *_best_*), gdzie *_last_* jest ostatnim znalezionym punktem należącym do otoczki. Algorytm krok ten powtarza aż znaleziony zostanie punkt startowy, co reprezentuje zamknięcie otoczki. 
+Algorytm jest inaczej nazywany algorytmem _owijania prezentu_ (ang. _gift wrapping_). Podobnie jak algorytm Grahama (3.3.2) rozpoczyna działanie od znalezienia punktu *_lowest_point_* o najmniejszej pierwszej współrzędnej, lub - w przypadku remisu - o najmniejszych obu współrzędnych. Następnie algorytm znajduje następny punkt należący do otoczki z pomocą funkcji _det_ - iteruje po wszystkich punktach znajdując taki punkt *_best_*, dla którego wszystkie inne punkty leżą po lewej stronie odcinka (*_last_*, *_best_*), gdzie *_last_* jest ostatnim znalezionym punktem należącym do otoczki - początkowo _*lowest_point*_. Po przetworzniu wszystkich puntów punkt _*best*_ staje się punktem _*last*_ i jest dodawany do otoczki. Algorytm kroki te powtarza, aż znaleziony zostanie punkt startowy, co reprezentuje zamknięcie otoczki. 
 ==== Analiza złożoności obliczeniowej
 Algorytm Jarvisa ma złożoność _O(nk)_, gdzie _n_ to liczba punktów na płaszczyźnie, oraz _k_ to liczba punktów należących do otoczki. Wynika ona z prostego faktu znajdowania jednego punktu należącego do otoczki w każdym kroku algorytmu, która objemuje iteracje po wszystkich punktach ze zbioru wejściowego. Faktyczny czas działania algorytmu może być nieprzewidywalny i jest bardzo wrażliwy na różne dane wejściowe - w oczywisty algorytm Jarvisa nie jest najlepszym wyborem do wyznaczania otoczek zbiorów punktów o potencjalnie wielu punktach należących do otoczki.
+==== Prezentacja działania
+Na rysunkach 5-8 zaprezentowano działanie algorytmu.
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/jarvis1.gif", width: 100%),
+    caption: [sprawdzanie punktów jeden po drugim]
+  ),
+  figure(
+    image("images/jarvis2.gif", width: 100%),
+    caption: [algorym pamięta najodleglejszy w sensie biegunowym punkt]
+  ),)
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/jarvis3.gif", width: 100%),
+    caption: [wszystkie punkty zostały przetworzone]
+  ),
+  figure(
+    image("images/jarvis4.gif", width: 100%),
+    caption: [powtarzanie kroków dla nowego punktu otoczki]
+  ),)
+  \
+W ten sposób algorytm buduje całą otoczkę.
 === Algorytm przyrostowy
 Plik *incremental.py*.
 ==== Przebieg algorytmu
@@ -92,8 +145,35 @@ Algorytm tworzy pierwszą otoczkę na podstawie dwóch pierwszych punktów posor
 Styczne znajdowane są z pomocą funkcji _det_.
 ==== Analiza złożoności algorytmu
 Algorytm ma złożoność _O(nlog(n))_, gdzie _n_ to liczba punktów na płaszczyźnie. Samo sortowanie punktów zajmuje _O(nlog(n))_ czasu procesora. Podczas iteracyjnego dołączania punktów do otoczki każdy punkt jest dodawany do otoczki raz i maksymalnie raz z niej usuwany, złożoność tego kroku wynosi więc _O(n)_, a finalna złożoność algorytmu przyrostowego to faktycznie _O(nlog(n))_.
+==== Prezentacja działania=
+Tak długo jak nie występują punkty wewnętrzne algorytm dodaje każdy punkt w kolejności sortowania (rys. 9, rys. 10).
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/incremental1.gif", width: 100%),
+    caption: [dodawanie punktu]
+  ),
+  figure(
+    image("images/incremental2.gif", width: 100%),
+    caption: [brak punktów wewnętrznych]
+  ),)
+W momencie wystąpienia punktów wewnętrznych algorytm usuwa wszystkie takie punkty (rys. 11, rys. 12).
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/incremental3.gif", width: 100%),
+    caption: [dodawanie punktu]
+  ),
+  figure(
+    image("images/incremental4.gif", width: 100%),
+    caption: [punkty wewnętrzne usunięte z otoczki]
+  ),)
+  \
+W ten sposób algorytm buduje całą otoczkę.
 
-=== Algorytm górnej i dolnej otoczki
+== Algorytm górnej i dolnej otoczki
 Plik *monochain.py*.
 ==== Przebieg algorytmu
 Algorytm rozpoczyna pracę od posortowania zbioru punktów z użyciem funkcji _x_sort_.\
@@ -104,7 +184,31 @@ Następnie algorytm iteracyjnie konstuuje górną otoczkę punktów. Początkowa
 Ostatnim krokiem algorytmu jest połączenie górnej i dolnej otoczki z uwagą na warunek prawoskrętności otoczki.
 ==== Analiza złożoności obliczeniowej
 Sortowanie punktów wykonywane jest w czasie _O(nlog(n))_, gdzie _n_ to liczba punktów na płaszczyźnie. Każdy punkt jest przetwarzany w iteracyjnej części algorytmu stałą liczbę razy. Finalna złożoność algorytmu górnej i dolnej otoczki to więc _O(nlog(n))_.
-
+==== Prezentacja działania algorytmu
+Na rysunkach 13, 14, 15 zaprezentowano kroki budowy dolnej otoczki. Górna otoczka jest budowana analogicznie i razem z dolną tworzy otoczkę wypukłą zbioru (rys. 16).
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/monochain1.gif", width: 100%),
+    caption: [budowanie dolnej otoczki]
+  ),
+  figure(
+    image("images/monochain2.gif", width: 100%),
+    caption: [naruszenie warunku wypukłości]
+  ),)
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/monochain3.gif", width: 100%),
+    caption: [usunięcie punktów wewnętrznych]
+  ),
+  figure(
+    image("images/monochain4.gif", width: 100%),
+    caption: [otoczka wypukła będąca sumą otoczki górnej i dolnej]
+  ),)
+  \
 === Algorytm dziel i rządź
 Plik *divide_and_conquer.py*.
 ==== Przebieg algorytmu
@@ -117,6 +221,31 @@ Pierwszym krokiem jest posortowanie punktów z użyciem funkcji _x_sort_. Nastę
 Tak powstałe sąsiednie otoczki są łączone poprzez znajdowanie stycznych z użyciem funkcji _det_. Łączenie to jest powtarzane do momentu otrzymania jednej otoczki będącej sumą wszystkich otoczek.
 ==== Analiza złożoności obliczeniowej
 Samo sortowanie zbioru wejściowego wykonuje się w czasie _O(nlog(n))_. Wyznaczanie otoczek podzbiorów dla małej stałej *_k_* zajmuje stały czas O(k). Ponieważ ten krok powtarzany jest dla _n/k_ otoczek zajmuje on w sumie $O(k times n/k) = O(n)$ czasu procesora. Łączenie 2 otoczek zajmuje stały czas, a samych otoczek do połączenia jest $n/k$. Czas poświęcany na ten krok wynosi więc $O(n/k l o g(n/k)) = O(n l o g (n))$. Finalna złożoność algorytmu wynosi więc _O(nlogn_).
+==== Prezentacja działania algorytmu
+Na rysunkach 17-20 zaprezentowano wybrane kroki algorytmu, na których widać, jak otoczki łączą się. Połączenie wszystkich otoczek jest otoczką wypukłą zbioru.
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/div1.gif", width: 100%),
+    caption: [początkowy stan dla k=2]
+  ),
+  figure(
+    image("images/div2.gif", width: 100%),
+    caption: [połączone otoczki]
+  ),)
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/div3.gif", width: 100%),
+    caption: [trzeci od końca krok algorytmu]
+  ),
+  figure(
+    image("images/div4.gif", width: 100%),
+    caption: [przedostatni krok algorytmu]
+  ),)
+  \
 === Algorytm Quickhull
 Plik *quickhull.py*
 ==== Przebieg algorytmu
@@ -131,4 +260,30 @@ Dla danego odcinka znajdowany jest punkt znajdujący się najdalej od niego i b�
 ==== Analiza złożoności obliczeniowej
 Każde rekurencyjne wywołanie fukcji *_rec_hull_* iteruje się po zbiorze punktów, którego rozmiar jest proporcjonalny do rozmiaru zbioru wejściowego. Ilość takich wywołań w pełni zależy od charakterystyki zbioru wejściowego. W pesymistycznym przypadku w każdym wywołaniu *_rec_hull_* jedyny usuwany punkt jest tym najbardziej odległym od rozpatrywanego odcinka, wtedy liczba wywołań wynosi _n_, a pesymistyczna złożoność obliczeniowa wynosi _O(n^2)_. Przypadek ten zachodzi gdy wszystkie punkty, lub ich większość należy do otoczki.
 Realistycznie jednak, zakładając względnie równomierne rozłożenie punktów, przy każdym "powiększaniu" otoczki przez funkcję *_rec_hull_* punkty należące do obszaru proporcjonalnego do długości odcinka są usuwane. Zamortyzowana złożoność obliczeniowa wynosi więc _O(nlog(n))_.
+==== Prezentacja działania algorytmu
+Na rysunkach 21-24 zaprezentowano wybranekroki algorytmu quickhull. Na czerwono zostały oznaczone odcinki, które na danym etapie algorytmu zostały przetworzone i na pewno należą do otoczki.
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/quickhull1.gif", width: 100%),
+    caption: [rozpoczęcie rekurencji]
+  ),
+  figure(
+    image("images/quickhull2.gif", width: 100%),
+    caption: [rozbicie odcinka]
+  ),)
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/quickhull3.gif", width: 100%),
+    caption: [jedna z gałęzi zakończyła rekurencję]
+  ),
+  figure(
+    image("images/quickhull4.gif", width: 100%),
+    caption: [stan otoczki na moment przetworzenia 3 z 4 odcinków startowych]
+  ),)
+  \
 
+Przetworzenie ostatniego odcinka (rys. 24 - niebieski odcinek) skutkuje wyznaczeniem otoczki wypukłej.

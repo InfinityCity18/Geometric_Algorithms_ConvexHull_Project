@@ -17,16 +17,16 @@ def save_points(points):
     print("Podaj nazwę pliku")
     filename = input()
     points = np.array(points)
-    os.makedirs("./data", exist_ok = True)
-    np.savetxt(f"./data/{filename}", points, fmt = "%.6f", comments = '')
+    os.makedirs("../data", exist_ok = True)
+    np.savetxt(f"../data/{filename}", points, fmt = "%.6f", comments = '')
     print(f"Zapisano zbiór do pliku ./data/{filename}")
     
 
 def load_points():
-    print("Wprowadź nazwę pliku. Plik powinien znajdować się w katalogu ./data/")
+    print("Wprowadź nazwę pliku. Plik powinien znajdować się w katalogu ../data/")
     inp = input()
     try:
-        arr = np.loadtxt(f"./data/{inp}", delimiter=None)
+        arr = np.loadtxt(f"../data/{inp}", delimiter=None)
         points = [tuple(row) for row in arr]
         print(f"Wczytano plik {inp}")
         return points
@@ -39,8 +39,8 @@ def save_hull(hull):
     print("Podaj nazwę pliku")
     filename = input()
     hull = np.array(hull)
-    os.makedirs("./hulls", exist_ok = True)
-    np.savetxt(f"./hulls/{filename}", hull, fmt = "%f", comments = '')
+    os.makedirs("../hulls", exist_ok = True)
+    np.savetxt(f"../hulls/{filename}", hull, fmt = "%f", comments = '')
     print(f"Zapisano otoczkę do pliku ./hulls/{filename}")
 
 def input_range(start, end):
@@ -94,13 +94,13 @@ if inp == 1:
     testset = user_input_points()
 if inp == 2:
     testset = load_points()
-    draw_points(testset)
+    draw_points(testset.copy())
 if inp == 3:
     g = select_generator()
     print("Ile punktów ma być wygenerowanych?")
     n = input_range(5, 500)
     testset = g(n=n)
-    draw_points(testset)
+    draw_points(testset.copy())
 
 if inp == 1 or inp == 3:
     print("Czy zapisać punkty do pliku? [t/n]")
@@ -108,17 +108,17 @@ if inp == 1 or inp == 3:
     while not inp in ['t', 'n']:
         inp = input()
     if inp == 't':
-        save_points(testset)
+        save_points(testset.copy())
 
 print("Wyznaczanie otoczki wypukłej...")
-hull = alg(testset)
-draw_hull(testset, hull)
+hull = alg(testset.copy())
+draw_hull(testset.copy(), hull)
 print("Czy chcesz zapisać otoczkę?[t/n]")
 inp = None
 while not inp in ['t', 'n']:
     inp = input()
 if inp == 't':
-    save_hull(testset)
+    save_hull(testset.copy())
 
 print("Czy chcesz zwizualizować działanie algorytmu?")
 print("[1] - tak, w oknie")
@@ -126,14 +126,14 @@ print("[2] - tak, do pliku")
 print("[3] - nie")
 inp = input_range(1,3)
 if inp == 1:
-    vis(testset)
+    vis(testset.copy())
 if inp == 2:
     print("Podaj nazwę pliku.")
     filename = input()
-    print(f"Plik zostanie zapisany w ./gifs/{filename}.gif")
-    os.makedirs("./gifs", exist_ok = True)
-    vis(testset, path=f"./gifs/{filename}.gif")
-    print(f"Zapisano animację do pliku ./gifs/{filename}.gif")
+    print(f"Plik zostanie zapisany w ../gifs/{filename}.gif")
+    os.makedirs("../gifs", exist_ok = True)
+    vis(testset.copy(), path=f"../gifs/{filename}.gif")
+    print(f"Zapisano animację do pliku ../gifs/{filename}.gif")
     
 print("Koniec działania programu")
 
