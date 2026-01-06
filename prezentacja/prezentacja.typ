@@ -227,9 +227,35 @@ Algorytm łączy algorytmy Grahama i Jarvisa, zakładamy, że rozmiar otoczki b�
 
 = Zbiory testowe
 
-== Wybrane zbiory
+== Wybrane zbiory testowe
 
-meow
+Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, użyliśmy następujących zbiorów testowych:
+
+- *Zbiór 1* - punkty losowe z zakresu $[-100, 100]$,
+- *Zbiór 2* - punkty na okręgu o promieniu $100$,
+- *Zbiór 3* - punkty wewnątrz kwadratu otoczonego obramówką kszałtu zygzaka
+- *Zbiór 4* - punkty na obramówce kwadratu
+- *Zbiór 5* - punkty na obramówce kwadratu oraz jego przekątnych
+
+---
+
+#let w = 196pt
+#align(center)[
+#grid(align: center, rows: 2)[
+#grid(columns: 3)[
+  #image("images/testset1.svg", width: w)
+][
+  #image("images/testset2.svg", width: w)
+][
+  #image("images/testset3.svg",width: w)
+]][
+#grid(columns: 2)[
+  #image("images/testset4.svg", width: w)
+][
+  #image("images/testset5.svg", width: w)
+]]
+]
+
 
 == Simple Animation
 
