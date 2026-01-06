@@ -1,4 +1,3 @@
-from collections import deque
 from numpy import atan2
 eps = 10**-12
 
