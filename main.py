@@ -64,7 +64,7 @@ print("[2] - analiza dla generatora")
 inp = input_range(1,2)
 if inp == 2:
     g = select_generator()
-    ns = [10, 100, 500, 1000, 2500, 5000, 7500, 10000]
+    ns = list(range(10000, 200000, 10000))
     if g.__name__ == 'generate_circle_points': 
         ns = [10, 50, 100, 250, 500, 750, 1000]
 
