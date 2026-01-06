@@ -225,6 +225,12 @@ Algorytm łączy algorytmy Grahama i Jarvisa, zakładamy, że rozmiar otoczki b�
 
 #include "anim/chan.typ"
 
+= Zbiory testowe
+
+== Wybrane zbiory
+
+meow
+
 == Simple Animation
 
 We can use `#pause` to #pause display something later.

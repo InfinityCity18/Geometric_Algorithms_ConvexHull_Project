@@ -14,6 +14,45 @@ def generate_circle_points(O=(0,0), R=100, n=100):
         points.append((O[0] + R * np.sin(angle), O[1] + R * np.cos(angle)))
     return points
 
+def generate_square_points(n=100, half_a=50):
+    points = []
+    for i in range(4):
+        for _ in range(n//4):
+            match i:
+                case 0:
+                    points.append((np.random.uniform(-half_a, half_a),half_a))
+                case 1:
+                    points.append((np.random.uniform(-half_a, half_a),-half_a))
+                case 2:
+                    points.append((half_a, np.random.uniform(-half_a, half_a)))
+                case 3:
+                    points.append((-half_a,np.random.uniform(-half_a, half_a)))
+    return points
+
+def generate_x_square_points(n=100, half_a=50):
+    points = [(half_a, half_a), (half_a, -half_a), (-half_a, half_a), (-half_a, -half_a)]
+    for i in range(4):
+        for _ in range(n//4):
+            match i:
+                case 0:
+                    points.append((np.random.uniform(-half_a, half_a),half_a))
+                case 1:
+                    points.append((np.random.uniform(-half_a, half_a),-half_a))
+                case 2:
+                    points.append((half_a, np.random.uniform(-half_a, half_a)))
+                case 3:
+                    points.append((-half_a,np.random.uniform(-half_a, half_a)))
+    for i in range(2):
+        for _ in range(n//4):
+            match i:
+                case 0:
+                    x = np.random.uniform(-half_a, half_a)
+                    points.append((x, x))
+                case 1:
+                    x = np.random.uniform(-half_a, half_a)
+                    points.append((x, -x))
+    return points
+
 def generate_zigzag_points(width=100, height=100, n=100, amplitude=10, period=10):
     points = [(np.random.uniform(-width, width), np.random.uniform(-height, height)) for _ in range(n)]
     n = 2 * width // period
@@ -41,6 +80,8 @@ def get_generators():
     gens.append((generate_uniform_points, "Generuje losowe punkty o współrzędnych z zakresiu [-100,100]"))
     gens.append((generate_circle_points, "Generuje losowe punkty leżące na kole o promieniu 100"))
     gens.append((generate_zigzag_points, "Generuje losowe punkty wewnątrz kwadratowego obszaru, które otoczone są obramówką"))
+    gens.append((generate_square_points, "Generuje losowe punkty leżące na obwodzie kwadratu o boku 100"))
+    gens.append((generate_x_square_points, "Generuje losowe punkty leżące na obwodzie kwadratu o boku 100 oraz na jego przekątnych"))
     return gens
 
 def benchmark_convex_hull(convex_hull_algs, generator, ns, **kwargs,):
@@ -64,7 +105,7 @@ def benchmark_convex_hull(convex_hull_algs, generator, ns, **kwargs,):
         for pts in pts_array:
             start = time.perf_counter_ns()
             alg(pts)
-            elapsed = (time.perf_counter_ns() - start) / 1e9
+            elapsed = (time.perf_counter_ns() - start) / 1e6
             times.append(elapsed)
             print("{:.2f}".format(elapsed), end='\t')
         print(f"czas {alg.__name__}", end='\t')
