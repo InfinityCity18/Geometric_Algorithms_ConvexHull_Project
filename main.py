@@ -64,7 +64,7 @@ print("[2] - analiza dla generatora")
 inp = input_range(1,2)
 if inp == 2:
     g = select_generator()
-    ns = [10, 100, 500, 1000, 2500, 5000, 7500, 10000]
+    ns = list(range(10000, 100001, 10000))
     if g.__name__ == 'generate_circle_points': 
         ns = [10, 50, 100, 250, 500, 750, 1000]
 
@@ -90,7 +90,7 @@ print("[3] - wygenerowanym losowo")
 inp = input_range(1,3)
 testset = []
 if inp == 1:
-    print("Za moment otworzy się okno, które pozwoli na wprowadzenie punktów.")
+    print("Proszę wprowadzić punkty w nowo otwartym oknie.")
     testset = user_input_points()
 if inp == 2:
     testset = load_points()

@@ -14,7 +14,8 @@ def generate_circle_points(O=(0,0), R=100, n=100):
         points.append((O[0] + R * np.sin(angle), O[1] + R * np.cos(angle)))
     return points
 
-def generate_square_points(n=100, half_a=50):
+def generate_square_points(n=100, a=100):
+    half_a = a//2
     points = []
     for i in range(4):
         for _ in range(n//4):
@@ -27,9 +28,11 @@ def generate_square_points(n=100, half_a=50):
                     points.append((half_a, np.random.uniform(-half_a, half_a)))
                 case 3:
                     points.append((-half_a,np.random.uniform(-half_a, half_a)))
+    np.random.shuffle(points)
     return points
 
-def generate_x_square_points(n=100, half_a=50):
+def generate_x_square_points(n=100, a=100):
+    half_a = a//2
     points = [(half_a, half_a), (half_a, -half_a), (-half_a, half_a), (-half_a, -half_a)]
     for i in range(4):
         for _ in range(n//4):
@@ -51,10 +54,11 @@ def generate_x_square_points(n=100, half_a=50):
                 case 1:
                     x = np.random.uniform(-half_a, half_a)
                     points.append((x, -x))
+    np.random.shuffle(points)
     return points
 
-def generate_zigzag_points(width=100, height=100, n=100, amplitude=10, period=10):
-    points = [(np.random.uniform(-width, width), np.random.uniform(-height, height)) for _ in range(n)]
+def generate_zigzag_points(width=200, height=200, n=100, amplitude=10, period=10):
+    points = [(np.random.uniform(-width//2, width//2), np.random.uniform(-height//2, height//2)) for _ in range(n)]
     n = 2 * width // period
     for i in range(n):
         x = -width + i * period
@@ -73,6 +77,7 @@ def generate_zigzag_points(width=100, height=100, n=100, amplitude=10, period=10
         x = width + amplitude * ((-1) ** i)
         y = -height + i * period
         points.append((x, y))
+    np.random.shuffle(points)
     return points
 
 def get_generators():

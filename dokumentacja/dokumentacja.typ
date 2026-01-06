@@ -33,8 +33,39 @@
 Powyższe algorytmy następnie przetestowano na uprzednio przygotowanych danych testowych oraz porównano ich działanie. Przygotowano wizualizację działania każdego z algorytmów.
 
 = Szczegóły techniczne
-biblioteki itd, komkuter, struktura plików
-
+== Dane sprzętowe
+- *System operacyjny*: Fedora Linux 43
+- *Środowisko*: NeoVim/Visual Studio Code
+- *Język*: Python
+- *Procesor*: 12th Gen Intel Core i5-12450H $times$ 12
+== Użyte biblioteki
+W projekcie wykorzystano funkcjonalności zarówno z biblioteki standardowej, jak i bibliotek zewnętrznych. Poniżej znajduje się lista importowanych modułów wraz z opisem zastosowania:
+- *itertools* - użyta do grupowania punktów względem współrzędnej, 
+- *time* - użyta do mierzenia czasu wykonywania algorytmów, 
+- *numpy* - użyta do ułatwienia zapisu danych, losowania punktów, tasowania zbiorów. Również wszystkie funkcje matematyczne zostały zaczerpnięte z tej biblioteki,
+- *matplotlib* - umożliwiła wizualizację działania algorytmów,
+- *os* - użyta do obsługi systemu plików podczas zapisu i odczytu danych oraz animacji.
+== Struktura plików
+Kod źródłowy projektu został podzielony na moduły. \ \
+Moduły realizujące rozwiązanie ćwiczenia znajdują   się w katalogu *\/src\/*. Poniżej znajduje się lista modułów wraz z opisem każdego z nich:
+- *tests.py* - zawiera generatory punktów losowych, oraz funkcję umożliwiającą przeprowadzenie analizy czasu działania zbioru algorytmów na zbiorach punktów generowanych przez zadany generator. Opisy poszczególnych generatorów znajdują się w sekcji,
+- *drawing.py* - pozwala na wprowadzanie zbioru punktów przez użytkownika, zawiera funkcje umożliwające wizualizację zbioru punktów oraz otoczki tego zbioru. Ponadto zawiera klasę _Visualization_ pozwalającą na wizualizację kroków algorytmu. Każdy z algorytmów posiada wersję wykorzystującą tą klasę do prezentacji graficznej poszczególnych kroków.
+- *pozostałe pliki* - realizacje poszczególnych algorytmów wyznaczania otoczki wypukłej. W sekcji 3.3 przy opisie każdego z algorytmów znajduje się informacja, który plik zawiera jego kod źródłowy.\ \
+Ponadto plik *main.py*, znajdujący się poza katalogiem *\/src\/*, został przygotowany w celu realizacji warstwy użytkownika opisanej w następnej sekcji dokumentacji.
+== Warstwa użytkownika
+Program należy uruchomić używając pliku *main.py*. Plik wykorzystuje funkcjonaności kodu źródłowego do prezentacji działania algorytmów wyznaczania otoczki wypukłej. Całość interfejsu użytkownika realizowana jest przez konsolę. Poprzez wybór różnych opcji użytkownik może:
+- przeprowadzić analizę czasu działania algorytmów dla różnych zbiorów danych,
+- wprowadzić własny zbiór punktów,
+- wygenerować zbiór punktów z użyciem generatora z pliku *tests.py*,
+- wczytać zbiór punktów z pliku,
+- zapisać zbiór punktów do pliku,
+- zapisać wynik działania wybranego algorytmu - otoczkę wypukłą zbioru punktów,
+- wyświetlić wizualizację działania wybranego algorytmu w oknie _matplotlib_,
+- zapisać wizuazlizację działania wybranego algorytmu do pliku _.gif_.
+Jeżeli program jest uruchamiany z poziomu *main.py*:
+- zbiory punktów zapisywane są w katalogu *\/data\/* (są również z niego wczytywane),
+- otoczki wypukłe zapisywane są w katalogu *\/hulls\/*,
+- wizualizacje działania algorytmów zapisywane są w katalogu *\/gifs\/*.
 = Realizacja ćwiczenia
 == Dane wejściowe
 Przyjmujemy, że zbiorem danych wejściowych jest zbiór punktów na płaszczyźnie. Punkty są krotkami zawierającymi dwie liczby zmiennoprzecinkowe reprezentujące ich współrzędne. Przyjmujemy, że w zbiorze punktów nie ma żadnych duplikatów (punktów o tych samych współrzędnych). Mogą natomiast wystąpić pary punktów o tej samej współrzędnej.
@@ -173,7 +204,7 @@ W momencie wystąpienia punktów wewnętrznych algorytm usuwa wszystkie takie pu
   \
 W ten sposób algorytm buduje całą otoczkę.
 
-== Algorytm górnej i dolnej otoczki
+=== Algorytm górnej i dolnej otoczki
 Plik *monochain.py*.
 ==== Przebieg algorytmu
 Algorytm rozpoczyna pracę od posortowania zbioru punktów z użyciem funkcji _x_sort_.\
@@ -287,3 +318,45 @@ Na rysunkach 21-24 zaprezentowano wybranekroki algorytmu quickhull. Na czerwono 
   \
 
 Przetworzenie ostatniego odcinka (rys. 24 - niebieski odcinek) skutkuje wyznaczeniem otoczki wypukłej.
+== Przygotowane generatory zbiorów testowych
+Plik *tests.py*.
+=== *generate_uniform_points*
+Generuje zbiór *n* losowych punktów leżących w obszarze [*left*,*right*] $times$ [*left*,*right*], gdzie *left*, *right* oraz *n* to parametry generatora.
+\ \
+Poniżej, na rysunku 25, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_uniform_points* i parametrów *n* = 100, *left* = -100, *right* = 100.
+#figure(
+    image("images/uniform.png", width: 40%),
+    caption: [przykładowy zbiór punktów]
+  )
+=== *generate_circle_points*
+Generuje zbiór *n* losowych punktów leżących na kole o środku w punkcie *O* oraz promieniu *R*, gdzie *O*, *R* oraz *n* to parametry generatora.
+\ \
+Poniżej, na rysunku 26, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_circle_points* i parametrów *n* = 50, *O* = (0,0), *R* = 100.
+#figure(
+    image("images/circle.png", width: 40%),
+    caption: [przykładowy zbiór punktów]
+  )
+=== *generate_zigzag_points*
+Generuje zbiór *n* losowych punktów leżących na obszarze: \ [- *width* /2, *width* /2] $times$ [- *height* /2, *height* /2], gdzie *width* oraz *height* są parametrami generatora. Punkty dodatkowo otoczone są naprzemienną obramówką punktów, tak jak widać na rysunku 27. Szerokość obramówki definiuje parametr *amplitude*, a częstość punktów na niej parametr *period*.
+\ \
+Poniżej, na rysunku 27, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_zigzag_points* i parametrów *n* = 5, *width* = 200, *height* = 200, *amplitude* = 10, *period* = 10.
+#figure(
+    image("images/zigzag.png", width: 40%),
+    caption: [przykładowy zbiór punktów]
+  )
+=== *generate_square_points*
+Generuje zbiór *n* losowych punktów leżących na kwadracie o środku w początku układu współrzędnych i o boku długości *a*, gdzie *a* to parametr generatora.
+\ \
+Poniżej, na rysunku 28, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_square_points* i parametrów *n* = 50, *a* = 100.
+#figure(
+    image("images/square.png", width: 40%),
+    caption: [przykładowy zbiór punktów]
+  )
+=== *generate_x_square_points*
+Generuje zbiór *n* losowych punktów leżących na kwadracie o środku w początku układu współrzędnych i o boku długości *a*, lub na jego przekątnych gdzie, *a* to parametr generatora. Ponadto generator dodaje do zbioru wynikowego 4 punkty będące wierzchołkami kwadratu.
+\ \
+Poniżej, na rysunku 28, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_x_square_points* i parametrów *n* = 50, *a* = 100.
+#figure(
+    image("images/x_square.png", width: 40%),
+    caption: [przykładowy zbiór punktów]
+  )

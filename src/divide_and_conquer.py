@@ -15,6 +15,9 @@ def x_sort(points):
 def det(a, b, c):
     return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
 
+def dist2(a, b):
+        return (a[0]-b[0])**2 + (a[1]-b[1])**2
+
 def get_rightmost_index(h):
     return max(range(len(h)), key=lambda i: h[i][0])
 
@@ -23,28 +26,62 @@ def get_leftmost_index(h):
 
 def merge_hulls(h1, h2, i1, i2):
     n1, n2 = len(h1), len(h2)
+    
+    def nxt(i, n): return (i + 1) % n
+    def prv(i, n): return (i - 1) % n
+    
 
     up1, up2 = i1, i2
-    while True:
+    for _ in range(n1 + n2):
         moved = False
-        while det(h1[up1], h2[up2], h2[(up2-1)%n2]) >= -eps:
-            up2 = (up2-1) % n2
-            moved = True
-        while det(h2[up2], h1[up1], h1[(up1+1)%n1]) <= eps:
-            up1 = (up1+1) % n1
-            moved = True
+
+        while n2 > 1:
+            d = det(h1[up1], h2[up2], h2[prv(up2, n2)])
+            if d > eps or (abs(d) <= eps and
+                dist2(h1[up1], h2[prv(up2,n2)]) >
+                dist2(h1[up1], h2[up2])):
+                up2 = prv(up2, n2)
+                moved = True
+            else:
+                break
+
+        while n1 > 1:
+            d = det(h2[up2], h1[up1], h1[nxt(up1, n1)])
+            if d < -eps or (abs(d) <= eps and
+                dist2(h2[up2], h1[nxt(up1,n1)]) >
+                dist2(h2[up2], h1[up1])):
+                up1 = nxt(up1, n1)
+                moved = True
+            else:
+                break
+
         if not moved:
             break
 
     down1, down2 = i1, i2
-    while True:
+    for _ in range(n1 + n2):
         moved = False
-        while det(h1[down1], h2[down2], h2[(down2+1)%n2]) <= eps:
-            down2 = (down2+1) % n2
-            moved = True
-        while det(h2[down2], h1[down1], h1[(down1-1)%n1]) >= -eps:
-            down1 = (down1-1) % n1
-            moved = True
+
+        while n2 > 1:
+            o = det(h1[down1], h2[down2], h2[nxt(down2, n2)])
+            if o < -eps or (abs(o) <= eps and
+                dist2(h1[down1], h2[nxt(down2,n2)]) >
+                dist2(h1[down1], h2[down2])):
+                down2 = nxt(down2, n2)
+                moved = True
+            else:
+                break
+
+        while n1 > 1:
+            o = det(h2[down2], h1[down1], h1[prv(down1, n1)])
+            if o > eps or (abs(o) <= eps and
+                dist2(h2[down2], h1[prv(down1,n1)]) >
+                dist2(h2[down2], h1[down1])):
+                down1 = prv(down1, n1)
+                moved = True
+            else:
+                break
+
         if not moved:
             break
 
@@ -79,7 +116,6 @@ def divide_and_conquer(points, k=3):
 
     blocks.sort(key=lambda P: P[0][0])
     hulls = [graham(P) for P in blocks]
-
     while len(hulls) > 1:
         nxt = []
         for i in range(0, len(hulls)-1, 2):
