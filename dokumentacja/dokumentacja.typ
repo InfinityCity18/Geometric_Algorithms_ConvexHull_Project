@@ -47,11 +47,25 @@ W projekcie wykorzystano funkcjonalności zarówno z biblioteki standardowej, ja
 - *os* - użyta do obsługi systemu plików podczas zapisu i odczytu danych oraz animacji.
 == Struktura plików
 Kod źródłowy projektu został podzielony na moduły. \ \
-Moduły realizujące rozwiązanie ćwiczenia znajdują się w katalogu *\/src\/*. Poniżej znajduje się lista modułów wraz z opisem każdego z nich:
+Moduły realizujące rozwiązanie ćwiczenia znajdują   się w katalogu *\/src\/*. Poniżej znajduje się lista modułów wraz z opisem każdego z nich:
 - *tests.py* - zawiera generatory punktów losowych, oraz funkcję umożliwiającą przeprowadzenie analizy czasu działania zbioru algorytmów na zbiorach punktów generowanych przez zadany generator,
 - *drawing.py* - pozwala na wprowadzanie zbioru punktów przez użytkownika, zawiera funkcje umożliwające wizualizację zbioru punktów oraz otoczki tego zbioru. Ponadto zawiera klasę _Visualization_ pozwalającą na wizualizację kroków algorytmu. Każdy z algorytmów posiada wersję wykorzystującą tą klasę do prezentacji graficznej poszczególnych kroków.
 - *pozostałe pliki* - realizacje poszczególnych algorytmów wyznaczania otoczki wypukłej. W sekcji 3.3 przy opisie każdego z algorytmów znajduje się informacja, który plik zawiera jego kod źródłowy.\ \
 Ponadto plik *main.py*, znajdujący się poza katalogiem *\/src\/*, został przygotowany w celu realizacji warstwy użytkownika opisanej w następnej sekcji dokumentacji.
+== Warstwa użytkownika
+Program należy uruchomić używając pliku *main.py*. Plik wykorzystuje funkcjonaności kodu źródłowego do prezentacji działania algorytmów wyznaczania otoczki wypukłej. Całość interfejsu użytkownika realizowana jest przez konsolę. Poprzez wybór różnych opcji użytkownik może:
+- przeprowadzić analizę czasu działania algorytmów dla różnych zbiorów danych,
+- wprowadzić własny zbiór punktów,
+- wygenerować zbiór punktów z użyciem generatora z pliku *tests.py*,
+- wczytać zbiór punktów z pliku,
+- zapisać zbiór punktów do pliku,
+- zapisać wynik działania wybranego algorytmu - otoczkę wypukłą zbioru punktów,
+- wyświetlić wizualizację działania wybranego algorytmu w oknie _matplotlib_,
+- zapisać wizuazlizację działania wybranego algorytmu do pliku _.gif_.
+Jeżeli program jest uruchamiany z poziomu *main.py*:
+- zbiory punktów zapisywane są w katalogu *\/data\/* (są również z niego wczytywane),
+- otoczki wypukłe zapisywane są w katalogu *\/hulls\/*,
+- wizualizacje działania algorytmów zapisywane są w katalogu *\/gifs\/*.
 = Realizacja ćwiczenia
 == Dane wejściowe
 Przyjmujemy, że zbiorem danych wejściowych jest zbiór punktów na płaszczyźnie. Punkty są krotkami zawierającymi dwie liczby zmiennoprzecinkowe reprezentujące ich współrzędne. Przyjmujemy, że w zbiorze punktów nie ma żadnych duplikatów (punktów o tych samych współrzędnych). Mogą natomiast wystąpić pary punktów o tej samej współrzędnej.
