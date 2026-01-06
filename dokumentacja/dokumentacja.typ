@@ -26,7 +26,7 @@
 - *Grahama*,
 - *Jarvisa*,
 -  przyrostowy wyznaczania otoczki wypukłej (dalej *przyrostowy*)
-- *górnej i dolnej otoczki*,
+- *górnej i dolnej otoczki* - zamiennie nazywany _monochain_ (ponieważ buduje x-monotoniczne łańcuchy),
 - *dziel i rządź*,
 - *quickhull*,
 - *Chana*.
@@ -361,4 +361,98 @@ Poniżej, na rysunku 28, znajduje się wizualizacja przykładowego zbioru punkt�
     caption: [przykładowy zbiór punktów]
   )
 == Testy algorytmów na przygotowanych zbiorach
-
+Z użyciem pliku *main.py* przeprowadzono analizę czasu działania algorytmów dla zbiorów punktów o różnych licznościach wygenerowanych przez generatory opisane w sekcji 3.4. Wyniki i wnioski dla każdego z generatorów znajdują się poniżej. 
+=== Wyniki dla generatora generate_uniform_points
+Generator *generate_uniform_points* jest najprostszym z generatorów, analiza czasów działąnia algorytmów na zbiorach wygenerowanych przez niego może dać dobre pojęcie o prędkości każdego z algorytmów dla zbiorów danych o nieznanej charakterystyce (nie da się jednoznacznie stwierdzić ile punktów należy do otoczki, ani ile występuje punktów współliniowych). 
+#set table(align: center + horizon)
+#show table: set par(justify: false)
+#show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
+#{
+  show table.cell: set text(size: 10pt)
+  let t1 = csv("tables/uniform.csv")
+  table(
+    columns: 8,
+    ..t1.flatten()
+  )
+}
+#align(center)[Tabela 1: czasy działania poszczególnych algorytmów na zbiorach punktów wygenerowanych przez *generate_uniform_points*]
+#figure(
+    image("images/diag_uniform.png", width: 60%),
+    caption: [wykres na podstawie danych z tabeli 1]
+  )
+Czasy działania algorytmów zostały przedstawione w tabeli 1. Najszybszy okazał się algorytm *górnej i dolnej otoczki* (monochain). Zdecydowanie najwolnieszy był algorytm *Chana*, pomimo jego teoretycznie największej asymptotycznej prędkości. Wynika to najprawdopodobnej z faktu, że stała nie brana pod uwagę w złożoności $O(n l o g(k))$ jest bardzo wysoka i dopiero dla znacznie liczniejszych zbiorów danych rożnica byłaby znacząca. Jednakże jak widać na rysunku 30 dla tego generatora liczba punktów musiałaby być znacznie zbyt duża, by algorytm okazał się szybszy na sprzęcie, na którym był testowany.
+=== Wyniki dla generatora generate_circle_points
+Każdy punkt należący do zbioru wygenerowanego przez generator *generate_circle_points* jest należy do otoczki wypukłej tego zbioru. Przez to algorytmy *Jarvisa* oraz *Chana* powinny działać w teorii dłużej na takich zbiorach. Przeprowadzono stosowne testy i wyniki przedstawiono w tabeli 2.
+#show table: set par(justify: false)
+#show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
+#{
+  show table.cell: set text(size: 10pt)
+  let t1 = csv("tables/circle.csv")
+  table(
+    columns: 8,
+    ..t1.flatten()
+  )
+}
+#align(center)[Tabela 2: czasy działania poszczególnych algorytmów na zbiorach punktów wygenerowanych przez *generate_circle_points*]
+#figure(
+    image("images/diag_circle.png", width: 60%),
+    caption: [wykres na podstawie danych z tabeli 2]
+  )
+Z danych z tabeli 2, jak i z wykresu na rysunku 31 jasno wynika pogorszenie się złożoności algorytmów *Jarvisa* oraz *Chana*. Algorytm *Jarvisa* zdegradował do złożoności $O(n^2)$ i nawet na zbiorach o małej liczności jego czas pracy był bardzo długi. Podobnie algorytm *Chana*, którego złożoność zdegradowała do $O(n l o g(n))$ okazał się asymptotycznie wolniejszy niż w przypadku zbiorów wygenerowanych przez *generate_uniform_points*.
+=== Wyniki dla generatora generate_zigzag_points
+Ze względu na obramówkę każdy zbiór punktów wygenerowanych przez *generate_zigzag_points* ma dokładnie 8 punktów należących do swojej otoczki wypukłej. Dzięki temu algorytmy Jarvisa oraz Chana powinny osiągnąć znacznie lepsze czasy działania niż dla zbiorów nie cechujących się własnością stałej liczby punktów otoczki. Wyniki stosownych testów zaprezentowano w tabeli 3 oraz na wykresie widocznym na rysunku 32.
+#show table: set par(justify: false)
+#show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
+#{
+  show table.cell: set text(size: 10pt)
+  let t1 = csv("tables/zigzag.csv")
+  table(
+    columns: 8,
+    ..t1.flatten()
+  )
+}
+#align(center)[Tabela 3: czasy działania poszczególnych algorytmów na zbiorach punktów wygenerowanych przez *generate_zigzag_points*]
+#figure(
+    image("images/diag_zigzag.png", width: 60%),
+    caption: [wykres na podstawie danych z tabeli 3]
+  )
+Wyniki testów widoczne w tabeli 3 potwierdzają hipotezę o korzystności danych o małej liczbie punktów otoczki dla algorytmów *Jarvisa* oraz *Chana*. Porównując je z wynikami dl a generatora *generate_uniform_points*, gdzie liczba punktów w otoczce nie jest stała i może rosnąć można zauważyć, że wszystkie algorytmy poza wymienionymi powyżej osiągają podobne czasy działania (czasami nieznacznie większe, ze względu na dodanie punktów obramówki), natomiast algorytmy *Chana* oraz *Jarvisa* radzą sobie szybciej.
+=== Wyniki dla generatora generate_square_points
+Otoczka każdego zbioru punktów wygenerowanego przez *generate_square_points* ma 4 punkty (wykluczając przypadki zdegradowane np. gdy żaden punkt nie znajduje się na którymś boku kwadratu). Ponownie spodziewamy się poprawy czasu działania algorytmów *Chana* i *Jarvisa*. Wyniki testów znajdują się w tabeli 4.
+#show table: set par(justify: false)
+#show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
+#{
+  show table.cell: set text(size: 10pt)
+  let t1 = csv("tables/square.csv")
+  table(
+    columns: 8,
+    ..t1.flatten()
+  )
+}
+#align(center)[Tabela 4: czasy działania poszczególnych algorytmów na zbiorach punktów wygenerowanych przez *generate_square_points*]
+#figure(
+    image("images/diag_square.png", width: 60%),
+    caption: [wykres na podstawie danych z tabeli 4]
+  )
+  Poza ponownym potwierdzeniem tezy o liniowej złożoności algorytmów *Jarvisa* oraz *Chana* dla zbiorów o stałej liczbie punktów otoczki, z tabeli 4 można wyciągnąć parę ciekawych wniosków:
+- w przybliżeniu prostokątny kształt podotoczek tworzonych podczas działania algorytmu *dziel i rządź* pozwolił na szybkie ich łączenie i algorytm osiągnął czas w przybliżeniu dwukrotnie mniejszy niż dla zbiorów tworzonych przez *generate_uniform_points* i *generate_zigzag_points*,
+- algorytm *górnej i dolnej otoczki*, dzięki charakterystyce danych względnie rzadko musi usuwać punkty podczas budowania otoczki. Podobnie jak *dziel i rządź* działał około 2 razy szybciej niż dla generatora *generate_uniform_points*.
+=== Wyniki dla generatora generate_x_square_points
+Generator *generate_x_square_points* różni się od *generate_square_points* głównie przez to że, otoczka każdego wygenerowanego przez niego zbioru punktów ma dokładnie 4 punkty.
+Wyniki testów na tym generatorze przedstawiono w tabeli 5 oraz na wykresie widocznym na rysunku 34.
+#show table: set par(justify: false)
+#show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
+#{
+  show table.cell: set text(size: 10pt)
+  let t1 = csv("tables/x_square.csv")
+  table(
+    columns: 8,
+    ..t1.flatten()
+  )
+}
+#align(center)[Tabela 5: czasy działania poszczególnych algorytmów na zbiorach punktów wygenerowanych przez *generate_x_square_points*]
+#figure(
+    image("images/diag_x_square.png", width: 60%),
+    caption: [wykres na podstawie danych z tabeli 5]
+  )
+Co wynika z tabeli 5, algorytm *Jarvisa* cechuje się liniowością dla stałej liczby punktów otoczki - w porównaniu do generatora *generate_square_points* (gdzie otoczki mają 8 punktów) wypadł około 2 razy szybciej. Podobnie algorytm *Chana* osiągnął znacznie mniejszy czas, poprawa jednak nie była tak duża jak możnaby się spodziewać. Podotoczki występujące w algorytmie *dziel i rządź* nie miały już takiego samego, korzystnego kształtu jak w przypadku generatora *generate_square_points* i odbiło się to znacząco na jego czasie działania pomimo takiej samej liczby punktów.
