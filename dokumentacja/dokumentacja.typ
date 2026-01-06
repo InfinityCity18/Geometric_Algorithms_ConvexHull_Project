@@ -34,9 +34,10 @@ Powyższe algorytmy następnie przetestowano na uprzednio przygotowanych danych 
 
 = Szczegóły techniczne
 == Dane sprzętowe
+- *Architektura procesora*: x86_64
 - *System operacyjny*: Fedora Linux 43
 - *Środowisko*: NeoVim/Visual Studio Code
-- *Język*: Python
+- *Język i wersja interpretera*: Python 3.14
 - *Procesor*: 12th Gen Intel Core i5-12450H $times$ 12
 == Użyte biblioteki
 W projekcie wykorzystano funkcjonalności zarówno z biblioteki standardowej języka, jak i bibliotek zewnętrznych. Poniżej znajduje się lista importowanych modułów wraz z opisem zastosowania:
@@ -318,6 +319,39 @@ Na rysunkach 21-24 zaprezentowano wybranekroki algorytmu quickhull. Na czerwono 
   \
 
 Przetworzenie ostatniego odcinka (rys. 24 - niebieski odcinek) skutkuje wyznaczeniem otoczki wypukłej.
+
+=== Algorytm Chana
+Plik *chan.py*.
+==== Przebieg algorytmu
+Algorytm zakłada, że znamy rozmiar otoczki $m$, więc algorytm będzie zwiększał zmienną $t$ począwszy od zera, przypisując $m := min(2^(2^t), n)$ i wywołując funkcję _*step_chan*_, aż do znalezienia otoczki.
+Funkcja _*step_chan*_ przyjmuje zbiór punktów oraz rozmiar otoczki $m$. Następnie dzieli zbiór na $ceil(n/m)$ grup o rozmiarze $m$, 
+
+==== Analiza złożoności obliczeniowej
+==== Prezentacja działania algorytmu
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/div1.gif", width: 100%),
+    caption: [początkowy stan dla k=2]
+  ),
+  figure(
+    image("images/div2.gif", width: 100%),
+    caption: [połączone otoczki]
+  ),)
+#grid(
+  columns: (1fr, 1fr),  // Two equal-width columns
+  gutter: 1em,          // Space between the images
+  figure(
+    image("images/div3.gif", width: 100%),
+    caption: [trzeci od końca krok algorytmu]
+  ),
+  figure(
+    image("images/div4.gif", width: 100%),
+    caption: [przedostatni krok algorytmu]
+  ),)
+  \
+
 == Przygotowane generatory zbiorów testowych
 Plik *tests.py*.
 === *generate_uniform_points*

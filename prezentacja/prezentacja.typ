@@ -256,6 +256,24 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 ]]
 ]
 
+== Wyniki testów wydajności i poprawności algorytmów
+
+#set table(align: center + horizon)
+#show table: set par(justify: false)
+#show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
+
+#image("images/time1.svg", width: 30%)
+
+#{
+  show table.cell: set text(size: 11pt)
+  let t1 = csv("tables/1.csv")
+  table(
+    columns: 11,
+    ..t1.flatten()
+  )
+}
+
+
 
 == Simple Animation
 
