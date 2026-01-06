@@ -256,22 +256,27 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 ]]
 ]
 
-== Wyniki testów wydajności i poprawności algorytmów
+== Wyniki testów wydajności i poprawności
 
 #set table(align: center + horizon)
 #show table: set par(justify: false)
 #show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
 
-#image("images/time1.svg", width: 30%)
+=== Zbiór 1
 
+#grid(columns: (7fr, 8fr), align: horizon)[
+#image("images/diag_uniform.png", width: 90%)][
 #{
-  show table.cell: set text(size: 11pt)
-  let t1 = csv("tables/1.csv")
-  table(
-    columns: 11,
+  show table.cell: set text(size: 10pt)
+  let t1 = csv("tables/uniform.csv")
+  table(inset: 6pt,
+    columns: t1.at(0).len(),
     ..t1.flatten()
   )
 }
+]
+
+#text(size: 15pt)[#lorem(8)]
 
 
 

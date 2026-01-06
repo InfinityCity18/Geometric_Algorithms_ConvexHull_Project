@@ -17,8 +17,10 @@
   #text(size: 1.5em)[*Temat 2, Grupa 2*] \
 
   #text(size: 1.2em)[Autorzy: Remigiusz Babiarz, Jakub Własiewicz] \
-  #text(size: 1.2em)[6 stycznia 2026]
+  #text(size: 1.2em)[7 stycznia 2026]
 ]
+
+#outline()
 
 = Wstęp
 
@@ -81,7 +83,8 @@ Funkcja _det(a,b,c)_ obliczająca wyznacznik macierzy:
 $ det(a,b,c) = mat(
   x_a, y_a, 1;
   x_b, y_b, 1;
-  x_c, y_c, 1;) $
+  x_c, y_c, 1;
+  delim: "|") $
 została wielokrotnie wykorzystana w zaimplementowanych algorytmach. 
 Poprzez badanie znaku tego wyznacznika można określić orientację trzech następujących po sobie punktów. \
 \
@@ -262,7 +265,7 @@ Pierwszym krokiem jest posortowanie punktów z użyciem funkcji _x_sort_. Nastę
 \
 Tak powstałe sąsiednie otoczki są łączone poprzez znajdowanie stycznych z użyciem funkcji _det_. Łączenie to jest powtarzane do momentu otrzymania jednej otoczki będącej sumą wszystkich otoczek.
 ==== Analiza złożoności obliczeniowej
-Samo sortowanie zbioru wejściowego wykonuje się w czasie _O(nlog(n))_. Wyznaczanie otoczek podzbiorów dla małej stałej *_k_* zajmuje stały czas O(k). Ponieważ ten krok powtarzany jest dla _n/k_ otoczek zajmuje on w sumie $O(k times n/k) = O(n)$ czasu procesora. Łączenie 2 otoczek zajmuje stały czas, a samych otoczek do połączenia jest $n/k$. Czas poświęcany na ten krok wynosi więc $O(n/k l o g(n/k)) = O(n l o g (n))$. Finalna złożoność algorytmu wynosi więc _O(nlogn_).
+Samo sortowanie zbioru wejściowego wykonuje się w czasie _O(nlog(n))_. Wyznaczanie otoczek podzbiorów dla małej stałej *_k_* zajmuje stały czas O(k). Ponieważ ten krok powtarzany jest dla _n/k_ otoczek zajmuje on w sumie $O(k times n/k) = O(n)$ czasu procesora. Łączenie 2 otoczek zajmuje stały czas, a samych otoczek do połączenia jest $n/k$. Czas poświęcany na ten krok wynosi więc $O(n/k log n/k) = O(n log n)$. Finalna złożoność algorytmu wynosi więc _O(nlogn_).
 #pagebreak()
 ==== Prezentacja działania algorytmu
 Na rysunkach 17-20 zaprezentowano wybrane kroki algorytmu, na których widać, jak otoczki łączą się. Połączenie wszystkich otoczek jest otoczką wypukłą zbioru.
@@ -338,7 +341,8 @@ Przetworzenie ostatniego odcinka (rys. 24 - niebieski odcinek) skutkuje wyznacze
 Plik *chan.py*.
 ==== Przebieg algorytmu
 Algorytm zakłada, że znamy rozmiar otoczki $m$, więc algorytm będzie zwiększał zmienną $t$ począwszy od zera, przypisując $m := min(2^(2^t), n)$ i wywołując funkcję _*step_chan*_, aż do znalezienia otoczki.
-Funkcja _*step_chan*_ przyjmuje zbiór punktów oraz rozmiar otoczki $m$. Następnie dzieli zbiór na $ceil(n/m)$ grup o rozmiarze $m$, 
+Funkcja _*step_chan*_ przyjmuje zbiór punktów oraz rozmiar otoczki $m$. Następnie dzieli zbiór na $ceil(n/m)$ grup o rozmiarze $m$ i wyznacza dla każdej otoczkę algorytmem Grahama.
+Algorytm rozpoczyna od punktu najbardziej po prawej, i stara się znaleźć punkt maksymalizujący kąt tj. taki, że po lewej stronie prostej od poprzedniego punktu do szukanego znajdują się wszystkie inne punkty zbioru, tak jak w algorytmie Jarvisa, tylko zamiast sprawdzać wszystkie punkty, algorytm znajduje punkty przecinane przez prawe styczne otoczek. Jeżeli nie uda się znaleźć otoczki o rozmiarze $m$, funkcja zwraca _None_, a główna pętla zwiększa wartość zmiennej $t$.
 
 ==== Analiza złożoności obliczeniowej
 ==== Prezentacja działania algorytmu
