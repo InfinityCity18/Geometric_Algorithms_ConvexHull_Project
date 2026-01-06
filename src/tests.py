@@ -34,8 +34,8 @@ def generate_square_points(n=100, a=100):
 def generate_x_square_points(n=100, a=100):
     half_a = a//2
     points = [(half_a, half_a), (half_a, -half_a), (-half_a, half_a), (-half_a, -half_a)]
-    for i in range(4):
-        for _ in range(n//4):
+    for i in range(6):
+        for _ in range(n//6):
             match i:
                 case 0:
                     points.append((np.random.uniform(-half_a, half_a),half_a))
@@ -45,13 +45,10 @@ def generate_x_square_points(n=100, a=100):
                     points.append((half_a, np.random.uniform(-half_a, half_a)))
                 case 3:
                     points.append((-half_a,np.random.uniform(-half_a, half_a)))
-    for i in range(2):
-        for _ in range(n//4):
-            match i:
-                case 0:
+                case 4:
                     x = np.random.uniform(-half_a, half_a)
                     points.append((x, x))
-                case 1:
+                case 5:
                     x = np.random.uniform(-half_a, half_a)
                     points.append((x, -x))
     np.random.shuffle(points)
