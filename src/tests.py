@@ -27,6 +27,7 @@ def generate_square_points(n=100, half_a=50):
                     points.append((half_a, np.random.uniform(-half_a, half_a)))
                 case 3:
                     points.append((-half_a,np.random.uniform(-half_a, half_a)))
+    np.random.shuffle(points)
     return points
 
 def generate_x_square_points(n=100, half_a=50):
@@ -51,6 +52,7 @@ def generate_x_square_points(n=100, half_a=50):
                 case 1:
                     x = np.random.uniform(-half_a, half_a)
                     points.append((x, -x))
+    np.random.shuffle(points)
     return points
 
 def generate_zigzag_points(width=100, height=100, n=100, amplitude=10, period=10):
@@ -73,6 +75,7 @@ def generate_zigzag_points(width=100, height=100, n=100, amplitude=10, period=10
         x = width + amplitude * ((-1) ** i)
         y = -height + i * period
         points.append((x, y))
+    np.random.shuffle(points)
     return points
 
 def get_generators():

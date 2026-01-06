@@ -10,7 +10,6 @@ def det(a, b, c):
 
 def jarvis(points):
     points = points.copy()
-    n = len(points)
     lowest_point = points[0]
     for p in points:
         if p[1] == lowest_point[1] and p[0] < lowest_point[0]: lowest_point = p
