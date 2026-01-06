@@ -264,10 +264,10 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 
 === Zbiór 1
 
-#grid(columns: (7fr, 8fr), align: horizon)[
+#grid(columns: (7fr, 9fr), align: horizon)[
 #image("images/diag_uniform.png", width: 90%)][
 #{
-  show table.cell: set text(size: 10pt)
+  show table.cell: set text(size: 9pt)
   let t1 = csv("tables/uniform.csv")
   table(inset: 6pt,
     columns: t1.at(0).len(),
@@ -278,7 +278,69 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 
 #text(size: 15pt)[#lorem(8)]
 
+=== Zbiór 2
 
+#grid(columns: (7fr, 9fr), align: horizon)[
+#image("images/diag_circle.png", width: 90%)][
+#{
+  show table.cell: set text(size: 9pt)
+  let t1 = csv("tables/circle.csv")
+  table(inset: 6pt,
+    columns: t1.at(0).len(),
+    ..t1.flatten()
+  )
+}
+]
+
+#text(size: 15pt)[#lorem(8)]
+
+=== Zbiór 3
+
+#grid(columns: (7fr, 9fr), align: horizon)[
+#image("images/diag_zigzag.png", width: 90%)][
+#{
+  show table.cell: set text(size: 9pt)
+  let t1 = csv("tables/zigzag.csv")
+  table(inset: 6pt,
+    columns: t1.at(0).len(),
+    ..t1.flatten()
+  )
+}
+]
+
+#text(size: 15pt)[#lorem(8)]
+
+=== Zbiór 4
+
+#grid(columns: (7fr, 9fr), align: horizon)[
+#image("images/diag_square.png", width: 90%)][
+#{
+  show table.cell: set text(size: 9pt)
+  let t1 = csv("tables/square.csv")
+  table(inset: 6pt,
+    columns: t1.at(0).len(),
+    ..t1.flatten()
+  )
+}
+]
+
+#text(size: 15pt)[#lorem(8)]
+
+=== Zbiór 5
+
+#grid(columns: (7fr, 9fr), align: horizon)[
+#image("images/diag_x_square.png", width: 90%)][
+#{
+  show table.cell: set text(size: 9pt)
+  let t1 = csv("tables/x_square.csv")
+  table(inset: 6pt,
+    columns: t1.at(0).len(),
+    ..t1.flatten()
+  )
+}
+]
+
+#text(size: 15pt)[#lorem(8)]
 
 == Simple Animation
 
