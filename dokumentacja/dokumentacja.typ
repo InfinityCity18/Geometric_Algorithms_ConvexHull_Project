@@ -93,6 +93,7 @@ Funkcja poza sortowaniem punktów dodatkowo grupuje punkty o tej samej współrz
 Jeżeli w danej grupie występują co najmniej 3 punkty funkcja dodatkowo usuwa ze zbioru wynikowego wszystkie punkty poza tymi o najmniejszej i największej współrzędnej *_y_*. Następnie łącząc grupy i zwracaja posortowaną listę.\
 \
 Złożoność takiego sortowania wynosi $O(n l o g(n))$, gdzie n to liczba punktów.
+#pagebreak()
 === Algorytm Grahama
 Plik *graham.py*.
 ==== Przebieg algorytmu
@@ -106,6 +107,9 @@ Następnie algorytm iteracyjnie wyznacza otoczkę wypukłą przygotowanego zbior
 \
 \
 Po przetworzeniu wszystkich punków na stosie pozostaje lista wynikowa będąca otoczką wypukłą zbioru punktów z danych wejściowych.
+==== Analiza złożoności obliczeniowej
+Cały algorytm ma złożoność obliczeniową _O(nlog(n))_, gdzie $n$ to liczba punktów na płaszczyźnie. Najbardziej kosztownym etapem algorytmu jest sortowanie punktów - wykonuje się ono w czasie _O(nlog(n))_. Następny etap algorytmu jest iteracją po punktach i wymaga czasu $O(n)$. Algorytm Grahama jest bardzo uniwersalnym algorytmem o przewidywalnym czasie działania dla każdego zbioru danych.
+#pagebreak()
 ==== Prezentacja działania
 Dopóki warunek wypukłości nie jest naruszony algorytm dodaje punkty jeden po drugim (rys. 1, rys. 2).
 #grid(
@@ -133,14 +137,14 @@ Kiedy kąt wewnętrzny okazuje się być rozwarty po dodaniu punktu algorytm usu
   ),)
   \
 W ten sposób algorytm buduje całą otoczkę.
-==== Analiza złożoności obliczeniowej
-Cały algorytm ma złożoność obliczeniową _O(nlog(n))_, gdzie $n$ to liczba punktów na płaszczyźnie. Najbardziej kosztownym etapem algorytmu jest sortowanie punktów - wykonuje się ono w czasie _O(nlog(n))_. Następny etap algorytmu jest iteracją po punktach i wymaga czasu $O(n)$. Algorytm Grahama jest bardzo uniwersalnym algorytmem o przewidywalnym czasie działania dla każdego zbioru danych.
+#pagebreak()
 === Algorytm Jarvisa
 Plik *jarvis.py*.
 ==== Przebieg algorytmu
 Algorytm jest inaczej nazywany algorytmem _owijania prezentu_ (ang. _gift wrapping_). Podobnie jak algorytm Grahama (3.3.2) rozpoczyna działanie od znalezienia punktu *_lowest_point_* o najmniejszej pierwszej współrzędnej, lub - w przypadku remisu - o najmniejszych obu współrzędnych. Następnie algorytm znajduje następny punkt należący do otoczki z pomocą funkcji _det_ - iteruje po wszystkich punktach znajdując taki punkt *_best_*, dla którego wszystkie inne punkty leżą po lewej stronie odcinka (*_last_*, *_best_*), gdzie *_last_* jest ostatnim znalezionym punktem należącym do otoczki - początkowo _*lowest_point*_. Po przetworzniu wszystkich puntów punkt _*best*_ staje się punktem _*last*_ i jest dodawany do otoczki. Algorytm kroki te powtarza, aż znaleziony zostanie punkt startowy, co reprezentuje zamknięcie otoczki. 
 ==== Analiza złożoności obliczeniowej
 Algorytm Jarvisa ma złożoność _O(nk)_, gdzie _n_ to liczba punktów na płaszczyźnie, oraz _k_ to liczba punktów należących do otoczki. Wynika ona z prostego faktu znajdowania jednego punktu należącego do otoczki w każdym kroku algorytmu, która objemuje iteracje po wszystkich punktach ze zbioru wejściowego. Faktyczny czas działania algorytmu może być nieprzewidywalny i jest bardzo wrażliwy na różne dane wejściowe - w oczywisty algorytm Jarvisa nie jest najlepszym wyborem do wyznaczania otoczek zbiorów punktów o potencjalnie wielu punktach należących do otoczki.
+#pagebreak()
 ==== Prezentacja działania
 Na rysunkach 5-8 zaprezentowano działanie algorytmu.
 #grid(
@@ -167,6 +171,7 @@ Na rysunkach 5-8 zaprezentowano działanie algorytmu.
   ),)
   \
 W ten sposób algorytm buduje całą otoczkę.
+#pagebreak()
 === Algorytm przyrostowy
 Plik *incremental.py*.
 ==== Przebieg algorytmu
@@ -177,7 +182,9 @@ Algorytm tworzy pierwszą otoczkę na podstawie dwóch pierwszych punktów posor
 Styczne znajdowane są z pomocą funkcji _det_.
 ==== Analiza złożoności algorytmu
 Algorytm ma złożoność _O(nlog(n))_, gdzie _n_ to liczba punktów na płaszczyźnie. Samo sortowanie punktów zajmuje _O(nlog(n))_ czasu procesora. Podczas iteracyjnego dołączania punktów do otoczki każdy punkt jest dodawany do otoczki raz i maksymalnie raz z niej usuwany, złożoność tego kroku wynosi więc _O(n)_, a finalna złożoność algorytmu przyrostowego to faktycznie _O(nlog(n))_.
-==== Prezentacja działania=
+
+#pagebreak()
+==== Prezentacja działania
 Tak długo jak nie występują punkty wewnętrzne algorytm dodaje każdy punkt w kolejności sortowania (rys. 9, rys. 10).
 #grid(
   columns: (1fr, 1fr),  // Two equal-width columns
@@ -205,6 +212,7 @@ W momencie wystąpienia punktów wewnętrznych algorytm usuwa wszystkie takie pu
   \
 W ten sposób algorytm buduje całą otoczkę.
 
+#pagebreak()
 === Algorytm górnej i dolnej otoczki
 Plik *monochain.py*.
 ==== Przebieg algorytmu
@@ -216,6 +224,7 @@ Następnie algorytm iteracyjnie konstuuje górną otoczkę punktów. Początkowa
 Ostatnim krokiem algorytmu jest połączenie górnej i dolnej otoczki z uwagą na warunek prawoskrętności otoczki.
 ==== Analiza złożoności obliczeniowej
 Sortowanie punktów wykonywane jest w czasie _O(nlog(n))_, gdzie _n_ to liczba punktów na płaszczyźnie. Każdy punkt jest przetwarzany w iteracyjnej części algorytmu stałą liczbę razy. Finalna złożoność algorytmu górnej i dolnej otoczki to więc _O(nlog(n))_.
+#pagebreak()
 ==== Prezentacja działania algorytmu
 Na rysunkach 13, 14, 15 zaprezentowano kroki budowy dolnej otoczki. Górna otoczka jest budowana analogicznie i razem z dolną tworzy otoczkę wypukłą zbioru (rys. 16).
 #grid(
@@ -241,6 +250,7 @@ Na rysunkach 13, 14, 15 zaprezentowano kroki budowy dolnej otoczki. Górna otocz
     caption: [otoczka wypukła będąca sumą otoczki górnej i dolnej]
   ),)
   \
+#pagebreak()
 === Algorytm dziel i rządź
 Plik *divide_and_conquer.py*.
 ==== Przebieg algorytmu
@@ -253,6 +263,7 @@ Pierwszym krokiem jest posortowanie punktów z użyciem funkcji _x_sort_. Nastę
 Tak powstałe sąsiednie otoczki są łączone poprzez znajdowanie stycznych z użyciem funkcji _det_. Łączenie to jest powtarzane do momentu otrzymania jednej otoczki będącej sumą wszystkich otoczek.
 ==== Analiza złożoności obliczeniowej
 Samo sortowanie zbioru wejściowego wykonuje się w czasie _O(nlog(n))_. Wyznaczanie otoczek podzbiorów dla małej stałej *_k_* zajmuje stały czas O(k). Ponieważ ten krok powtarzany jest dla _n/k_ otoczek zajmuje on w sumie $O(k times n/k) = O(n)$ czasu procesora. Łączenie 2 otoczek zajmuje stały czas, a samych otoczek do połączenia jest $n/k$. Czas poświęcany na ten krok wynosi więc $O(n/k l o g(n/k)) = O(n l o g (n))$. Finalna złożoność algorytmu wynosi więc _O(nlogn_).
+#pagebreak()
 ==== Prezentacja działania algorytmu
 Na rysunkach 17-20 zaprezentowano wybrane kroki algorytmu, na których widać, jak otoczki łączą się. Połączenie wszystkich otoczek jest otoczką wypukłą zbioru.
 #grid(
@@ -278,6 +289,7 @@ Na rysunkach 17-20 zaprezentowano wybrane kroki algorytmu, na których widać, j
     caption: [przedostatni krok algorytmu]
   ),)
   \
+#pagebreak()
 === Algorytm Quickhull
 Plik *quickhull.py*
 ==== Przebieg algorytmu
@@ -292,6 +304,7 @@ Dla danego odcinka znajdowany jest punkt znajdujący się najdalej od niego i b�
 ==== Analiza złożoności obliczeniowej
 Każde rekurencyjne wywołanie fukcji *_rec_hull_* iteruje się po zbiorze punktów, którego rozmiar jest proporcjonalny do rozmiaru zbioru wejściowego. Ilość takich wywołań w pełni zależy od charakterystyki zbioru wejściowego. W pesymistycznym przypadku w każdym wywołaniu *_rec_hull_* jedyny usuwany punkt jest tym najbardziej odległym od rozpatrywanego odcinka, wtedy liczba wywołań wynosi _n_, a pesymistyczna złożoność obliczeniowa wynosi _O(n^2)_. Przypadek ten zachodzi gdy wszystkie punkty, lub ich większość należy do otoczki.
 Realistycznie jednak, zakładając względnie równomierne rozłożenie punktów, przy każdym "powiększaniu" otoczki przez funkcję *_rec_hull_* punkty należące do obszaru proporcjonalnego do długości odcinka są usuwane. Zamortyzowana złożoność obliczeniowa wynosi więc _O(nlog(n))_.
+#pagebreak()
 ==== Prezentacja działania algorytmu
 Na rysunkach 21-24 zaprezentowano wybranekroki algorytmu quickhull. Na czerwono zostały oznaczone odcinki, które na danym etapie algorytmu zostały przetworzone i na pewno należą do otoczki.
 #grid(
@@ -319,6 +332,7 @@ Na rysunkach 21-24 zaprezentowano wybranekroki algorytmu quickhull. Na czerwono 
   \
 
 Przetworzenie ostatniego odcinka (rys. 24 - niebieski odcinek) skutkuje wyznaczeniem otoczki wypukłej.
+#pagebreak()
 
 === Algorytm Chana
 Plik *chan.py*.
@@ -396,8 +410,9 @@ Poniżej, na rysunku 28, znajduje się wizualizacja przykładowego zbioru punkt�
   )
 == Testy algorytmów na przygotowanych zbiorach
 Z użyciem pliku *main.py* przeprowadzono analizę czasu działania algorytmów dla zbiorów punktów o różnych licznościach wygenerowanych przez generatory opisane w sekcji 3.4. Wyniki i wnioski dla każdego z generatorów znajdują się poniżej. 
+#pagebreak()
 === Wyniki dla generatora generate_uniform_points
-Generator *generate_uniform_points* jest najprostszym z generatorów, analiza czasów działąnia algorytmów na zbiorach wygenerowanych przez niego może dać dobre pojęcie o prędkości każdego z algorytmów dla zbiorów danych o nieznanej charakterystyce (nie da się jednoznacznie stwierdzić ile punktów należy do otoczki, ani ile występuje punktów współliniowych). 
+Generator *generate_uniform_points* jest najprostszym z generatorów, analiza czasów działania algorytmów na zbiorach wygenerowanych przez niego może dać dobre pojęcie o prędkości każdego z algorytmów dla zbiorów danych o nieznanej charakterystyce (nie da się jednoznacznie stwierdzić ile punktów należy do otoczki, ani ile występuje punktów współliniowych). 
 #set table(align: center + horizon)
 #show table: set par(justify: false)
 #show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
@@ -415,6 +430,7 @@ Generator *generate_uniform_points* jest najprostszym z generatorów, analiza cz
     caption: [wykres na podstawie danych z tabeli 1]
   )
 Czasy działania algorytmów zostały przedstawione w tabeli 1. Najszybszy okazał się algorytm *górnej i dolnej otoczki* (monochain). Zdecydowanie najwolnieszy był algorytm *Chana*, pomimo jego teoretycznie największej asymptotycznej prędkości. Wynika to najprawdopodobnej z faktu, że stała nie brana pod uwagę w złożoności $O(n l o g(k))$ jest bardzo wysoka i dopiero dla znacznie liczniejszych zbiorów danych rożnica byłaby znacząca. Jednakże jak widać na rysunku 30 dla tego generatora liczba punktów musiałaby być znacznie zbyt duża, by algorytm okazał się szybszy na sprzęcie, na którym był testowany.
+#pagebreak()
 === Wyniki dla generatora generate_circle_points
 Każdy punkt należący do zbioru wygenerowanego przez generator *generate_circle_points* jest należy do otoczki wypukłej tego zbioru. Przez to algorytmy *Jarvisa* oraz *Chana* powinny działać w teorii dłużej na takich zbiorach. Przeprowadzono stosowne testy i wyniki przedstawiono w tabeli 2.
 #show table: set par(justify: false)
@@ -432,9 +448,10 @@ Każdy punkt należący do zbioru wygenerowanego przez generator *generate_circl
     image("images/diag_circle.png", width: 60%),
     caption: [wykres na podstawie danych z tabeli 2]
   )
-Z danych z tabeli 2, jak i z wykresu na rysunku 31 jasno wynika pogorszenie się złożoności algorytmów *Jarvisa* oraz *Chana*. Algorytm *Jarvisa* zdegradował do złożoności $O(n^2)$ i nawet na zbiorach o małej liczności jego czas pracy był bardzo długi. Podobnie algorytm *Chana*, którego złożoność zdegradowała do $O(n l o g(n))$ okazał się asymptotycznie wolniejszy niż w przypadku zbiorów wygenerowanych przez *generate_uniform_points*.
+Z danych z tabeli 2, jak i z wykresu na rysunku 35 jasno wynika pogorszenie się złożoności algorytmów *Jarvisa* oraz *Chana*. Algorytm *Jarvisa* zdegradował do złożoności $O(n^2)$ i nawet na zbiorach o małej liczności jego czas pracy był bardzo długi. Podobnie algorytm *Chana*, którego złożoność zdegradowała do $O(n l o g(n))$ okazał się asymptotycznie wolniejszy niż w przypadku zbiorów wygenerowanych przez *generate_uniform_points*.
+#pagebreak()
 === Wyniki dla generatora generate_zigzag_points
-Ze względu na obramówkę każdy zbiór punktów wygenerowanych przez *generate_zigzag_points* ma dokładnie 8 punktów należących do swojej otoczki wypukłej. Dzięki temu algorytmy Jarvisa oraz Chana powinny osiągnąć znacznie lepsze czasy działania niż dla zbiorów nie cechujących się własnością stałej liczby punktów otoczki. Wyniki stosownych testów zaprezentowano w tabeli 3 oraz na wykresie widocznym na rysunku 32.
+Ze względu na obramówkę każdy zbiór punktów wygenerowanych przez *generate_zigzag_points* ma dokładnie 8 punktów należących do swojej otoczki wypukłej. Dzięki temu algorytmy Jarvisa oraz Chana powinny osiągnąć znacznie lepsze czasy działania niż dla zbiorów nie cechujących się własnością stałej liczby punktów otoczki. Wyniki stosownych testów zaprezentowano w tabeli 3 oraz na wykresie widocznym na rysunku 36.
 #show table: set par(justify: false)
 #show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
 #{
@@ -451,6 +468,7 @@ Ze względu na obramówkę każdy zbiór punktów wygenerowanych przez *generate
     caption: [wykres na podstawie danych z tabeli 3]
   )
 Wyniki testów widoczne w tabeli 3 potwierdzają hipotezę o korzystności danych o małej liczbie punktów otoczki dla algorytmów *Jarvisa* oraz *Chana*. Porównując je z wynikami dl a generatora *generate_uniform_points*, gdzie liczba punktów w otoczce nie jest stała i może rosnąć można zauważyć, że wszystkie algorytmy poza wymienionymi powyżej osiągają podobne czasy działania (czasami nieznacznie większe, ze względu na dodanie punktów obramówki), natomiast algorytmy *Chana* oraz *Jarvisa* radzą sobie szybciej.
+#pagebreak()
 === Wyniki dla generatora generate_square_points
 Otoczka każdego zbioru punktów wygenerowanego przez *generate_square_points* ma 4 punkty (wykluczając przypadki zdegradowane np. gdy żaden punkt nie znajduje się na którymś boku kwadratu). Ponownie spodziewamy się poprawy czasu działania algorytmów *Chana* i *Jarvisa*. Wyniki testów znajdują się w tabeli 4.
 #show table: set par(justify: false)
@@ -473,7 +491,7 @@ Otoczka każdego zbioru punktów wygenerowanego przez *generate_square_points* m
 - algorytm *górnej i dolnej otoczki*, dzięki charakterystyce danych względnie rzadko musi usuwać punkty podczas budowania otoczki. Podobnie jak *dziel i rządź* działał około 2 razy szybciej niż dla generatora *generate_uniform_points*.
 === Wyniki dla generatora generate_x_square_points
 Generator *generate_x_square_points* różni się od *generate_square_points* głównie przez to że, otoczka każdego wygenerowanego przez niego zbioru punktów ma dokładnie 4 punkty.
-Wyniki testów na tym generatorze przedstawiono w tabeli 5 oraz na wykresie widocznym na rysunku 34.
+Wyniki testów na tym generatorze przedstawiono w tabeli 5 oraz na wykresie widocznym na rysunku 38.
 #show table: set par(justify: false)
 #show table.cell.where(x: 0).or(table.cell.where(y:0)): strong
 #{
