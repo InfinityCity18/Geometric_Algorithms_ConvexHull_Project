@@ -21,7 +21,7 @@
 ]
 
 = Wstęp
-\
+
 Ćwiczenie polegało na implementacji algorytmów wyznaczania otoczki wypukłej zaprezentowanych na wykładzie. Zaimplementowane zostały algorytmy:
 - *Grahama*,
 - *Jarvisa*,
@@ -39,12 +39,12 @@ Powyższe algorytmy następnie przetestowano na uprzednio przygotowanych danych 
 - *Język*: Python
 - *Procesor*: 12th Gen Intel Core i5-12450H $times$ 12
 == Użyte biblioteki
-W projekcie wykorzystano funkcjonalności zarówno z biblioteki standardowej, jak i bibliotek zewnętrznych. Poniżej znajduje się lista importowanych modułów wraz z opisem zastosowania:
-- *itertools* - użyta do grupowania punktów względem współrzędnej, 
-- *time* - użyta do mierzenia czasu wykonywania algorytmów, 
-- *numpy* - użyta do ułatwienia zapisu danych, losowania punktów, tasowania zbiorów. Również wszystkie funkcje matematyczne zostały zaczerpnięte z tej biblioteki,
-- *matplotlib* - umożliwiła wizualizację działania algorytmów,
-- *os* - użyta do obsługi systemu plików podczas zapisu i odczytu danych oraz animacji.
+W projekcie wykorzystano funkcjonalności zarówno z biblioteki standardowej języka, jak i bibliotek zewnętrznych. Poniżej znajduje się lista importowanych modułów wraz z opisem zastosowania:
+- *itertools* - użyto do grupowania punktów względem współrzędnej, 
+- *time* - użyto do mierzenia czasu wykonywania algorytmów, 
+- *numpy* - użyto do ułatwienia zapisu danych, losowania punktów, tasowania zbiorów. Również wszystkie funkcje matematyczne zostały zaczerpnięte z tej biblioteki,
+- *matplotlib* - umożliwia wizualizację działania algorytmów,
+- *os* - użyto do obsługi systemu plików podczas zapisu i odczytu danych oraz animacji.
 == Struktura plików
 Kod źródłowy projektu został podzielony na moduły. \ \
 Moduły realizujące rozwiązanie ćwiczenia znajdują   się w katalogu *\/src\/*. Poniżej znajduje się lista modułów wraz z opisem każdego z nich:
@@ -61,14 +61,14 @@ Program należy uruchomić używając pliku *main.py*. Plik wykorzystuje funkcjo
 - zapisać zbiór punktów do pliku,
 - zapisać wynik działania wybranego algorytmu - otoczkę wypukłą zbioru punktów,
 - wyświetlić wizualizację działania wybranego algorytmu w oknie _matplotlib_,
-- zapisać wizuazlizację działania wybranego algorytmu do pliku _.gif_.
+- zapisać wizualizację działania wybranego algorytmu do pliku _.gif_.
 Jeżeli program jest uruchamiany z poziomu *main.py*:
 - zbiory punktów zapisywane są w katalogu *\/data\/* (są również z niego wczytywane),
 - otoczki wypukłe zapisywane są w katalogu *\/hulls\/*,
 - wizualizacje działania algorytmów zapisywane są w katalogu *\/gifs\/*.
 = Realizacja ćwiczenia
 == Dane wejściowe
-Przyjmujemy, że zbiorem danych wejściowych jest zbiór punktów na płaszczyźnie. Punkty są krotkami zawierającymi dwie liczby zmiennoprzecinkowe reprezentujące ich współrzędne. Przyjmujemy, że w zbiorze punktów nie ma żadnych duplikatów (punktów o tych samych współrzędnych). Mogą natomiast wystąpić pary punktów o tej samej współrzędnej.
+Przyjmujemy, że zbiorem danych wejściowych jest zbiór punktów na płaszczyźnie. Punkty są krotkami zawierającymi dwie liczby zmiennoprzecinkowe reprezentujące ich współrzędne. Przyjmujemy, że w zbiorze punktów nie ma żadnych duplikatów (punktów o tych samych współrzędnych). Mogą natomiast wystąpić pary punktów o tej samej jednej ze współrzędnych.
 == Oczekiwany wynik działania algorytmów
 Każdy z zaimplementowanych algorytmów ma w założeniu wyznaczyć otoczkę wypukłą punktów z danych wejściowych. Za poprawną otoczkę przyjmuje się listę punktów taką, że:
 - punkty z tej listy są wierzchołkami wielokąta następującymi po sobie w kolejności przeciwnej do ruchu wskazówek zegara,
@@ -81,7 +81,7 @@ $ det(a,b,c) = mat(
   x_a, y_a, 1;
   x_b, y_b, 1;
   x_c, y_c, 1;) $
-została wielokrotnie wykorzystana w zaimpementowanych algorytmach. 
+została wielokrotnie wykorzystana w zaimplementowanych algorytmach. 
 Poprzez badanie znaku tego wyznacznika można określić orientację trzech następujących po sobie punktów. \
 \
 Z racji na niedokładność obliczeń, za każdym razem, gdy badano znak wartości funkcji _det_, użyto wartości $epsilon = 10^(-12)$ jako tolerancji dla $0$.\
@@ -327,7 +327,7 @@ Poniżej, na rysunku 25, znajduje się wizualizacja przykładowego zbioru punkt�
 #figure(
     image("images/uniform.png", width: 40%),
     caption: [przykładowy zbiór punktów]
-  )
+  ) 
 === *generate_circle_points*
 Generuje zbiór *n* losowych punktów leżących na kole o środku w punkcie *O* oraz promieniu *R*, gdzie *O*, *R* oraz *n* to parametry generatora.
 \ \
@@ -337,7 +337,7 @@ Poniżej, na rysunku 26, znajduje się wizualizacja przykładowego zbioru punkt�
     caption: [przykładowy zbiór punktów]
   )
 === *generate_zigzag_points*
-Generuje zbiór *n* losowych punktów leżących na obszarze: \ [- *width* /2, *width* /2] $times$ [- *height* /2, *height* /2], gdzie *width* oraz *height* są parametrami generatora. Punkty dodatkowo otoczone są naprzemienną obramówką punktów, tak jak widać na rysunku 27. Szerokość obramówki definiuje parametr *amplitude*, a częstość punktów na niej parametr *period*.
+Generuje zbiór *n* losowych punktów leżących na prostokącie o środku w początku układu współrzędnych, oraz o długościach boków *width* oraz *height*, które są parametrami generatora. Punkty dodatkowo otoczone są naprzemienną obramówką punktów, tak jak widać na rysunku 27. Szerokość obramówki definiuje parametr *amplitude*, a częstość punktów na niej parametr *period*.
 \ \
 Poniżej, na rysunku 27, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_zigzag_points* i parametrów *n* = 5, *width* = 200, *height* = 200, *amplitude* = 10, *period* = 10.
 #figure(
@@ -360,3 +360,5 @@ Poniżej, na rysunku 28, znajduje się wizualizacja przykładowego zbioru punkt�
     image("images/x_square.png", width: 40%),
     caption: [przykładowy zbiór punktów]
   )
+== Testy algorytmów na przygotowanych zbiorach
+
