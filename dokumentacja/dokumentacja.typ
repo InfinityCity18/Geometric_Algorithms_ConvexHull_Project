@@ -33,8 +33,25 @@
 Powyższe algorytmy następnie przetestowano na uprzednio przygotowanych danych testowych oraz porównano ich działanie. Przygotowano wizualizację działania każdego z algorytmów.
 
 = Szczegóły techniczne
-biblioteki itd, komkuter, struktura plików
-
+== Dane sprzętowe
+- *System operacyjny*: Fedora Linux 43
+- *Środowisko*: NeoVim/Visual Studio Code
+- *Język*: Python
+- *Procesor*: 12th Gen Intel Core i5-12450H $times$ 12
+== Użyte biblioteki
+W projekcie wykorzystano funkcjonalności zarówno z biblioteki standardowej, jak i bibliotek zewnętrznych. Poniżej znajduje się lista importowanych modułów wraz z opisem zastosowania:
+- *itertools* - użyta do grupowania punktów względem współrzędnej, 
+- *time* - użyta do mierzenia czasu wykonywania algorytmów, 
+- *numpy* - użyta do ułatwienia zapisu danych, losowania punktów, tasowania zbiorów. Również wszystkie funkcje matematyczne zostały zaczerpnięte z tej biblioteki,
+- *matplotlib* - umożliwiła wizualizację działania algorytmów,
+- *os* - użyta do obsługi systemu plików podczas zapisu i odczytu danych oraz animacji.
+== Struktura plików
+Kod źródłowy projektu został podzielony na moduły. \ \
+Moduły realizujące rozwiązanie ćwiczenia znajdują się w katalogu *\/src\/*. Poniżej znajduje się lista modułów wraz z opisem każdego z nich:
+- *tests.py* - zawiera generatory punktów losowych, oraz funkcję umożliwiającą przeprowadzenie analizy czasu działania zbioru algorytmów na zbiorach punktów generowanych przez zadany generator,
+- *drawing.py* - pozwala na wprowadzanie zbioru punktów przez użytkownika, zawiera funkcje umożliwające wizualizację zbioru punktów oraz otoczki tego zbioru. Ponadto zawiera klasę _Visualization_ pozwalającą na wizualizację kroków algorytmu. Każdy z algorytmów posiada wersję wykorzystującą tą klasę do prezentacji graficznej poszczególnych kroków.
+- *pozostałe pliki* - realizacje poszczególnych algorytmów wyznaczania otoczki wypukłej. W sekcji 3.3 przy opisie każdego z algorytmów znajduje się informacja, który plik zawiera jego kod źródłowy.\ \
+Ponadto plik *main.py*, znajdujący się poza katalogiem *\/src\/*, został przygotowany w celu realizacji warstwy użytkownika opisanej w następnej sekcji dokumentacji.
 = Realizacja ćwiczenia
 == Dane wejściowe
 Przyjmujemy, że zbiorem danych wejściowych jest zbiór punktów na płaszczyźnie. Punkty są krotkami zawierającymi dwie liczby zmiennoprzecinkowe reprezentujące ich współrzędne. Przyjmujemy, że w zbiorze punktów nie ma żadnych duplikatów (punktów o tych samych współrzędnych). Mogą natomiast wystąpić pary punktów o tej samej współrzędnej.
