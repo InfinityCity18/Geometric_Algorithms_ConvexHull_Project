@@ -382,7 +382,7 @@ Plik *tests.py*.
 === generate_uniform_points
 Generuje zbiór *n* losowych punktów leżących w obszarze [*left*,*right*] $times$ [*left*,*right*], gdzie *left*, *right* oraz *n* to parametry generatora.
 \ \
-Poniżej, na rysunku 25, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_uniform_points* i parametrów *n* = 100, *left* = -100, *right* = 100.
+Poniżej, na rysunku 29, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_uniform_points* i parametrów *n* = 100, *left* = -100, *right* = 100.
 #figure(
     image("images/uniform.png", width: 40%),
     caption: [przykładowy zbiór punktów]
@@ -390,15 +390,15 @@ Poniżej, na rysunku 25, znajduje się wizualizacja przykładowego zbioru punkt�
 === generate_circle_points
 Generuje zbiór *n* losowych punktów leżących na kole o środku w punkcie *O* oraz promieniu *R*, gdzie *O*, *R* oraz *n* to parametry generatora.
 \ \
-Poniżej, na rysunku 26, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_circle_points* i parametrów *n* = 50, *O* = (0,0), *R* = 100.
+Poniżej, na rysunku 30, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_circle_points* i parametrów *n* = 50, *O* = (0,0), *R* = 100.
 #figure(
     image("images/circle.png", width: 40%),
     caption: [przykładowy zbiór punktów]
   )
 === generate_zigzag_points
-Generuje zbiór *n* losowych punktów leżących na prostokącie o środku w początku układu współrzędnych, oraz o długościach boków *width* oraz *height*, które są parametrami generatora. Punkty dodatkowo otoczone są naprzemienną obramówką punktów, tak jak widać na rysunku 27. Szerokość obramówki definiuje parametr *amplitude*, a częstość punktów na niej parametr *period*.
+Generuje zbiór *n* losowych punktów leżących na prostokącie o środku w początku układu współrzędnych, oraz o długościach boków *width* oraz *height*, które są parametrami generatora. Punkty dodatkowo otoczone są naprzemienną obramówką punktów, tak jak widać na rysunku 31. Szerokość obramówki definiuje parametr *amplitude*, a częstość punktów na niej parametr *period*.
 \ \
-Poniżej, na rysunku 27, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_zigzag_points* i parametrów *n* = 5, *width* = 200, *height* = 200, *amplitude* = 10, *period* = 10.
+Poniżej, na rysunku 31, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_zigzag_points* i parametrów *n* = 5, *width* = 200, *height* = 200, *amplitude* = 10, *period* = 10.
 #figure(
     image("images/zigzag.png", width: 40%),
     caption: [przykładowy zbiór punktów]
@@ -406,7 +406,7 @@ Poniżej, na rysunku 27, znajduje się wizualizacja przykładowego zbioru punkt�
 === generate_square_points
 Generuje zbiór *n* losowych punktów leżących na kwadracie o środku w początku układu współrzędnych i o boku długości *a*, gdzie *a* to parametr generatora.
 \ \
-Poniżej, na rysunku 28, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_square_points* i parametrów *n* = 50, *a* = 100.
+Poniżej, na rysunku 32, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_square_points* i parametrów *n* = 50, *a* = 100.
 #figure(
     image("images/square.png", width: 40%),
     caption: [przykładowy zbiór punktów]
@@ -414,7 +414,7 @@ Poniżej, na rysunku 28, znajduje się wizualizacja przykładowego zbioru punkt�
 === generate_x_square_points
 Generuje zbiór *n* losowych punktów leżących na kwadracie o środku w początku układu współrzędnych i o boku długości *a*, lub na jego przekątnych gdzie, *a* to parametr generatora. Ponadto generator dodaje do zbioru wynikowego 4 punkty będące wierzchołkami kwadratu.
 \ \
-Poniżej, na rysunku 28, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_x_square_points* i parametrów *n* = 50, *a* = 100.
+Poniżej, na rysunku 33, znajduje się wizualizacja przykładowego zbioru punktów wygenerowana z użyciem generatora *generate_x_square_points* i parametrów *n* = 50, *a* = 100.
 #figure(
     image("images/x_square.png", width: 40%),
     caption: [przykładowy zbiór punktów]
@@ -440,7 +440,7 @@ Generator *generate_uniform_points* jest najprostszym z generatorów, analiza cz
     image("images/diag_uniform.png", width: 60%),
     caption: [wykres na podstawie danych z tabeli 1]
   )
-Czasy działania algorytmów zostały przedstawione w tabeli 1. Najszybszy okazał się algorytm *górnej i dolnej otoczki* (monochain). Zdecydowanie najwolnieszy był algorytm *Chana*, pomimo jego teoretycznie największej asymptotycznej prędkości. Wynika to najprawdopodobnej z faktu, że stała nie brana pod uwagę w złożoności $O(n l o g(k))$ jest bardzo wysoka i dopiero dla znacznie liczniejszych zbiorów danych rożnica byłaby znacząca. Jednakże jak widać na rysunku 30 dla tego generatora liczba punktów musiałaby być znacznie zbyt duża, by algorytm okazał się szybszy na sprzęcie, na którym był testowany.
+Czasy działania algorytmów zostały przedstawione w tabeli 1. Najszybszy okazał się algorytm *górnej i dolnej otoczki* (monochain). Zdecydowanie najwolnieszy był algorytm *Chana*, pomimo jego teoretycznie największej asymptotycznej prędkości. Wynika to najprawdopodobnej z faktu, że stała nie brana pod uwagę w złożoności $O(n log k)$ jest bardzo wysoka i dopiero dla znacznie liczniejszych zbiorów danych rożnica byłaby znacząca. Jednakże jak widać na rysunku 30 dla tego generatora liczba punktów musiałaby być znacznie zbyt duża, by algorytm okazał się szybszy na sprzęcie, na którym był testowany.
 #pagebreak()
 === Wyniki dla generatora generate_circle_points
 Każdy punkt należący do zbioru wygenerowanego przez generator *generate_circle_points* jest należy do otoczki wypukłej tego zbioru. Przez to algorytmy *Jarvisa* oraz *Chana* powinny działać w teorii dłużej na takich zbiorach. Przeprowadzono stosowne testy i wyniki przedstawiono w tabeli 2.
@@ -459,7 +459,7 @@ Każdy punkt należący do zbioru wygenerowanego przez generator *generate_circl
     image("images/diag_circle.png", width: 60%),
     caption: [wykres na podstawie danych z tabeli 2]
   )
-Z danych z tabeli 2, jak i z wykresu na rysunku 35 jasno wynika pogorszenie się złożoności algorytmów *Jarvisa* oraz *Chana*. Algorytm *Jarvisa* zdegradował do złożoności $O(n^2)$ i nawet na zbiorach o małej liczności jego czas pracy był bardzo długi. Podobnie algorytm *Chana*, którego złożoność zdegradowała do $O(n l o g(n))$ okazał się asymptotycznie wolniejszy niż w przypadku zbiorów wygenerowanych przez *generate_uniform_points*.
+Z danych z tabeli 2, jak i z wykresu na rysunku 35 jasno wynika pogorszenie się złożoności algorytmów *Jarvisa* oraz *Chana*. Algorytm *Jarvisa* zdegradował do złożoności $O(n^2)$ i nawet na zbiorach o małej liczności jego czas pracy był bardzo długi. Podobnie algorytm *Chana*, którego złożoność zdegradowała do $O(n log n)$ okazał się asymptotycznie wolniejszy niż w przypadku zbiorów wygenerowanych przez *generate_uniform_points*.
 #pagebreak()
 === Wyniki dla generatora generate_zigzag_points
 Ze względu na obramówkę każdy zbiór punktów wygenerowanych przez *generate_zigzag_points* ma dokładnie 8 punktów należących do swojej otoczki wypukłej. Dzięki temu algorytmy Jarvisa oraz Chana powinny osiągnąć znacznie lepsze czasy działania niż dla zbiorów nie cechujących się własnością stałej liczby punktów otoczki. Wyniki stosownych testów zaprezentowano w tabeli 3 oraz na wykresie widocznym na rysunku 36.
@@ -478,7 +478,7 @@ Ze względu na obramówkę każdy zbiór punktów wygenerowanych przez *generate
     image("images/diag_zigzag.png", width: 60%),
     caption: [wykres na podstawie danych z tabeli 3]
   )
-Wyniki testów widoczne w tabeli 3 potwierdzają hipotezę o korzystności danych o małej liczbie punktów otoczki dla algorytmów *Jarvisa* oraz *Chana*. Porównując je z wynikami dl a generatora *generate_uniform_points*, gdzie liczba punktów w otoczce nie jest stała i może rosnąć można zauważyć, że wszystkie algorytmy poza wymienionymi powyżej osiągają podobne czasy działania (czasami nieznacznie większe, ze względu na dodanie punktów obramówki), natomiast algorytmy *Chana* oraz *Jarvisa* radzą sobie szybciej.
+Wyniki testów widoczne w tabeli 3 potwierdzają hipotezę o korzystności danych o małej liczbie punktów otoczki dla algorytmów *Jarvisa* oraz *Chana*. Porównując je z wynikami dla generatora *generate_uniform_points*, gdzie liczba punktów w otoczce nie jest stała i może rosnąć można zauważyć, że wszystkie algorytmy poza wymienionymi powyżej osiągają podobne czasy działania (czasami nieznacznie większe, ze względu na dodanie punktów obramówki), natomiast algorytmy *Chana* oraz *Jarvisa* radzą sobie szybciej.
 #pagebreak()
 === Wyniki dla generatora generate_square_points
 Otoczka każdego zbioru punktów wygenerowanego przez *generate_square_points* ma 4 punkty (wykluczając przypadki zdegradowane np. gdy żaden punkt nie znajduje się na którymś boku kwadratu). Ponownie spodziewamy się poprawy czasu działania algorytmów *Chana* i *Jarvisa*. Wyniki testów znajdują się w tabeli 4.
@@ -518,10 +518,10 @@ Wyniki testów na tym generatorze przedstawiono w tabeli 5 oraz na wykresie wido
     image("images/diag_x_square.png", width: 60%),
     caption: [wykres na podstawie danych z tabeli 5]
   )
-Co wynika z tabeli 5, algorytm *Jarvisa* cechuje się liniowością dla stałej liczby punktów otoczki - w porównaniu do generatora *generate_square_points* (gdzie otoczki mają 8 punktów) wypadł około 2 razy szybciej. Podobnie algorytm *Chana* osiągnął znacznie mniejszy czas. Zestawiając to z faktem, że liczba punktów w zbiorze nie zmieniła się dowodzi to, że teoretyczna złożoność algorytmu Chana $O(n log(k))$ znajduje odzwierciedlenie w rzeczywistości, a algorytm został poprawnie zaimplementowany. Podotoczki występujące w algorytmie *dziel i rządź* nie miały już takiego samego, korzystnego kształtu jak w przypadku generatora *generate_square_points* i odbiło się to znacząco na jego czasie działania pomimo takiej samej liczby punktów. Podobnie algorytm *górnej i dolnej otoczki* ponownie osiągnął czas pracy podobny to tego dla generatora *generate_uniform_points*.
+Co wynika z tabeli 5, algorytm *Jarvisa* cechuje się liniowością dla stałej liczby punktów otoczki - w porównaniu do generatora *generate_square_points* (gdzie otoczki mają 8 punktów) wypadł około 2 razy szybciej. Podobnie algorytm *Chana* osiągnął znacznie mniejszy czas. Zestawiając to z faktem, że liczba punktów w zbiorze nie zmieniła się dowodzi to, że teoretyczna złożoność algorytmu Chana $O(n logk)$ znajduje odzwierciedlenie w rzeczywistości, a algorytm został poprawnie zaimplementowany. Podotoczki występujące w algorytmie *dziel i rządź* nie miały już takiego samego, korzystnego kształtu jak w przypadku generatora *generate_square_points* i odbiło się to znacząco na jego czasie działania pomimo takiej samej liczby punktów. Podobnie algorytm *górnej i dolnej otoczki* ponownie osiągnął czas pracy bliski temu dla generatora *generate_uniform_points*.
 #pagebreak()
 === Wnioski
-Różnice w asymptotycznej złożoności algorytmów Chana i Jarvisa względem pozostałych algorytmów zostały jasno nakreślone podczas wykonywania testów. Na podstawie podobnych kształtów wykresów czasu pracy pozostałych algorytmów (rys. 34-38) można wnioskować, że ich złożonośc jest taka sama i wynosi $O(n log(n))$.\ \
+Różnice w asymptotycznej złożoności algorytmów Chana i Jarvisa względem pozostałych algorytmów zostały jasno nakreślone podczas wykonywania testów. Na podstawie podobnych kształtów wykresów czasu pracy pozostałych algorytmów (rys. 34-38) można wnioskować, że ich złożoność jest taka sama i wynosi $O(n log n)$.\ \
 Sama bezwzględna wartość czasu działania dla wszystkich zbiorów testowych była największa dla algorytmu *Chana*, choć jego teoretyczna złożoność obliczeniowa została potwierdzona poprzez porównanie wyników testów na zbiorze 4 oraz 5. \ \
 
 Najszybsze na ogół okazały się algorytmy: *górnej i dolnej otoczki*, *przyrostowy* oraz *quickhull*. W szczególności algorytmy *Grahama* oraz *quickhull* wykazały się dużą niewrażliwością na charakterystykę danych wejściowych i dla podobnej liczby losowych punktów zawsze działały w podobym czasie.
