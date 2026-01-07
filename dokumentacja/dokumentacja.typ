@@ -345,28 +345,33 @@ Funkcja _*step_chan*_ przyjmuje zbiór punktów oraz rozmiar otoczki $m$. Nastę
 Algorytm rozpoczyna od punktu najbardziej po prawej, i stara się znaleźć punkt maksymalizujący kąt tj. taki, że po lewej stronie prostej od poprzedniego punktu do szukanego znajdują się wszystkie inne punkty zbioru, tak jak w algorytmie Jarvisa, tylko zamiast sprawdzać wszystkie punkty, algorytm znajduje punkty przecinane przez prawe styczne otoczek. Jeżeli nie uda się znaleźć otoczki o rozmiarze $m$, funkcja zwraca _None_, a główna pętla zwiększa wartość zmiennej $t$.
 
 ==== Analiza złożoności obliczeniowej
+Funkcja *_step_chan_* dzieli zbiór na $n/m$ grup rozmiaru $m$ i wyznacza otoczkę każdej z nich, co posiada złożoność $O(m log m) * n/m = O(n log m)$. Następnie wykonywana jest pierwsza pętla $O(m)$ razy, druga pętla $n/m$ razy, a szukanie stycznej dla otoczek zajmuje $O(log m)$ używając funkcji *_rtangent_*, co razem daje $O(n log m)$, końcową złożoność funkcji.
+W funkcji *_chan_*, algorytm zwiększy $t$ maksymalnie $O(log log h)$ razy. Ponieważ $m := min(n, 2^(2^t))$, to *_step_chan_*, ma złożoność $O(n log 2^2^t) = O(n dot 2^t)$. Całkowita złożoność to: $ sum_(t=0)^(log log h) O(n dot 2^t) $
+Jesteśmy w stanie ograniczyć sumę od góry, aby dojść do końcowej złożoności:
+$ sum_(t=0)^(log log h) O(n dot 2^t) = O(n) sum_(t=0)^(log log h) O(2^t) <= O(n) dot O(2^(log log h + 1)) = O(n log h) $ 
 ==== Prezentacja działania algorytmu
+Na poniższych rysunkach przedstawione są trzy wywołania funkcji *_step_chan_*, w trzeciej udało się wyznaczyć otoczkę zanim $m = n$
 #grid(
   columns: (1fr, 1fr),  // Two equal-width columns
   gutter: 1em,          // Space between the images
   figure(
-    image("images/div1.gif", width: 100%),
-    caption: [początkowy stan dla k=2]
+    image("images/chan1.svg", width: 100%),
+    caption: [pierwsza próba, $m=2$]
   ),
   figure(
-    image("images/div2.gif", width: 100%),
-    caption: [połączone otoczki]
+    image("images/chan2.svg", width: 100%),
+    caption: [druga próba, $m=4$]
   ),)
 #grid(
   columns: (1fr, 1fr),  // Two equal-width columns
   gutter: 1em,          // Space between the images
   figure(
-    image("images/div3.gif", width: 100%),
-    caption: [trzeci od końca krok algorytmu]
+    image("images/chan3.svg", width: 100%),
+    caption: [trzecia próba, $m=8$]
   ),
   figure(
-    image("images/div4.gif", width: 100%),
-    caption: [przedostatni krok algorytmu]
+    image("images/chan4.svg", width: 100%),
+    caption: [wyznaczona otoczka]
   ),)
   \
 
