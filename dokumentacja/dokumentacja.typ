@@ -305,8 +305,8 @@ Punkty te definiują 4 odcinki, które tworzą wielokąt. Wielokąt ten określa
 Pozostałe punkty przetwarzane są rekurencyjnie z użyciem metody _dziel i rządź_ poprzez wywoływanie funkcji *_rec_hull_*, która działa następująco:\
 Dla danego odcinka znajdowany jest punkt znajdujący się najdalej od niego i będący na zewnątrz wielokąta tworzonego przez aktualne punkty otoczki. Punkt ten wraz z końcami rozpatrywanego odcinka definuje 2 kolejne odcinki, które dodawane są do otoczki. Na tych nowych odcinkach rekurencyjnie wywoływana jest funckja *_rec_hull_* tak długo jak istnieją punkty poza otoczką.
 ==== Analiza złożoności obliczeniowej
-Każde rekurencyjne wywołanie fukcji *_rec_hull_* iteruje się po zbiorze punktów, którego rozmiar jest proporcjonalny do rozmiaru zbioru wejściowego. Ilość takich wywołań w pełni zależy od charakterystyki zbioru wejściowego. W pesymistycznym przypadku w każdym wywołaniu *_rec_hull_* jedyny usuwany punkt jest tym najbardziej odległym od rozpatrywanego odcinka, wtedy liczba wywołań wynosi _n_, a pesymistyczna złożoność obliczeniowa wynosi _O(n^2)_. Przypadek ten zachodzi gdy wszystkie punkty, lub ich większość należy do otoczki.
-Realistycznie jednak, zakładając względnie równomierne rozłożenie punktów, przy każdym "powiększaniu" otoczki przez funkcję *_rec_hull_* punkty należące do obszaru proporcjonalnego do długości odcinka są usuwane. Zamortyzowana złożoność obliczeniowa wynosi więc _O(nlog(n))_.
+Każde rekurencyjne wywołanie fukcji *_rec_hull_* iteruje się po zbiorze punktów, którego rozmiar jest proporcjonalny do rozmiaru zbioru wejściowego. Ilość takich wywołań w pełni zależy od charakterystyki zbioru wejściowego. W pesymistycznym przypadku w każdym wywołaniu *_rec_hull_* jedyny usuwany punkt jest tym najbardziej odległym od rozpatrywanego, a pozostałe punkty leżą w pełni na jednej gałęzi rekurecji - wtedy następuje efektywnie identyczne w sensie czasu pracy wywołanie funkcji *_rec_hull_* i złożoność algorytmu wynosi $O(n^2)$.
+Realistycznie jednak, zakładając względnie równomierne rozłożenie punktów, przy każdym "powiększaniu" otoczki przez funkcję *_rec_hull_* punkty należące do obszaru proporcjonalnego do długości odcinka są usuwane, a pozostałe punkty dzielone są między dwie gałęzie rekurecji. Zamortyzowana złożoność obliczeniowa wynosi więc _O(nlog(n))_.
 #pagebreak()
 ==== Prezentacja działania algorytmu
 Na rysunkach 21-24 zaprezentowano wybranekroki algorytmu quickhull. Na czerwono zostały oznaczone odcinki, które na danym etapie algorytmu zostały przetworzone i na pewno należą do otoczki.
@@ -523,11 +523,17 @@ Kod przygotowany na potrzeby wykonania ćwiczenia pozwolił na analizę i porów
 
 
 W szczególności potwierdzone zostały teoretycznie złożoności algorytmów *Jarvisa* i *Chana*, które odbiegają od złożoności pozostałych algorytmów. \ \
+
+Wyniki testów oraz wizualizacje potwierdzają poprawność zaimplementowanych algorytmów.
 = Bibliografia
 - slajdy z wykładu,
-- materiały do laboratoriów,
-- https://en.wikipedia.org/wiki/Convex_hull_algorithms#Akl%E2%80%93Toussaint_heuristic (7.01.2026)
-- https://en.wikipedia.org/wiki/Gift_wrapping_algorithm (7.01.2026)
-- https://en.wikipedia.org/wiki/Graham_scan (7.01.2026)
+- materiały do laboratoriów, 
+- https://en.wikipedia.org/wiki/Convex_hull_algorithms#Akl%E2%80%93Toussaint_heuristic (7.01.2026),
+- https://en.wikipedia.org/wiki/Gift_wrapping_algorithm (7.01.2026),
+- https://en.wikipedia.org/wiki/Graham_scan (7.01.2026),
+- https://en.wikipedia.org/wiki/Quickhull (7.01.2026),
+- https://gist.github.com/tixxit/252229 (7.01.2026),
+- https://www.youtube.com/watch?v=O_K5_whYhoU (7.01.2026),
+- https://www.youtube.com/watch?v=NH6WbP3lDac (7.01.2026).
 
 
