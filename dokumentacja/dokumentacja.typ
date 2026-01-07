@@ -53,6 +53,7 @@ Kod źródłowy projektu został podzielony na moduły. \ \
 Moduły realizujące rozwiązanie ćwiczenia znajdują   się w katalogu *\/src\/*. Poniżej znajduje się lista modułów wraz z opisem każdego z nich:
 - *tests.py* - zawiera generatory punktów losowych, oraz funkcję umożliwiającą przeprowadzenie analizy czasu działania zbioru algorytmów na zbiorach punktów generowanych przez zadany generator. Opisy poszczególnych generatorów znajdują się w sekcji,
 - *drawing.py* - pozwala na wprowadzanie zbioru punktów przez użytkownika, zawiera funkcje umożliwające wizualizację zbioru punktów oraz otoczki tego zbioru. Ponadto zawiera klasę _Visualization_ pozwalającą na wizualizację kroków algorytmu. Każdy z algorytmów posiada wersję wykorzystującą tą klasę do prezentacji graficznej poszczególnych kroków.
+- *\_\_init\_\_.py* - plik konieczny by katalog był rozpoznawany przez język Python jako moduł,
 - *pozostałe pliki* - realizacje poszczególnych algorytmów wyznaczania otoczki wypukłej. W sekcji 3.3 przy opisie każdego z algorytmów znajduje się informacja, który plik zawiera jego kod źródłowy.\ \
 Ponadto plik *main.py*, znajdujący się poza katalogiem *\/src\/*, został przygotowany w celu realizacji warstwy użytkownika opisanej w następnej sekcji dokumentacji.
 == Warstwa użytkownika
