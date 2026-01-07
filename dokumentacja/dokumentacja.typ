@@ -22,13 +22,14 @@
 
 #outline()
 
+#pagebreak()
 = Wstęp
 
 Ćwiczenie polegało na implementacji algorytmów wyznaczania otoczki wypukłej zaprezentowanych na wykładzie. Zaimplementowane zostały algorytmy:
 - *Grahama*,
 - *Jarvisa*,
--  przyrostowy wyznaczania otoczki wypukłej (dalej *przyrostowy*)
-- *górnej i dolnej otoczki* - zamiennie nazywany _monochain_ (ponieważ buduje x-monotoniczne łańcuchy),
+- *przyrostowy*,
+- *górnej i dolnej otoczki* - zamiennie w kodzie nazywany _monochain_ (ponieważ buduje x-monotoniczne łańcuchy),
 - *dziel i rządź*,
 - *quickhull*,
 - *Chana*.
@@ -48,6 +49,7 @@ W projekcie wykorzystano funkcjonalności zarówno z biblioteki standardowej ję
 - *numpy* - użyto do ułatwienia zapisu danych, losowania punktów, tasowania zbiorów. Również wszystkie funkcje matematyczne zostały zaczerpnięte z tej biblioteki,
 - *matplotlib* - umożliwia wizualizację działania algorytmów,
 - *os* - użyto do obsługi systemu plików podczas zapisu i odczytu danych oraz animacji.
+#pagebreak()
 == Struktura plików
 Kod źródłowy projektu został podzielony na moduły. \ \
 Moduły realizujące rozwiązanie ćwiczenia znajdują   się w katalogu *\/src\/*. Poniżej znajduje się lista modułów wraz z opisem każdego z nich:
@@ -70,6 +72,7 @@ Jeżeli program jest uruchamiany z poziomu *main.py*:
 - zbiory punktów zapisywane są w katalogu *\/data\/* (są również z niego wczytywane),
 - otoczki wypukłe zapisywane są w katalogu *\/hulls\/*,
 - wizualizacje działania algorytmów zapisywane są w katalogu *\/gifs\/*.
+#pagebreak()
 = Realizacja ćwiczenia
 == Dane wejściowe
 Przyjmujemy, że zbiorem danych wejściowych jest zbiór punktów na płaszczyźnie. Punkty są krotkami zawierającymi dwie liczby zmiennoprzecinkowe reprezentujące ich współrzędne. Przyjmujemy, że w zbiorze punktów nie ma żadnych duplikatów (punktów o tych samych współrzędnych). Mogą natomiast wystąpić pary punktów o tej samej jednej ze współrzędnych.
@@ -92,7 +95,8 @@ Z racji na niedokładność obliczeń, za każdym razem, gdy badano znak wartoś
 ==== Sortowanie z usuwaniem punktów współliniowych - _x_sort_
 Funkcja _x_sort_ została zaimplementowana na potrzebę sortowania punktów względem ich współrzędnej _*x*_, która to funkcjonalność znajduje zastosowanie  w algorytmach: _*przyrostowym*_, _*górnej i dolnej otoczki*_ oraz *_dziel i rządź_*.
 Funkcja poza sortowaniem punktów dodatkowo grupuje punkty o tej samej współrzędnej _*x*_.
-Jeżeli w danej grupie występują co najmniej 3 punkty funkcja dodatkowo usuwa ze zbioru wynikowego wszystkie punkty poza tymi o najmniejszej i największej współrzędnej *_y_*. Następnie łącząc grupyzwraca posortowaną listę. Złożoność takiego sortowania wynosi $O(n l o g(n))$, gdzie n to liczba punktów.
+Jeżeli w danej grupie występują co najmniej 3 punkty funkcja dodatkowo usuwa ze zbioru wynikowego wszystkie punkty poza tymi o najmniejszej i największej współrzędnej *_y_*. Następnie łącząc grupy zwraca posortowaną listę. Złożoność takiego sortowania wynosi $O(n l o g(n))$, gdzie n to liczba punktów.
+#pagebreak()
 === Algorytm Grahama
 Plik *graham.py*.
 ==== Przebieg algorytmu
