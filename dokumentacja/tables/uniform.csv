@@ -1,4 +1,4 @@
-Liczba punktów,Graham [ms],Jarvis [ms],Przyrostowy [ms],Monochain [ms],Dziel i rządź [ms],Quickhull [ms],Chan [ms]
+Liczba punktów,Graham [ms],Jarvis [ms],Przyrostowy [ms],Górnej i dolnej otoczki [ms],Dziel i rządź [ms],Quickhull [ms],Chan [ms]
 20000,33.34,53.28,22.6,15.65,74.28,18.53,176.74
 40000,67.39,95.16,44.4,29.1,113.4,35.45,379.74
 60000,106.15,160.03,71.36,46.06,205.38,58.97,548.89
