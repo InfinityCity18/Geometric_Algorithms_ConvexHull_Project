@@ -4,8 +4,17 @@
 #import "@preview/fletcher:0.5.8" as fletcher: node, edge
 #import "@preview/numbly:0.1.0": numbly
 #import "@preview/theorion:0.3.2": *
+#import "@preview/codly:1.3.0": *
+#import "@preview/codly-languages:0.1.1": *
 #import cosmos.clouds: *
 #show: show-theorion
+#show: codly-init.with()
+
+#codly(
+  languages: (
+    rust: (name: "Python", color: rgb("#164e9b")),
+  )
+)
 
 #set text(lang: "pl")
 #set par(justify: true)
@@ -292,7 +301,7 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 }
 ]
 
-#text(size: 15pt)[Dla zbioru, w którym każdy punkt należy do otoczki można zaobserwować wyniki zgodne z oczekiwaniami. Czasy procesora algorymów Jarvisa oraz Chana, których złożoność obliczeniowa degraduje przy takich danych do kolejno $O(n^2)$ oraz $O(n l o g(b))$ odbiegają znacząco od czasów pozostałych algorytmów. ]
+#text(size: 15pt)[Dla zbioru, w którym każdy punkt należy do otoczki można zaobserwować wyniki zgodne z oczekiwaniami. Czasy procesora algorymów Jarvisa oraz Chana, których złożoność obliczeniowa degraduje przy takich danych do kolejno $O(n^2)$ oraz $O(n log b)$ odbiegają znacząco od czasów pozostałych algorytmów. ]
 
 === Zbiór 3
 
@@ -340,178 +349,86 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 }
 ]
 
-#text(size: 15pt)[Tym razem liczba punktów otoczki zawsze wynosi 4, ze względu na obecność wierzchołków kwadratu w zbiorze 5. Algorytm Jarvisa wedle oczekiwań działa w przybliżeniu 2 razy szybciej. Czas działaniu algorytmu Chana również spadł znacząco, co w połączeniu z brakiem różnicy w liczbie punktów względem zbioru 4 potwierdza jego teoretyczną złożoność $O(n l o g(k))$. Ponadto obecność przekątnych spowodowała, że algorytmy dziel i rządź oraz górnej i dolnej otoczki nie były już takie szybkie jak w zbiorze 4 i ich czasy pracy zbliżyły się do tych na zbiorze 1.]
+#text(size: 15pt)[Tym razem liczba punktów otoczki zawsze wynosi 4, ze względu na obecność wierzchołków kwadratu w zbiorze 5. Algorytm Jarvisa wedle oczekiwań działa w przybliżeniu 2 razy szybciej. Czas działaniu algorytmu Chana również spadł znacząco, co w połączeniu z brakiem różnicy w liczbie punktów względem zbioru 4 potwierdza jego teoretyczną złożoność $O(n log k)$. Ponadto obecność przekątnych spowodowała, że algorytmy dziel i rządź oraz górnej i dolnej otoczki nie były już takie szybkie jak w zbiorze 4 i ich czasy pracy zbliżyły się do tych na zbiorze 1.]
 
-== Simple Animation
+= Podsumowanie
 
-We can use `#pause` to #pause display something later.
+= Dodatek
 
-#pause
+== Analiza złożoności algorytmu Chana
 
-Just like this.
+#{
+  codly(
+  annotation-format: none,
+  annotations: (
+    (
+      start: 6,
+      end: 19,
+      content: block(
+        width: 13em,
+        [$O(log m) times n / m times m = O(n log m)$]
+      )
+    ),
+  ),
+  highlights: (
+    (line: 3, start: 5, end: none, fill: red, tag: [$O (m log m) times n / m = O(n log m)$]),
+    (line: 10, start: 13, end: none, fill: red, tag: [$O( log m)$]),
+  ),
+  highlighted-lines: (7,8,(9,green.lighten(70%)),(10,green.lighten(70%)),(11,green.lighten(70%)),(12,green.lighten(70%)),(13,green.lighten(70%)),14,15,16,17,18),
+  )
+  set text(size: 14.0pt)
+```Python
+def chan_hull(points, m):
+    n = len(points)
+    hulls = list(map(graham, map(list, batched(points, n=m))))
+    p1 = max(points, key=lambda p: (p[0], p[1])) #najbardziej na prawo
+    last = p1
+    L = [last]
+    for j in range(m):
+        best = points[0] if points[0] != last else points[1] 
+        for i in range(len(hulls)):
+            q = rtangent(hulls[i], last) 
+            d = det(last,best,q)
+            if d < -eps or (d < eps and dist(last,best) < dist(last,q)):
+                best = q
+        L.append(best)
+        last = best
+        if best == p1:
+            L.pop()  # usuwamy powtorzony punkt startowy
+            return L
+    return None
+```
+}
 
-#meanwhile
-
-Meanwhile, #pause we can also use `#meanwhile` to #pause display other content synchronously.
-
-#speaker-note[
-  + This is a speaker note.
-  + You won't see it unless you use `config-common(show-notes-on-second-screen: right)`
-]
-
-
-== Complex Animation
-
-At subslide #touying-fn-wrapper((self: none) => str(self.subslide)), we can
-
-use #uncover("2-")[`#uncover` function] for reserving space,
-
-use #only("2-")[`#only` function] for not reserving space,
-
-#alternatives[call `#only` multiple times \u{2717}][use `#alternatives` function #sym.checkmark] for choosing one of the alternatives.
-
-
-== Callback Style Animation
-
-#slide(
-  repeat: 3,
-  self => [
-    #let (uncover, only, alternatives) = utils.methods(self)
-
-    At subslide #self.subslide, we can
-
-    use #uncover("2-")[`#uncover` function] for reserving space,
-
-    use #only("2-")[`#only` function] for not reserving space,
-
-    #alternatives[call `#only` multiple times \u{2717}][use `#alternatives` function #sym.checkmark] for choosing one of the alternatives.
-  ],
-)
-
-
-== Math Equation Animation
-
-Equation with `pause`:
-
-$
-  f(x) &= pause x^2 + 2x + 1 \
-  &= pause (x + 1)^2 \
-$
-
-#meanwhile
-
-Here, #pause we have the expression of $f(x)$.
-
-#pause
-
-By factorizing, we can obtain this result.
-
-
-== CeTZ Animation
-
-CeTZ Animation in Touying:
-
-#cetz-canvas({
-  import cetz.draw: *
-
-  rect((0, 0), (5, 5))
-
-  (pause,)
-
-  rect((0, 0), (1, 1))
-  rect((1, 1), (2, 2))
-  rect((2, 2), (3, 3))
-
-  (pause,)
-
-  line((0, 0), (2.5, 2.5), name: "line")
-})
-
-
-== Fletcher Animation
-
-Fletcher Animation in Touying:
-
-#fletcher-diagram(
-  node-stroke: .1em,
-  node-fill: gradient.radial(blue.lighten(80%), blue, center: (30%, 20%), radius: 80%),
-  spacing: 4em,
-  edge((-1, 0), "r", "-|>", `open(path)`, label-pos: 0, label-side: center),
-  node((0, 0), `reading`, radius: 2em),
-  edge((0, 0), (0, 0), `read()`, "--|>", bend: 130deg),
-  pause,
-  edge(`read()`, "-|>"),
-  node((1, 0), `eof`, radius: 2em),
-  pause,
-  edge(`close()`, "-|>"),
-  node((2, 0), `closed`, radius: 2em, extrude: (-2.5, 0)),
-  edge((0, 0), (2, 0), `close()`, "-|>", bend: -40deg),
-)
-
-
-= Theorems
-
-== Prime numbers
-
-#definition[
-  A natural number is called a #highlight[_prime number_] if it is greater
-  than 1 and cannot be written as the product of two smaller natural numbers.
-]
-#example[
-  The numbers $2$, $3$, and $17$ are prime.
-  @cor_largest_prime shows that this list is not exhaustive!
-]
-
-#theorem(title: "Euclid")[
-  There are infinitely many primes.
-]
-#pagebreak(weak: true)
-#proof[
-  Suppose to the contrary that $p_1, p_2, dots, p_n$ is a finite enumeration
-  of all primes. Set $P = p_1 p_2 dots p_n$. Since $P + 1$ is not in our list,
-  it cannot be prime. Thus, some prime factor $p_j$ divides $P + 1$. Since
-  $p_j$ also divides $P$, it must divide the difference $(P + 1) - P = 1$, a
-  contradiction.
-]
-
-#corollary[
-  There is no largest prime number.
-] <cor_largest_prime>
-#corollary[
-  There are infinitely many composite numbers.
-]
-
-#theorem[
-  There are arbitrarily long stretches of composite numbers.
-]
-
-#proof[
-  For any $n > 2$, consider $
-    n! + 2, quad n! + 3, quad ..., quad n! + n
-  $
-]
-
-
-= Others
-
-== Side-by-side
-
-#slide(composer: (1fr, 1fr))[
-  First column.
-][
-  Second column.
-]
-
-
-== Multiple Pages
-
-#lorem(200)
-
-
-#show: appendix
-
-= Appendix
-
-== Appendix
-
-Please pay attention to the current slide number.
+#{
+  codly(
+  annotation-format: none,
+  annotations: (
+    (
+      start: 5,
+      end: 9,
+      content: block(
+        width: 5.67em,
+        [$times O(log log h)$]
+      )
+    ),
+  ),
+  highlights: (
+    (line: 6, start: 9, end: none, fill: red, tag: [$O(n log m) = O(n log 2^(2^t))$]),
+  ),
+  highlighted-lines: (5,6,7,8,9)
+  )
+  set text(size: 19.0pt)
+```Python
+def chan(points):
+    t = 0
+    n = len(points)
+    while True:
+        m = min(n, 2**(2**t))
+        result = step_chan(points, m)
+        if result != None:
+            return result
+        t += 1
+```
+}
+$ sum_(t=0)^(log log h) O(n log 2^(2^t)) = O(n) sum_(t=0)^(log log h) O(2^t) <= O(n) dot O(2^(log log h + 1))\ = O(n) dot O(log h) = O(n log h) $

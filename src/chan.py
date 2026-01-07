@@ -76,11 +76,9 @@ def rtangent(hull, p):
 def step_chan(points, m):
     n = len(points)
     hulls = list(map(graham, map(list, batched(points, n=m)))) #dzielimy na n / m otoczek, aplikujemy grahama na kazda
-
     p1 = max(points, key=lambda p: (p[0], p[1])) #najbardziej na prawo
     last = p1
     L = [last]
-
     for j in range(m):
         best = points[0] if points[0] != last else points[1] 
         for i in range(len(hulls)):
@@ -93,7 +91,6 @@ def step_chan(points, m):
         if best == p1:
             L.pop()  # usuwamy powtorzony punkt startowy
             return L
-        
     return None
 
 def chan(points):
