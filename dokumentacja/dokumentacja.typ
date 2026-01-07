@@ -100,18 +100,18 @@ Jeżeli w danej grupie występują co najmniej 3 punkty funkcja dodatkowo usuwa 
 === Algorytm Grahama
 Plik *graham.py*.
 ==== Przebieg algorytmu
-Algorytm rozpoczyna działanie od przygotowania danych. Najpierw znajduje w zbiorze wejściowym punkt *_lowest_point_* o najniższej drugiej współrzędnej, lub - w przypadku remisu - punkt o najniższych współrzędnych. Następne sortuje pozostałe punkty na podstawie kątu jaki tworzy odcinek tworzony przez dany punkt oraz punkt *_lowest_point_* z osią *_OX_*. Kąt ten jest obliczany z pomocą funkcji _atan2_ z biblioteki _numpy_. W przypadku remisu punkty porządkowane są w kierunku rosnącej odległości od puntu *_lowest_point_*. Ostatnim krokiem przygotowującym dane jest usunięcie z posortowanej listy punktów współliniowych - w przypadku trójki (*_lowest_point_*, *_p_*, *_q_*), gdzie punkt *_p_* leży na odcinku (*_lowest_point_*, *_q_*), punkt *_p_* jest usuwany ze zbioru danych. 
+Algorytm rozpoczyna działanie od przygotowania danych. Najpierw znajduje w zbiorze wejściowym punkt *_lowest_point_* o najniższej drugiej współrzędnej, lub - w przypadku remisu - punkt o najniższych współrzędnych. Następne sortuje pozostałe punkty na podstawie kątu jaki tworzy odcinek tworzony przez dany punkt oraz punkt *_lowest_point_* z osią *_OX_*. Kąt ten jest obliczany z pomocą funkcji _atan2_ z biblioteki _numpy_. W przypadku remisu punkty porządkowane są w kierunku rosnącej odległości od punktu *_lowest_point_*. Ostatnim krokiem przygotowującym dane jest usunięcie z posortowanej listy punktów współliniowych - w przypadku trójki (*_lowest_point_*, *_p_*, *_q_*), gdzie punkt *_p_* leży na odcinku (*_lowest_point_*, *_q_*), punkt *_p_* jest usuwany ze zbioru danych. 
 \
 \
 Następnie algorytm iteracyjnie wyznacza otoczkę wypukłą przygotowanego zbioru. Tworzy stos *_hull_*, na którym umieszcza *_lowest_point_*. Następnie, dla każdego kolejnego punktu *_p_* z posortowanej listy wykonuje:
 - dopóki na stosie są co najmniej 2 punkty sprawdź relację dwóch ostatnich punktów na stosie z punktem *_p_* z użyciem funkcji _det_:
--- jeśli _det(*przedostatni punkt*, *ostatni punkt*, *p*) <= 0_ (skręt w prawo), usuń ostatni punkt ze stosu,\
+-- dopóki _det(*przedostatni punkt*, *ostatni punkt*, *p*) <= 0_ (skręt w prawo), usuń ostatni punkt ze stosu,\
 -- w przeciwnym wypadku, dodaj punkt *_p_* na górę stosu.
 \
 \
 Po przetworzeniu wszystkich punków na stosie pozostaje lista wynikowa będąca otoczką wypukłą zbioru punktów z danych wejściowych.
 ==== Analiza złożoności obliczeniowej
-Cały algorytm ma złożoność obliczeniową _O(nlog(n))_, gdzie $n$ to liczba punktów na płaszczyźnie. Najbardziej kosztownym etapem algorytmu jest sortowanie punktów - wykonuje się ono w czasie _O(nlog(n))_. Następny etap algorytmu jest iteracją po punktach i wymaga czasu $O(n)$. Algorytm Grahama jest bardzo uniwersalnym algorytmem o przewidywalnym czasie działania dla każdego zbioru danych.
+Cały algorytm ma złożoność obliczeniową $O(n log(n))$, gdzie $n$ to liczba punktów na płaszczyźnie. Najbardziej kosztownym etapem algorytmu jest sortowanie punktów - wykonuje się ono w czasie $O(n log(n))$. Następny etap algorytmu jest iteracją po punktach i wymaga czasu $O(n)$. Algorytm Grahama jest bardzo uniwersalnym algorytmem o przewidywalnym czasie działania dla każdego zbioru danych.
 #pagebreak()
 ==== Prezentacja działania
 Dopóki warunek wypukłości nie jest naruszony algorytm dodaje punkty jeden po drugim (rys. 1, rys. 2).
@@ -146,7 +146,7 @@ Plik *jarvis.py*.
 ==== Przebieg algorytmu
 Algorytm jest inaczej nazywany algorytmem _owijania prezentu_ (ang. _gift wrapping_). Podobnie jak algorytm Grahama (3.3.2) rozpoczyna działanie od znalezienia punktu *_lowest_point_* o najmniejszej pierwszej współrzędnej, lub - w przypadku remisu - o najmniejszych obu współrzędnych. Następnie algorytm znajduje następny punkt należący do otoczki z pomocą funkcji _det_ - iteruje po wszystkich punktach znajdując taki punkt *_best_*, dla którego wszystkie inne punkty leżą po lewej stronie odcinka (*_last_*, *_best_*), gdzie *_last_* jest ostatnim znalezionym punktem należącym do otoczki - początkowo _*lowest_point*_. Po przetworzniu wszystkich puntów punkt _*best*_ staje się punktem _*last*_ i jest dodawany do otoczki. Algorytm kroki te powtarza, aż znaleziony zostanie punkt startowy, co reprezentuje zamknięcie otoczki. 
 ==== Analiza złożoności obliczeniowej
-Algorytm Jarvisa ma złożoność _O(nk)_, gdzie _n_ to liczba punktów na płaszczyźnie, oraz _k_ to liczba punktów należących do otoczki. Wynika ona z prostego faktu znajdowania jednego punktu należącego do otoczki w każdym kroku algorytmu, która objemuje iteracje po wszystkich punktach ze zbioru wejściowego. Faktyczny czas działania algorytmu może być nieprzewidywalny i jest bardzo wrażliwy na różne dane wejściowe - w oczywisty algorytm Jarvisa nie jest najlepszym wyborem do wyznaczania otoczek zbiorów punktów o potencjalnie wielu punktach należących do otoczki.
+Algorytm Jarvisa ma złożoność $O(n k)$, gdzie $n$ to liczba punktów na płaszczyźnie, oraz $k$ to liczba punktów należących do otoczki. Wynika ona z prostego faktu znajdowania jednego punktu należącego do otoczki w każdym kroku algorytmu, który objemuje iteracje po wszystkich punktach ze zbioru wejściowego. Faktyczny czas działania algorytmu może być nieprzewidywalny i jest bardzo wrażliwy na różne dane wejściowe - w oczywisty sposób Jarvisa nie jest najlepszym wyborem do wyznaczania otoczek zbiorów punktów o potencjalnie wielu punktach należących do otoczki.
 #pagebreak()
 ==== Prezentacja działania
 Na rysunkach 5-8 zaprezentowano działanie algorytmu.
@@ -184,7 +184,7 @@ Algorytm tworzy pierwszą otoczkę na podstawie dwóch pierwszych punktów posor
 \
 Styczne znajdowane są z pomocą funkcji _det_.
 ==== Analiza złożoności algorytmu
-Algorytm ma złożoność _O(nlog(n))_, gdzie _n_ to liczba punktów na płaszczyźnie. Samo sortowanie punktów zajmuje _O(nlog(n))_ czasu procesora. Podczas iteracyjnego dołączania punktów do otoczki każdy punkt jest dodawany do otoczki raz i maksymalnie raz z niej usuwany, złożoność tego kroku wynosi więc _O(n)_, a finalna złożoność algorytmu przyrostowego to faktycznie _O(nlog(n))_.
+Algorytm ma złożoność $O(n log(n))$, gdzie $n$ to liczba punktów na płaszczyźnie. Samo sortowanie punktów zajmuje $O(n log(n))$ czasu procesora. Podczas iteracyjnego dołączania punktów do otoczki każdy punkt jest dodawany do otoczki raz i maksymalnie raz z niej usuwany, złożoność tego kroku wynosi więc $O(n)$, a finalna złożoność algorytmu przyrostowego to faktycznie $O(n log(n))$.
 
 #pagebreak()
 ==== Prezentacja działania
@@ -226,7 +226,7 @@ Następnie algorytm iteracyjnie konstuuje górną otoczkę punktów. Początkowa
 \
 Ostatnim krokiem algorytmu jest połączenie górnej i dolnej otoczki z uwagą na warunek prawoskrętności otoczki.
 ==== Analiza złożoności obliczeniowej
-Sortowanie punktów wykonywane jest w czasie _O(nlog(n))_, gdzie _n_ to liczba punktów na płaszczyźnie. Każdy punkt jest przetwarzany w iteracyjnej części algorytmu stałą liczbę razy. Finalna złożoność algorytmu górnej i dolnej otoczki to więc _O(nlog(n))_.
+Sortowanie punktów wykonywane jest w czasie $O(n log(n))$, gdzie $n$ to liczba punktów na płaszczyźnie. Każdy punkt jest przetwarzany w iteracyjnej części algorytmu stałą liczbę razy. Finalna złożoność algorytmu górnej i dolnej otoczki to więc $O(n log(n))$.
 #pagebreak()
 ==== Prezentacja działania algorytmu
 Na rysunkach 13, 14, 15 zaprezentowano kroki budowy dolnej otoczki. Górna otoczka jest budowana analogicznie i razem z dolną tworzy otoczkę wypukłą zbioru (rys. 16).
@@ -260,12 +260,12 @@ Plik *divide_and_conquer.py*.
 Algorytm opiera się na utworzeniu zbioru otoczek, które w sumie obejmują cały zbiór punktów wejściowych, oraz na późniejszym łączeniu ich w czasie stałym do momentu otrzymania jednej otoczki obejmującej cały zbiór.
 \
 \
-Pierwszym krokiem jest posortowanie punktów z użyciem funkcji _x_sort_. Następnie tak posortowana lista jest dzielona na części. Każda z tych części jest listą kolejnych *_k_* punktów należących do posortowanej listy wejściowej, gdzie *_k_* jest małą stałą będącą parametrem algorytmu. Następnie dla każdego z tych podzbiorów punktów wyznaczana jest otoczka wypukła z użyciem algorytmu Grahama.
+Pierwszym krokiem jest posortowanie punktów z użyciem funkcji _x_sort_. Następnie tak posortowana lista jest dzielona na części. Każda z tych części jest listą kolejnych *_k_* punktów należących do posortowanej listy wejściowej, gdzie *_k_* jest małą stałą będącą parametrem algorytmu. Następnie dla każdego z tych podzbiorów punktów wyznaczana jest otoczka wypukła z użyciem algorytmu *Grahama*.
 \
 \
 Tak powstałe sąsiednie otoczki są łączone poprzez znajdowanie stycznych z użyciem funkcji _det_. Łączenie to jest powtarzane do momentu otrzymania jednej otoczki będącej sumą wszystkich otoczek.
 ==== Analiza złożoności obliczeniowej
-Samo sortowanie zbioru wejściowego wykonuje się w czasie _O(nlog(n))_. Wyznaczanie otoczek podzbiorów dla małej stałej *_k_* zajmuje stały czas O(k). Ponieważ ten krok powtarzany jest dla _n/k_ otoczek zajmuje on w sumie $O(k times n/k) = O(n)$ czasu procesora. Łączenie 2 otoczek zajmuje stały czas, a samych otoczek do połączenia jest $n/k$. Czas poświęcany na ten krok wynosi więc $O(n/k log n/k) = O(n log n)$. Finalna złożoność algorytmu wynosi więc _O(nlogn_).
+Samo sortowanie zbioru wejściowego wykonuje się w czasie $O(n log(n))$. Wyznaczanie otoczek podzbiorów dla małej stałej _k_ zajmuje stały czas $O(k)$. Ponieważ ten krok powtarzany jest dla _n/k_ otoczek zajmuje on w sumie $O(k times n/k) = O(n)$ czasu procesora. Łączenie 2 otoczek zajmuje stały czas, a samych otoczek do połączenia jest $n/k$. Czas poświęcany na ten krok wynosi więc $O(n/k log n/k) = O(n log n)$. Finalna złożoność algorytmu wynosi więc $O(n log(n))$.
 #pagebreak()
 ==== Prezentacja działania algorytmu
 Na rysunkach 17-20 zaprezentowano wybrane kroki algorytmu, na których widać, jak otoczki łączą się. Połączenie wszystkich otoczek jest otoczką wypukłą zbioru.
@@ -342,15 +342,16 @@ Plik *chan.py*.
 ==== Przebieg algorytmu
 Algorytm zakłada, że znamy rozmiar otoczki $m$, więc algorytm będzie zwiększał zmienną $t$ począwszy od zera, przypisując $m := min(2^(2^t), n)$ i wywołując funkcję _*step_chan*_, aż do znalezienia otoczki.
 Funkcja _*step_chan*_ przyjmuje zbiór punktów oraz rozmiar otoczki $m$. Następnie dzieli zbiór na $ceil(n/m)$ grup o rozmiarze $m$ i wyznacza dla każdej otoczkę algorytmem Grahama.
-Algorytm rozpoczyna od punktu najbardziej po prawej, i stara się znaleźć punkt maksymalizujący kąt tj. taki, że po lewej stronie prostej od poprzedniego punktu do szukanego znajdują się wszystkie inne punkty zbioru, tak jak w algorytmie Jarvisa, tylko zamiast sprawdzać wszystkie punkty, algorytm znajduje punkty przecinane przez prawe styczne otoczek. Jeżeli nie uda się znaleźć otoczki o rozmiarze $m$, funkcja zwraca _None_, a główna pętla zwiększa wartość zmiennej $t$.
+Algorytm rozpoczyna od punktu o największej współrzędnej *_x_* i stara się znaleźć punkt maksymalizujący kąt tj. taki, że po lewej stronie prostej od poprzedniego punktu do szukanego znajdują się wszystkie inne punkty zbioru, tak jak w algorytmie Jarvisa, tylko zamiast sprawdzać wszystkie punkty, algorytm znajduje punkty przecinane przez prawe styczne otoczek. Jeżeli nie uda się znaleźć otoczki o rozmiarze $m$, funkcja zwraca _None_, a główna pętla zwiększa wartość zmiennej $t$.
 
 ==== Analiza złożoności obliczeniowej
-Funkcja *_step_chan_* dzieli zbiór na $n/m$ grup rozmiaru $m$ i wyznacza otoczkę każdej z nich, co posiada złożoność $O(m log m) * n/m = O(n log m)$. Następnie wykonywana jest pierwsza pętla $O(m)$ razy, druga pętla $n/m$ razy, a szukanie stycznej dla otoczek zajmuje $O(log m)$ używając funkcji *_rtangent_*, co razem daje $O(n log m)$, końcową złożoność funkcji.
+Funkcja *_step_chan_* dzieli zbiór na $n/m$ grup rozmiaru $m$ i wyznacza otoczkę każdej z nich, co posiada złożoność $O(m log m) times n/m = O(n log m)$. Następnie wykonywana jest pierwsza pętla $O(m)$ razy, druga pętla $n/m$ razy, a szukanie stycznej dla otoczek zajmuje $O(log m)$ używając funkcji *_rtangent_*, co razem daje $O(n log m)$ - końcową złożoność funkcji.
 W funkcji *_chan_*, algorytm zwiększy $t$ maksymalnie $O(log log h)$ razy. Ponieważ $m := min(n, 2^(2^t))$, to *_step_chan_*, ma złożoność $O(n log 2^2^t) = O(n dot 2^t)$. Całkowita złożoność to: $ sum_(t=0)^(log log h) O(n dot 2^t) $
 Jesteśmy w stanie ograniczyć sumę od góry, aby dojść do końcowej złożoności:
 $ sum_(t=0)^(log log h) O(n dot 2^t) = O(n) sum_(t=0)^(log log h) O(2^t) <= O(n) dot O(2^(log log h + 1)) = O(n log h) $ 
+#pagebreak()
 ==== Prezentacja działania algorytmu
-Na poniższych rysunkach przedstawione są trzy wywołania funkcji *_step_chan_*, w trzeciej udało się wyznaczyć otoczkę zanim $m = n$
+Na rysunkach 25 do 28 przedstawione są trzy wywołania funkcji *_step_chan_*, w trzeciej udało się wyznaczyć otoczkę zanim $m$ zrównało się z $n$.
 #grid(
   columns: (1fr, 1fr),  // Two equal-width columns
   gutter: 1em,          // Space between the images
@@ -375,6 +376,7 @@ Na poniższych rysunkach przedstawione są trzy wywołania funkcji *_step_chan_*
   ),)
   \
 
+#pagebreak()
 == Przygotowane generatory zbiorów testowych
 Plik *tests.py*.
 === generate_uniform_points
