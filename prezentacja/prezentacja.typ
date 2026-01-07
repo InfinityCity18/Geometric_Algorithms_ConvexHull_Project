@@ -301,7 +301,7 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 }
 ]
 
-#text(size: 15pt)[Dla zbioru, w którym każdy punkt należy do otoczki można zaobserwować wyniki zgodne z oczekiwaniami. Czasy procesora algorymów Jarvisa oraz Chana, których złożoność obliczeniowa degraduje przy takich danych do kolejno $O(n^2)$ oraz $O(n log b)$ odbiegają znacząco od czasów pozostałych algorytmów. ]
+#text(size: 15pt)[Dla zbioru, w którym każdy punkt należy do otoczki można zaobserwować wyniki zgodne z oczekiwaniami. Czasy procesora algorymów Jarvisa oraz Chana, których złożoność obliczeniowa degraduje przy takich danych do kolejno $O(n^2)$ oraz $O(n log n)$ odbiegają znacząco od czasów pozostałych algorytmów. ]
 
 === Zbiór 3
 
@@ -317,7 +317,7 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 }
 ]
 
-#text(size: 15pt)[Zbiór 3 jest bardzo podobny do zbioru 1, jedyne co go odróżnia to obramówka. Dzięki niej liczba punktów otoczki jest stała i wynosi 8. Zmiana ta daje się zauważyć poprzez mniejszy czas egzekucji algorytmów Jarvisa oraz Chana. Czasy egzekucji pozostałych programów są takie same, lub nieznacznie większe ze względu na dodatkowe punkty na obramówce.]
+#text(size: 15pt)[Zbiór 3 jest bardzo podobny do zbioru 1, jedyne co go odróżnia to obramówka. Dzięki niej liczba punktów otoczki jest stała i wynosi 8. Zmiana ta daje się zauważyć poprzez mniejszy czas wykonywania algorytmów Jarvisa oraz Chana. Czasy pozostałych programów są takie same, lub nieznacznie większe ze względu na dodatkowe punkty na obramówce.]
 
 === Zbiór 4
 
@@ -333,7 +333,7 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 }
 ]
 
-#text(size: 15pt)[W zbiorze 4 liczba punktów otoczki ponownie wynosi 8, co ponownie pozwala na zaobserowowanie krótszego czasu egzekucji algorytmu Jarvisa oraz Chana. Ponadto każda podotoczka tworzona przez algorytm dziel i rządź ma dokładnie 4 punkty, co pozwala na szybkie ich łączenie i powoduje, że algorytm działa w przybliżeniu 2 razy szybciej niż w przypadku zbiorów 1 oraz 3. Podobnie algorytm górnej i dolnej otoczki dzięki dużej liczbie punktów współliniowych i małym rozmiarze pamiętanego stanu otoczki działa w przybliżeniu dwukrotnie szybciej.]
+#text(size: 15pt)[W zbiorze 4 liczba punktów otoczki ponownie wynosi 8, co ponownie pozwala na zaobserowowanie krótszego czasu wykonywania algorytmu Jarvisa oraz Chana. Ponadto każda podotoczka tworzona przez algorytm dziel i rządź ma dokładnie 4 punkty, co pozwala na szybkie ich łączenie i powoduje, że algorytm działa w przybliżeniu 2 razy szybciej niż w przypadku zbiorów 1 oraz 3. Podobnie algorytm górnej i dolnej otoczki dzięki dużej liczbie punktów współliniowych i małym rozmiarze stosu otoczki działa w przybliżeniu dwukrotnie szybciej.]
 
 === Zbiór 5
 
@@ -351,7 +351,18 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 
 #text(size: 15pt)[Tym razem liczba punktów otoczki zawsze wynosi 4, ze względu na obecność wierzchołków kwadratu w zbiorze 5. Algorytm Jarvisa wedle oczekiwań działa w przybliżeniu 2 razy szybciej. Czas działaniu algorytmu Chana również spadł znacząco, co w połączeniu z brakiem różnicy w liczbie punktów względem zbioru 4 potwierdza jego teoretyczną złożoność $O(n log k)$. Ponadto obecność przekątnych spowodowała, że algorytmy dziel i rządź oraz górnej i dolnej otoczki nie były już takie szybkie jak w zbiorze 4 i ich czasy pracy zbliżyły się do tych na zbiorze 1.]
 
-= Podsumowanie
+= Bibliografia <touying:skip> 
+
+== Bibliografia
+- slajdy z wykładu,
+- materiały do laboratoriów, 
+- https://en.wikipedia.org/wiki/Convex_hull_algorithms#Akl%E2%80%93Toussaint_heuristic (7.01.2026),
+- https://en.wikipedia.org/wiki/Gift_wrapping_algorithm (7.01.2026),
+- https://en.wikipedia.org/wiki/Graham_scan (7.01.2026),
+- https://en.wikipedia.org/wiki/Quickhull (7.01.2026),
+- https://gist.github.com/tixxit/252229 (7.01.2026),
+- https://www.youtube.com/watch?v=O_K5_whYhoU (7.01.2026),
+- https://www.youtube.com/watch?v=NH6WbP3lDac (7.01.2026).
 
 = Dodatek
 
