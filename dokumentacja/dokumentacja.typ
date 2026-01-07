@@ -87,16 +87,11 @@ $ det(a,b,c) = mat(
   delim: "|") $
 została wielokrotnie wykorzystana w zaimplementowanych algorytmach. 
 Poprzez badanie znaku tego wyznacznika można określić orientację trzech następujących po sobie punktów. \
-\
 Z racji na niedokładność obliczeń, za każdym razem, gdy badano znak wartości funkcji _det_, użyto wartości $epsilon = 10^(-12)$ jako tolerancji dla $0$.\
 ==== Sortowanie z usuwaniem punktów współliniowych - _x_sort_
-Funkcja _x_sort_ została zaimplementowana na potrzebę sortowania punktów względem ich współrzędnej _*x*_, która to funkcjonalność znajduje zastosowanie  w algorytmach: _*przyrostowym*_, _*górnej i dolnej otoczki*_ oraz *_dziel i rządź_*. \
-\
+Funkcja _x_sort_ została zaimplementowana na potrzebę sortowania punktów względem ich współrzędnej _*x*_, która to funkcjonalność znajduje zastosowanie  w algorytmach: _*przyrostowym*_, _*górnej i dolnej otoczki*_ oraz *_dziel i rządź_*.
 Funkcja poza sortowaniem punktów dodatkowo grupuje punkty o tej samej współrzędnej _*x*_.
-Jeżeli w danej grupie występują co najmniej 3 punkty funkcja dodatkowo usuwa ze zbioru wynikowego wszystkie punkty poza tymi o najmniejszej i największej współrzędnej *_y_*. Następnie łącząc grupy i zwracaja posortowaną listę.\
-\
-Złożoność takiego sortowania wynosi $O(n l o g(n))$, gdzie n to liczba punktów.
-#pagebreak()
+Jeżeli w danej grupie występują co najmniej 3 punkty funkcja dodatkowo usuwa ze zbioru wynikowego wszystkie punkty poza tymi o najmniejszej i największej współrzędnej *_y_*. Następnie łącząc grupyzwraca posortowaną listę. Złożoność takiego sortowania wynosi $O(n l o g(n))$, gdzie n to liczba punktów.
 === Algorytm Grahama
 Plik *graham.py*.
 ==== Przebieg algorytmu
