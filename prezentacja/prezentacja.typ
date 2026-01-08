@@ -28,7 +28,7 @@
 
 #show: university-theme.with(
   aspect-ratio: "16-9",
-  //config-common(handout: true),
+  config-common(handout: true),
   config-common(frozen-counters: (theorem-counter,),
   ),  // freeze theorem counter for animation
   config-info(
@@ -353,7 +353,6 @@ Aby sprawdzić poprawność oraz wydajność zaimplementowanych algorytmów, uż
 
 = Bibliografia <touying:skip> 
 
-== Bibliografia
 - slajdy z wykładu,
 - materiały do laboratoriów, 
 - https://en.wikipedia.org/wiki/Convex_hull_algorithms#Akl%E2%80%93Toussaint_heuristic (7.01.2026),
