@@ -77,6 +77,9 @@ def generate_zigzag_points(width=200, height=200, n=100, amplitude=10, period=10
     np.random.shuffle(points)
     return points
 
+def generate_square_random_points(left=-100, right=100, n=100):
+    return [(np.random.uniform(left, right), np.random.uniform(left, right)) for _ in range(n)] + [(left, left), (left, right), (right, left), (right, right)]
+
 def get_generators():
     gens = []
     gens.append((generate_uniform_points, "Generuje losowe punkty o współrzędnych z zakresiu [-100,100]"))
@@ -84,6 +87,7 @@ def get_generators():
     gens.append((generate_zigzag_points, "Generuje losowe punkty wewnątrz kwadratowego obszaru, które otoczone są obramówką"))
     gens.append((generate_square_points, "Generuje losowe punkty leżące na obwodzie kwadratu o boku 100"))
     gens.append((generate_x_square_points, "Generuje losowe punkty leżące na obwodzie kwadratu o boku 100 oraz na jego przekątnych"))
+    gens.append((generate_square_random_points, "Generuje losowe punkty o współrzędnych z zakresiu [-100,100] oraz 4 rogi kwadratu o boku 200"))
     return gens
 
 def benchmark_convex_hull(convex_hull_algs, generator, ns, **kwargs,):

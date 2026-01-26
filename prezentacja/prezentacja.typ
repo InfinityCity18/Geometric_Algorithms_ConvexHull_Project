@@ -28,7 +28,6 @@
 
 #show: university-theme.with(
   aspect-ratio: "16-9",
-  config-common(handout: true),
   config-common(frozen-counters: (theorem-counter,),
   ),  // freeze theorem counter for animation
   config-info(
